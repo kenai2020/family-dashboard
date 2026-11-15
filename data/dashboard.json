@@ -370,69 +370,36 @@
   "chores": [
     {
       "id": "c1",
-      "who": "kayla",
-      "title": "Make bed",
-      "emoji": "🛏️",
-      "stars": 1,
-      "freq": "daily"
-    },
-    {
-      "id": "c2",
-      "who": "kort",
-      "title": "Brush teeth",
-      "emoji": "🪥",
-      "stars": 1,
-      "freq": "daily"
-    },
-    {
-      "id": "c3",
-      "who": "kayla",
-      "title": "Homework",
-      "emoji": "📚",
-      "stars": 2,
-      "freq": "daily"
-    },
-    {
-      "id": "c4",
-      "who": "kort",
-      "title": "Homework",
-      "emoji": "📚",
-      "stars": 2,
-      "freq": "daily"
-    },
-    {
-      "id": "c5",
-      "who": "thomas",
-      "title": "Unload dishwasher",
-      "emoji": "🍽️",
-      "stars": 0,
-      "freq": "weekly",
-      "day": 1
-    },
-    {
-      "id": "c6",
-      "who": "heather",
-      "title": "Take out trash",
-      "emoji": "♻️",
-      "stars": 0,
-      "freq": "weekly",
-      "day": 4
-    },
-    {
-      "id": "c7",
       "who": "any",
-      "title": "Feed Moose",
+      "title": "Feed Moose - AM",
       "emoji": "🐕",
       "stars": 1,
       "freq": "daily"
     },
     {
-      "id": "c8",
-      "who": "kort",
-      "title": "Lay out clothes",
-      "emoji": "👕",
+      "id": "c2",
+      "who": "any",
+      "title": "Feed Moose - PM",
+      "emoji": "🐕",
       "stars": 1,
       "freq": "daily"
+    },
+    {
+      "id": "c3",
+      "who": "kort",
+      "title": "Clean up after dinner",
+      "emoji": "🍽️",
+      "stars": 1,
+      "freq": "daily"
+    },
+    {
+      "id": "c4",
+      "who": "any",
+      "title": "Pick Up Moo Poo",
+      "emoji": "💩",
+      "stars": 3,
+      "freq": "weekly",
+      "day": 6
     }
   ],
   "stars": {
