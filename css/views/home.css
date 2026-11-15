@@ -8,17 +8,14 @@
 }
 
 /* ---- clock */
-.h-clock { grid-column: 1 / 5; grid-row: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 6px; }
+.h-clock { grid-column: 1 / 5; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 6px; border-bottom: 3px solid var(--ink); }
 .h-time { font-size: var(--fs-clock); line-height: .78; letter-spacing: -.035em; display: flex; align-items: flex-start; }
 .h-ampm { font-size: 28px; font-weight: 800; letter-spacing: .06em; margin: 6px 0 0 10px; }
 .h-date { font-size: 24px; margin-top: 14px; font-family: var(--serif); }
 .h-date b { font-family: var(--sans); font-weight: 800; font-stretch: 75%; text-transform: uppercase; letter-spacing: .06em; font-size: 20px; margin-right: 6px; }
 
 /* ---- weather */
-.h-weather { grid-column: 8 / 13; grid-row: 1; padding: 0 8px 6px; display: flex; flex-direction: column; justify-content: flex-end; }
-/* One continuous rule under the whole clock/weather row instead of two separate borders that
-   left a gap where the empty columns between them have no element to carry a border-bottom. */
-.h-rule { grid-column: 1 / 13; grid-row: 1; align-self: end; height: 3px; background: var(--ink); }
+.h-weather { grid-column: 8 / 13; border-bottom: 3px solid var(--ink); padding: 0 8px 6px; display: flex; flex-direction: column; justify-content: flex-end; }
 .h-wx-top { display: flex; align-items: center; gap: 12px; }
 .h-wx-icon { color: var(--ink); }
 .h-wx-temp { font-size: 84px; line-height: .8; letter-spacing: -.03em; }
