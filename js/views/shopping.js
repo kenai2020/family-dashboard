@@ -74,7 +74,12 @@
   }
   function refreshSuggestFor(g) {
     if (V.query.trim()) return paintSuggest();
-    var t = V.el.querySelector('.s-usuals [data-add="' + App.esc(g.name) + '"]');
+    // Bug: this used to build the CSS attribute selector with App.esc(g.name), which HTML-escapes
+    // (e.g. '&' -> '&amp;'). That's right for markup, but wrong here -- by the time the name sits
+    // in a DOM attribute it's already decoded back to a literal '&', so the selector silently
+    // never matched any usual whose name has one (e.g. "Bread & buns"), and its tile never
+    // flipped to "is-on" after being added. CSS.escape() is the correct tool for a selector value.
+    var t = V.el.querySelector('.s-usuals [data-add="' + CSS.escape(g.name) + '"]');
     if (t) swap(t, usualTile(g.name));
   }
   function catCount(cat) {
