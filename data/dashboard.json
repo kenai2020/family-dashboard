@@ -2,7 +2,7 @@
   "_comment": "Real family data. Events/chores/groceries below are still sample placeholders for layout -- the scheduled agent will keep this updated with real school emails, photos, etc. once that's wired up.",
 
   "people": [
-    { "id": "thomas", "name": "Thomas", "color": "#2D5BFF", "home": true, "status": "Home" },
+    { "id": "thomas", "name": "Daddy", "color": "#2D5BFF", "home": true, "status": "Home" },
     { "id": "heather", "name": "Heather", "color": "#E4007C", "home": true, "status": "Home" },
     { "id": "kayla", "name": "Kayla", "color": "#7C3AED", "home": true, "status": "Home" },
     { "id": "kort", "name": "Kort", "color": "#F59E0B", "home": true, "status": "Home" }
