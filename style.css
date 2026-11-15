@@ -28,6 +28,10 @@
   --r-s: 12px;
   --gap: 16px;
   --pad: 24px;
+
+  --sidebar-w: 96px;
+  --stage-w: 1280px;
+  --stage-h: 800px;
 }
 
 * { box-sizing: border-box; }
@@ -35,25 +39,75 @@
 html, body {
   margin: 0;
   padding: 0;
-  width: 1280px;
-  height: 800px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  background: var(--paper);
+  background: var(--ink);
   color: var(--ink);
   font-family: var(--sans);
 }
 
+/* #stage is a fixed-size canvas (design pixel space) that app.js scales
+   with a CSS transform to fit whatever the real screen size is, so
+   nothing is ever cropped or overlapping regardless of device resolution. */
+#stage {
+  position: absolute;
+  top: 0; left: 0;
+  width: var(--stage-w);
+  height: var(--stage-h);
+  transform-origin: top left;
+  display: flex;
+  background: var(--paper);
+}
+
+/* ---- Sidebar ---- */
+.sidebar {
+  width: var(--sidebar-w);
+  flex: 0 0 auto;
+  height: 100%;
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 18px 0;
+}
+.nav-item {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #a39d8f;
+  padding: 14px 0;
+  cursor: pointer;
+  font-family: var(--sans);
+}
+.nav-item .nav-icon { font-size: 22px; line-height: 1; }
+.nav-item .nav-label { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.nav-item.is-active { color: #fff; background: #000; }
+.nav-item.is-active .nav-icon { color: #fff; }
+.nav-clock { margin-top: auto; color: #fff; font-weight: 800; font-size: 14px; text-align: center; padding-top: 10px; }
+
+/* ---- Pages container ---- */
+.pages { flex: 1 1 auto; height: 100%; position: relative; overflow: hidden; }
+.page { display: none; width: 100%; height: 100%; overflow: hidden; padding: 24px; }
+.page.is-active { display: block; }
+
+.page-head { margin-bottom: 18px; }
+.page-head h1 { font-family: var(--serif); font-weight: 400; font-size: 44px; margin: 0; color: var(--ink); }
+.page-sub { color: var(--mute); font-size: var(--fs-body); margin-top: 2px; }
+
+/* ---- Today page (same design as before, now inside .pages) ---- */
 .home {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 184px 552px;
+  grid-template-rows: 184px 1fr;
   gap: var(--gap);
-  width: 1280px;
-  height: 752px;
+  width: 100%;
+  height: 100%;
   padding: 24px;
 }
 
-/* ---- Header row ---- */
 .h-clock { grid-column: 1 / 5; grid-row: 1; }
 .h-weather { grid-column: 5 / 9; grid-row: 1; }
 .h-presence { grid-column: 9 / 13; grid-row: 1; display: flex; flex-direction: column; gap: 6px; justify-content: center; }
@@ -100,10 +154,8 @@ html, body {
   box-shadow: inset 0 0 0 2px var(--c);
 }
 
-/* ---- Main (hero + lanes) ---- */
-.h-main { grid-column: 1 / 9; grid-row: 2; display: grid; grid-template-rows: 232px 1fr; gap: var(--gap); }
+.h-main { grid-column: 1 / 9; grid-row: 2; display: grid; grid-template-rows: 232px 1fr; gap: var(--gap); min-height: 0; }
 
-.h-hero-slot { }
 .h-hero {
   all: unset;
   display: flex;
@@ -116,6 +168,7 @@ html, body {
   border-radius: var(--r);
   padding: 22px 26px;
   cursor: pointer;
+  color: var(--ink);
 }
 .h-hero-eyebrow { font-size: var(--fs-label); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.75; }
 .h-hero-title { font-family: var(--serif); font-size: var(--fs-hero); line-height: 1.02; margin: 4px 0; }
@@ -127,20 +180,19 @@ html, body {
   border-radius: 999px; font-size: var(--fs-label); font-weight: 800;
   letter-spacing: 0.04em; text-transform: uppercase;
 }
-.h-hero-count { text-align: right; }
+.h-hero-count { text-align: right; flex: 0 0 auto; }
 .h-hero-count .num { font-size: var(--fs-hero); font-weight: 800; line-height: 1; }
 .h-hero-count .lbl { font-size: var(--fs-label); font-weight: 800; letter-spacing: 0.08em; }
 
-.h-lanes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.h-lane { background: var(--card); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+.h-lanes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; min-height: 0; }
+.h-lane { background: var(--card); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; min-height: 0; }
 .h-lane-head { display: flex; align-items: center; gap: 8px; font-size: var(--fs-label); font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
 .h-ev { all: unset; display: block; background: var(--paper-2); border-radius: var(--r-s); padding: 8px 10px; font-size: var(--fs-min); }
 .h-ev .h-ev-n { display: block; font-weight: 700; color: var(--mute); font-size: 12px; }
 .h-ev .ev-title { display: block; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .h-more { all: unset; font-size: var(--fs-min); color: var(--mute); font-weight: 700; text-align: center; padding: 4px; }
 
-/* ---- Side column ---- */
-.h-side { grid-column: 9 / 13; grid-row: 2; display: grid; grid-template-rows: 228px 142px 1fr; gap: var(--gap); }
+.h-side { grid-column: 9 / 13; grid-row: 2; display: grid; grid-template-rows: 228px 142px 1fr; gap: var(--gap); min-height: 0; }
 
 .h-photo { all: unset; position: relative; display: block; width: 100%; height: 228px; border-radius: var(--r); overflow: hidden; cursor: pointer; background: #000; }
 .h-photo-stage { position: absolute; inset: 0; }
@@ -158,7 +210,7 @@ html, body {
 .card { background: var(--card); border: none; border-radius: var(--r); padding: 16px; }
 .label { font-size: var(--fs-label); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mute); margin-bottom: 8px; }
 
-.h-chores { all: unset; display: block; cursor: pointer; }
+.h-chores { all: unset; display: block; cursor: pointer; min-height: 0; overflow: hidden; }
 .h-chores .label { padding: 16px 16px 0; }
 .h-rings { display: flex; justify-content: space-around; padding: 8px 16px 16px; gap: 8px; }
 .h-ring { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: var(--fs-min); color: var(--mute); font-weight: 700; }
@@ -169,8 +221,8 @@ html, body {
 }
 .h-ring .ring-visual span { background: var(--card); border-radius: 50%; width: 32px; height: 32px; display: grid; place-items: center; font-size: 11px; color: var(--ink); font-weight: 800; }
 
-.h-duo { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
-.h-shop, .h-status { all: unset; display: block; background: var(--card); border-radius: var(--r); padding: 16px; cursor: pointer; }
+.h-duo { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); min-height: 0; }
+.h-shop, .h-status { all: unset; display: block; background: var(--card); border-radius: var(--r); padding: 16px; cursor: pointer; overflow: hidden; }
 .h-stat { display: flex; align-items: baseline; gap: 6px; }
 .h-stat span { font-size: var(--fs-xl); font-weight: 800; }
 .h-stat small { color: var(--mute); font-size: var(--fs-min); }
@@ -178,3 +230,41 @@ html, body {
 .h-recent li { padding: 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .h-st-row { display: flex; align-items: center; gap: 8px; font-size: var(--fs-body); font-weight: 700; padding: 4px 0; }
+
+/* ---- Calendar page ---- */
+.cal-list { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; height: calc(100% - 90px); }
+.cal-row {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--card); border-radius: var(--r-s); padding: 14px 18px;
+}
+.cal-row .cal-time { font-weight: 800; font-size: var(--fs-body); width: 90px; flex: 0 0 auto; }
+.cal-row .cal-title { flex: 1; font-weight: 700; font-size: var(--fs-body); }
+.cal-row .cal-who { display: flex; align-items: center; gap: 8px; font-size: var(--fs-label); color: var(--mute); font-weight: 700; }
+
+/* ---- Chores page ---- */
+.chores-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.chores-col { background: var(--card); border-radius: var(--r); padding: 16px; }
+.chores-col .chores-col-head { display: flex; align-items: center; gap: 8px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; font-size: var(--fs-label); margin-bottom: 10px; }
+.chore-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: var(--fs-body); font-weight: 600; }
+.chore-item:last-child { border-bottom: none; }
+.chore-item.is-done { color: var(--mute); text-decoration: line-through; }
+.chore-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--line); flex: 0 0 auto; display: grid; place-items: center; font-size: 12px; }
+.chore-item.is-done .chore-check { background: var(--ok); border-color: var(--ok); color: #fff; }
+
+/* ---- Shopping page ---- */
+.shop-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; height: calc(100% - 90px); }
+.shop-list li {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--card); border-radius: var(--r-s); padding: 12px 18px;
+  font-size: var(--fs-body); font-weight: 600;
+}
+.shop-list li.is-done { color: var(--mute); text-decoration: line-through; }
+.shop-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--amber); flex: 0 0 auto; }
+.shop-list li.is-done .shop-dot { background: var(--ok); }
+
+/* ---- Home page ---- */
+.home-status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.home-tile { background: var(--card); border-radius: var(--r); padding: 20px; }
+.home-tile .label { margin-bottom: 10px; }
+.home-tile .tile-value { font-size: var(--fs-xl); font-weight: 800; }
+.home-tile .tile-sub { color: var(--mute); font-size: var(--fs-body); margin-top: 4px; }

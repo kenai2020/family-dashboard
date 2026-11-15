@@ -50,6 +50,13 @@
     }
   ],
 
+  "calendar": [
+    { "date": "2026-11-15", "time": "5:00 PM", "title": "Sample event", "person_id": "sample1", "location": "" },
+    { "date": "2026-11-15", "time": "6:30 PM", "title": "Dinner at Nonna's", "person_id": "sample1", "location": "Nonna's house" },
+    { "date": "2026-11-15", "time": "4:05 PM", "title": "Sample event", "person_id": "sample2", "location": "" },
+    { "date": "2026-11-16", "time": "8:00 AM", "title": "Sample event — replace me", "person_id": "sample1", "location": "" }
+  ],
+
   "photo_of_the_day": {
     "url": null,
     "caption": "ON THIS DAY",
@@ -62,12 +69,33 @@
     "rings": [
       { "person_id": "sample1", "done": 1, "total": 2 },
       { "person_id": "sample2", "done": 1, "total": 3 }
+    ],
+    "columns": [
+      {
+        "person_id": "sample1",
+        "items": [
+          { "task": "Feed the dog", "done": false },
+          { "task": "Make bed", "done": true }
+        ]
+      },
+      {
+        "person_id": "sample2",
+        "items": [
+          { "task": "Unload dishwasher", "done": true },
+          { "task": "Take out trash", "done": false },
+          { "task": "Laundry", "done": false }
+        ]
+      }
     ]
   },
 
   "shopping": {
-    "count": 0,
-    "recent": []
+    "count": 2,
+    "recent": ["Milk", "Eggs"],
+    "items": [
+      { "item": "Milk", "done": false },
+      { "item": "Eggs", "done": false }
+    ]
   },
 
   "home_status": {

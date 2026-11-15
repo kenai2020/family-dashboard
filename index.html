@@ -2,56 +2,120 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=1280, initial-scale=1, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <meta name="theme-color" content="#F2EEE6" />
 <title>Home HQ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3" />
+<link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body>
-  <div class="home">
-    <div class="h-clock">
-      <div class="h-time num"><span id="time-main"></span><span class="h-ampm" id="time-ampm"></span></div>
-      <div class="h-date"><b id="date-day"></b> <span id="date-rest"></span></div>
-    </div>
-
-    <div class="h-weather" id="h-weather"></div>
-
-    <div class="h-presence" id="h-presence"></div>
-
-    <div class="h-main">
-      <div class="h-hero-slot" id="h-hero-slot"></div>
-      <div class="h-lanes" id="h-lanes"></div>
-    </div>
-
-    <div class="h-side">
-      <button class="h-photo" id="h-photo">
-        <div class="h-photo-stage"><div class="slide slide--fit is-in" id="photo-slide"></div></div>
-        <div class="h-photo-cap"><b id="photo-cap"></b><span id="photo-loc"></span></div>
+  <div id="stage">
+    <nav class="sidebar">
+      <button class="nav-item is-active" data-page="today">
+        <span class="nav-icon">⌂</span><span class="nav-label">Today</span>
       </button>
-
-      <button class="h-chores card" id="h-chores">
-        <div class="label" id="chores-label"></div>
-        <div class="h-rings" id="h-rings"></div>
+      <button class="nav-item" data-page="calendar">
+        <span class="nav-icon">📅</span><span class="nav-label">Calendar</span>
       </button>
+      <button class="nav-item" data-page="chores">
+        <span class="nav-icon">✅</span><span class="nav-label">Chores</span>
+      </button>
+      <button class="nav-item" data-page="shopping">
+        <span class="nav-icon">🛒</span><span class="nav-label">Shopping</span>
+      </button>
+      <button class="nav-item" data-page="home">
+        <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
+      </button>
+      <div class="nav-clock" id="nav-clock"></div>
+    </nav>
 
-      <div class="h-duo">
-        <button class="h-shop card">
-          <div class="label">SHOPPING</div>
-          <div class="h-stat"><span id="shop-count"></span><small>items to get</small></div>
-          <ul class="h-recent" id="shop-recent"></ul>
-        </button>
-        <button class="h-status card">
-          <div class="label">HOME</div>
-          <div class="h-st-row">💡 <span id="status-lights"></span></div>
-          <div class="h-st-row">🔒 <span id="status-locks"></span></div>
-          <div class="h-st-row">🌡️ <span id="status-temp"></span></div>
-        </button>
-      </div>
+    <div class="pages">
+
+      <!-- TODAY -->
+      <section class="page is-active" data-page="today">
+        <div class="home">
+          <div class="h-clock">
+            <div class="h-time num"><span id="time-main"></span><span class="h-ampm" id="time-ampm"></span></div>
+            <div class="h-date"><b id="date-day"></b> <span id="date-rest"></span></div>
+          </div>
+
+          <div class="h-weather" id="h-weather"></div>
+
+          <div class="h-presence" id="h-presence"></div>
+
+          <div class="h-main">
+            <div class="h-hero-slot" id="h-hero-slot"></div>
+            <div class="h-lanes" id="h-lanes"></div>
+          </div>
+
+          <div class="h-side">
+            <button class="h-photo" id="h-photo">
+              <div class="h-photo-stage"><div class="slide slide--fit is-in" id="photo-slide"></div></div>
+              <div class="h-photo-cap"><b id="photo-cap"></b><span id="photo-loc"></span></div>
+            </button>
+
+            <button class="h-chores card" id="h-chores" data-goto="chores">
+              <div class="label" id="chores-label"></div>
+              <div class="h-rings" id="h-rings"></div>
+            </button>
+
+            <div class="h-duo">
+              <button class="h-shop card" data-goto="shopping">
+                <div class="label">SHOPPING</div>
+                <div class="h-stat"><span id="shop-count"></span><small>items to get</small></div>
+                <ul class="h-recent" id="shop-recent"></ul>
+              </button>
+              <button class="h-status card" data-goto="home">
+                <div class="label">HOME</div>
+                <div class="h-st-row">💡 <span id="status-lights"></span></div>
+                <div class="h-st-row">🔒 <span id="status-locks"></span></div>
+                <div class="h-st-row">🌡️ <span id="status-temp"></span></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CALENDAR -->
+      <section class="page" data-page="calendar">
+        <div class="page-head">
+          <h1>Calendar</h1>
+          <div class="page-sub" id="cal-date"></div>
+        </div>
+        <div class="cal-list" id="cal-list"></div>
+      </section>
+
+      <!-- CHORES -->
+      <section class="page" data-page="chores">
+        <div class="page-head">
+          <h1>Chores</h1>
+          <div class="page-sub" id="chores-page-sub"></div>
+        </div>
+        <div class="chores-board" id="chores-board"></div>
+      </section>
+
+      <!-- SHOPPING -->
+      <section class="page" data-page="shopping">
+        <div class="page-head">
+          <h1>Shopping List</h1>
+          <div class="page-sub" id="shop-page-sub"></div>
+        </div>
+        <ul class="shop-list" id="shop-list-full"></ul>
+      </section>
+
+      <!-- HOME -->
+      <section class="page" data-page="home">
+        <div class="page-head">
+          <h1>Home</h1>
+          <div class="page-sub">Status</div>
+        </div>
+        <div class="home-status-grid" id="home-status-grid"></div>
+      </section>
+
     </div>
   </div>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
