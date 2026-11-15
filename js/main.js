@@ -8,8 +8,8 @@
 // CACHE-BUSTING: bump CB below whenever any file imported here changes content but keeps its
 // path -- browsers have repeatedly served a stale cached copy of these modules under their
 // unversioned URLs even well after a fresh deploy landed on GitHub Pages.
-var CB = 'v=11';
-import './icons.js?v=11';
+var CB = 'v=12';
+import './icons.js?v=12';
 await import('./real-data.js?' + CB);
 await window.DATA_READY;
 await import('./app.js?' + CB);
@@ -20,6 +20,7 @@ await import('./views/tasks.js?' + CB);
 await import('./views/shopping.js?' + CB);
 await import('./views/control-simple.js?' + CB);
 await import('./views/photos.js?' + CB);
+await import('./views/weather.js?' + CB);
 
 // app.js normally starts itself on 'DOMContentLoaded', but that event already fired long before
 // this dynamic import chain finished (the fetch in real-data.js takes a moment), so its listener

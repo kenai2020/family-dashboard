@@ -39,7 +39,7 @@
     events: [], busyExtras: [],
     routines: DEFAULT_ROUTINES, chores: [], stars: {}, week: {},
     stores: [], catOrder: {}, groceries: [], catalog: [], usuals: [],
-    weather: { hi: null, lo: null, feels: null, humidity: null, wind: null, t: new Array(24).fill(null), c: new Array(24).fill('cloud'), p: new Array(24).fill(0) },
+    weather: { hi: null, lo: null, feels: null, humidity: null, wind: null, t: new Array(24).fill(null), c: new Array(24).fill('cloud'), p: new Array(24).fill(0), outlook: [] },
     photos: [],
     home_status: { lights_on: 0, all_locked: true, inside_temp_f: null },
     _gid: function () { return 'g' + Math.random().toString(36).slice(2, 9); },
@@ -141,10 +141,25 @@
     var hiPeriod = todays.filter(function (period) { return period.isDaytime; })[0];
     var loPeriod = todays.filter(function (period) { return !period.isDaytime; })[0];
 
+    // Multi-day outlook for the Weather detail page: NWS alternates day/night periods (12
+    // periods ~= 6 days), each already carrying its own high/low, condition, and rain chance.
+    var outlook = dailyJ.properties.periods.slice(0, 14).map(function (period) {
+      return {
+        start: period.startTime,
+        name: period.name,
+        isDaytime: period.isDaytime,
+        temp: period.temperature,
+        cond: classifyCond(period.shortForecast, period.isDaytime),
+        short: period.shortForecast,
+        pop: (period.probabilityOfPrecipitation && period.probabilityOfPrecipitation.value) || 0
+      };
+    });
+
     DATA.weather = Object.assign({}, DATA.weather, {
       t: t, c: c, p: p,
       hi: hiPeriod ? hiPeriod.temperature : DATA.weather.hi,
-      lo: loPeriod ? loPeriod.temperature : DATA.weather.lo
+      lo: loPeriod ? loPeriod.temperature : DATA.weather.lo,
+      outlook: outlook
     });
   }
 
