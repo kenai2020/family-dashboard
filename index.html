@@ -2,44 +2,55 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Family Dashboard</title>
+<meta name="viewport" content="width=1280, initial-scale=1, user-scalable=no" />
+<meta name="theme-color" content="#F2EEE6" />
+<title>Home HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="photo-layer"></div>
-  <div id="scrim"></div>
+  <div class="home">
+    <div class="h-clock">
+      <div class="h-time num"><span id="time-main"></span><span class="h-ampm" id="time-ampm"></span></div>
+      <div class="h-date"><b id="date-day"></b> <span id="date-rest"></span></div>
+    </div>
 
-  <main id="dashboard">
-    <header id="clock-block">
-      <div id="time"></div>
-      <div id="date"></div>
-    </header>
+    <div class="h-weather" id="h-weather"></div>
 
-    <section id="weather-card" class="card">
-      <div id="weather-now">
-        <div id="weather-icon" class="icon"></div>
-        <div id="weather-temp">--&deg;</div>
-        <div id="weather-condition"></div>
+    <div class="h-presence" id="h-presence"></div>
+
+    <div class="h-main">
+      <div class="h-hero-slot" id="h-hero-slot"></div>
+      <div class="h-lanes" id="h-lanes"></div>
+    </div>
+
+    <div class="h-side">
+      <button class="h-photo" id="h-photo">
+        <div class="h-photo-stage"><div class="slide slide--fit is-in" id="photo-slide"></div></div>
+        <div class="h-photo-cap"><b id="photo-cap"></b><span id="photo-loc"></span></div>
+      </button>
+
+      <button class="h-chores card" id="h-chores">
+        <div class="label" id="chores-label"></div>
+        <div class="h-rings" id="h-rings"></div>
+      </button>
+
+      <div class="h-duo">
+        <button class="h-shop card">
+          <div class="label">SHOPPING</div>
+          <div class="h-stat"><span id="shop-count"></span><small>items to get</small></div>
+          <ul class="h-recent" id="shop-recent"></ul>
+        </button>
+        <button class="h-status card">
+          <div class="label">HOME</div>
+          <div class="h-st-row">💡 <span id="status-lights"></span></div>
+          <div class="h-st-row">🔒 <span id="status-locks"></span></div>
+          <div class="h-st-row">🌡️ <span id="status-temp"></span></div>
+        </button>
       </div>
-      <div id="weather-forecast"></div>
-    </section>
-
-    <section id="calendar-card" class="card">
-      <h2>Coming Up</h2>
-      <ul id="calendar-list"></ul>
-    </section>
-
-    <section id="chores-card" class="card">
-      <h2>Chores</h2>
-      <ul id="chores-list"></ul>
-    </section>
-
-    <section id="shopping-card" class="card">
-      <h2>Shopping List</h2>
-      <ul id="shopping-list"></ul>
-    </section>
-  </main>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

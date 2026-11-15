@@ -1,35 +1,81 @@
 {
   "updated_at": "2026-11-15T00:00:00-05:00",
-  "location": {
-    "label": "Gainesville, GA",
-    "zip": "30501"
-  },
+  "location": { "label": "Gainesville, GA", "zip": "30501" },
+
   "weather": {
     "current_temp_f": 58,
     "condition": "Partly Cloudy",
     "high_f": 64,
     "low_f": 41,
     "icon": "partly-cloudy",
-    "forecast": [
-      { "day": "Mon", "high_f": 64, "low_f": 41, "icon": "partly-cloudy" },
-      { "day": "Tue", "high_f": 61, "low_f": 39, "icon": "sunny" },
-      { "day": "Wed", "high_f": 57, "low_f": 36, "icon": "cloudy" },
-      { "day": "Thu", "high_f": 55, "low_f": 34, "icon": "rain" },
-      { "day": "Fri", "high_f": 60, "low_f": 38, "icon": "sunny" }
+    "note": "Sample note — replace me",
+    "hourly": [
+      { "label": "NOW", "temp_f": 58, "icon": "partly-cloudy", "wet": false },
+      { "label": "4P", "temp_f": 57, "icon": "cloudy", "wet": false },
+      { "label": "5P", "temp_f": 55, "icon": "rain", "wet": true },
+      { "label": "6P", "temp_f": 53, "icon": "rain", "wet": true },
+      { "label": "7P", "temp_f": 51, "icon": "rain", "wet": true },
+      { "label": "8P", "temp_f": 49, "icon": "cloudy", "wet": false },
+      { "label": "9P", "temp_f": 47, "icon": "cloudy", "wet": false }
     ]
   },
-  "calendar": [
-    { "date": "2026-11-16", "time": "8:00 AM", "title": "Sample event — replace me", "source": "placeholder" }
+
+  "people": [
+    { "id": "sample1", "name": "Sample Kid", "initial": "S", "color": "#2D5BFF", "status": "Home", "eta_min": null },
+    { "id": "sample2", "name": "Sample Grownup", "initial": "G", "color": "#E4007C", "status": "At the office", "eta_min": 12 }
   ],
-  "chores": [
-    { "who": "Sample Kid", "task": "Feed the dog", "done": false },
-    { "who": "Sample Kid", "task": "Make bed", "done": true }
+
+  "next_up": {
+    "person_id": "sample1",
+    "title": "Sample event — replace me",
+    "time_range": "3:45 – 4:30 PM",
+    "location": "Somewhere",
+    "minutes_until": 27,
+    "leave_in_min": 15
+  },
+
+  "lanes": [
+    {
+      "person_id": "sample1",
+      "events": [
+        { "time": "5:00", "title": "Sample event" },
+        { "time": "6:30", "title": "Dinner at Nonna's" }
+      ]
+    },
+    {
+      "person_id": "sample2",
+      "events": [
+        { "time": "4:05", "title": "Sample event" }
+      ]
+    }
   ],
-  "shopping_list": [
-    { "item": "Milk", "done": false },
-    { "item": "Eggs", "done": false }
-  ],
-  "spelling_word_search": null,
+
+  "photo_of_the_day": {
+    "url": null,
+    "caption": "ON THIS DAY",
+    "subcaption": "",
+    "location": ""
+  },
+
+  "chores": {
+    "label": "CHORES · AFTER SCHOOL",
+    "rings": [
+      { "person_id": "sample1", "done": 1, "total": 2 },
+      { "person_id": "sample2", "done": 1, "total": 3 }
+    ]
+  },
+
+  "shopping": {
+    "count": 0,
+    "recent": []
+  },
+
+  "home_status": {
+    "lights_on": 0,
+    "all_locked": true,
+    "inside_temp_f": 70
+  },
+
   "photos": [
     "photos/IMG_8089.jpeg",
     "photos/IMG_8091.jpeg",
