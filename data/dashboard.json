@@ -1,0 +1,34 @@
+{
+  "updated_at": "2026-11-15T00:00:00-05:00",
+  "location": {
+    "label": "Gainesville, GA",
+    "zip": "30501"
+  },
+  "weather": {
+    "current_temp_f": 58,
+    "condition": "Partly Cloudy",
+    "high_f": 64,
+    "low_f": 41,
+    "icon": "partly-cloudy",
+    "forecast": [
+      { "day": "Mon", "high_f": 64, "low_f": 41, "icon": "partly-cloudy" },
+      { "day": "Tue", "high_f": 61, "low_f": 39, "icon": "sunny" },
+      { "day": "Wed", "high_f": 57, "low_f": 36, "icon": "cloudy" },
+      { "day": "Thu", "high_f": 55, "low_f": 34, "icon": "rain" },
+      { "day": "Fri", "high_f": 60, "low_f": 38, "icon": "sunny" }
+    ]
+  },
+  "calendar": [
+    { "date": "2026-11-16", "time": "8:00 AM", "title": "Sample event — replace me", "source": "placeholder" }
+  ],
+  "chores": [
+    { "who": "Sample Kid", "task": "Feed the dog", "done": false },
+    { "who": "Sample Kid", "task": "Make bed", "done": true }
+  ],
+  "shopping_list": [
+    { "item": "Milk", "done": false },
+    { "item": "Eggs", "done": false }
+  ],
+  "spelling_word_search": null,
+  "photos": []
+}

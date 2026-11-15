@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Family Dashboard</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="photo-layer"></div>
+  <div id="scrim"></div>
+
+  <main id="dashboard">
+    <header id="clock-block">
+      <div id="time"></div>
+      <div id="date"></div>
+    </header>
+
+    <section id="weather-card" class="card">
+      <div id="weather-now">
+        <div id="weather-icon" class="icon"></div>
+        <div id="weather-temp">--&deg;</div>
+        <div id="weather-condition"></div>
+      </div>
+      <div id="weather-forecast"></div>
+    </section>
+
+    <section id="calendar-card" class="card">
+      <h2>Coming Up</h2>
+      <ul id="calendar-list"></ul>
+    </section>
+
+    <section id="chores-card" class="card">
+      <h2>Chores</h2>
+      <ul id="chores-list"></ul>
+    </section>
+
+    <section id="shopping-card" class="card">
+      <h2>Shopping List</h2>
+      <ul id="shopping-list"></ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
