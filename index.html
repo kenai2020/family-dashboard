@@ -1,121 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<meta name="theme-color" content="#F2EEE6" />
-<title>Home HQ</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=5" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1280, initial-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#F2EEE6">
+  <title>Home HQ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&display=swap">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/views/home.css">
+  <link rel="stylesheet" href="css/views/calendar.css">
+  <link rel="stylesheet" href="css/views/tasks.css">
+  <link rel="stylesheet" href="css/views/shopping.css">
+  <link rel="stylesheet" href="css/views/control-simple.css">
 </head>
 <body>
-  <div id="stage">
-    <nav class="sidebar">
-      <button class="nav-item is-active" data-page="today">
-        <span class="nav-icon">⌂</span><span class="nav-label">Today</span>
-      </button>
-      <button class="nav-item" data-page="calendar">
-        <span class="nav-icon">📅</span><span class="nav-label">Calendar</span>
-      </button>
-      <button class="nav-item" data-page="chores">
-        <span class="nav-icon">✅</span><span class="nav-label">Chores</span>
-      </button>
-      <button class="nav-item" data-page="shopping">
-        <span class="nav-icon">🛒</span><span class="nav-label">Shopping</span>
-      </button>
-      <button class="nav-item" data-page="home">
-        <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
-      </button>
-      <div class="nav-clock" id="nav-clock"></div>
+  <div class="stage" id="stage" data-mode="day">
+    <nav class="rail" id="rail" aria-label="Sections">
+      <button class="rail-item" data-go="home"><svg class="i" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>Today</span></button>
+      <button class="rail-item" data-go="calendar"><svg class="i" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Calendar</span></button>
+      <button class="rail-item" data-go="tasks"><svg class="i" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M7.5 12l3 3 6-6"/></svg><span>Chores</span></button>
+      <button class="rail-item" data-go="shopping"><svg class="i" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2.3 11h10.8L21 8H6.5"/><circle cx="10" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg><span>Shopping</span></button>
+      <button class="rail-item" data-go="control"><svg class="i" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></svg><span>Home</span></button>
+      <button class="rail-clock" id="railClock" aria-label="Clock"></button>
     </nav>
 
-    <div class="pages">
+    <main class="views">
+      <section class="view" id="view-home" data-view="home"></section>
+      <section class="view" id="view-calendar" data-view="calendar"></section>
+      <section class="view" id="view-tasks" data-view="tasks"></section>
+      <section class="view" id="view-shopping" data-view="shopping"></section>
+      <section class="view" id="view-control" data-view="control"></section>
+      <div class="banners" id="banners"></div>
+    </main>
 
-      <!-- TODAY -->
-      <section class="page is-active" data-page="today">
-        <div class="home">
-          <div class="h-clock">
-            <div class="h-time num"><span id="time-main"></span><span class="h-ampm" id="time-ampm"></span></div>
-            <div class="h-date"><b id="date-day"></b> <span id="date-rest"></span></div>
-          </div>
-
-          <div class="h-weather" id="h-weather"></div>
-
-          <div class="h-presence" id="h-presence"></div>
-
-          <div class="h-main">
-            <div class="h-hero-slot" id="h-hero-slot"></div>
-            <div class="h-lanes" id="h-lanes"></div>
-          </div>
-
-          <div class="h-side">
-            <button class="h-photo" id="h-photo">
-              <div class="h-photo-stage"><div class="slide slide--fit is-in" id="photo-slide"></div></div>
-              <div class="h-photo-cap"><b id="photo-cap"></b><span id="photo-loc"></span></div>
-            </button>
-
-            <button class="h-chores card" id="h-chores" data-goto="chores">
-              <div class="label" id="chores-label"></div>
-              <div class="h-rings" id="h-rings"></div>
-            </button>
-
-            <div class="h-duo">
-              <button class="h-shop card" data-goto="shopping">
-                <div class="label">SHOPPING</div>
-                <div class="h-stat"><span id="shop-count"></span><small>items to get</small></div>
-                <ul class="h-recent" id="shop-recent"></ul>
-              </button>
-              <button class="h-status card" data-goto="home">
-                <div class="label">HOME</div>
-                <div class="h-st-row">💡 <span id="status-lights"></span></div>
-                <div class="h-st-row">🔒 <span id="status-locks"></span></div>
-                <div class="h-st-row">🌡️ <span id="status-temp"></span></div>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CALENDAR -->
-      <section class="page" data-page="calendar">
-        <div class="page-head">
-          <h1>Calendar</h1>
-          <div class="page-sub" id="cal-date"></div>
-        </div>
-        <div class="cal-list" id="cal-list"></div>
-      </section>
-
-      <!-- CHORES -->
-      <section class="page" data-page="chores">
-        <div class="page-head">
-          <h1>Chores</h1>
-          <div class="page-sub" id="chores-page-sub"></div>
-        </div>
-        <div class="chores-board" id="chores-board"></div>
-      </section>
-
-      <!-- SHOPPING -->
-      <section class="page" data-page="shopping">
-        <div class="page-head">
-          <h1>Shopping List</h1>
-          <div class="page-sub" id="shop-page-sub"></div>
-        </div>
-        <ul class="shop-list" id="shop-list-full"></ul>
-      </section>
-
-      <!-- HOME -->
-      <section class="page" data-page="home">
-        <div class="page-head">
-          <h1>Home</h1>
-          <div class="page-sub">Status</div>
-        </div>
-        <div class="home-status-grid" id="home-status-grid"></div>
-      </section>
-
-    </div>
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+    <div class="sheet-layer" id="sheetLayer"></div>
+    <div class="takeover" id="takeover" role="alertdialog"></div>
+    <div class="demo" id="demo"></div>
   </div>
 
-  <script src="app.js?v=5"></script>
+  <script>
+    // Wall-display self-healing: if the app bundle failed to load (e.g. a stale page right after a
+    // deploy, or a network blip), reload until it starts.
+    setTimeout(function () { if (!window.App) location.reload(); }, 10000);
+  </script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

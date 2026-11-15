@@ -1,0 +1,10 @@
+.page-head { margin-bottom: 20px; }
+.page-head h1 { font-size: 44px; margin: 0 0 4px; }
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--gap);
+}
+.home-tile-value { font-size: var(--fs-xl); font-weight: 800; margin-top: 4px; }
+.home-tile-sub { color: var(--mute); font-size: var(--fs-body); margin-top: 4px; }

@@ -1,112 +1,53 @@
 {
-  "updated_at": "2026-11-15T00:00:00-05:00",
-  "location": { "label": "Gainesville, GA", "zip": "30501" },
-
-  "weather": {
-    "current_temp_f": 58,
-    "condition": "Partly Cloudy",
-    "high_f": 64,
-    "low_f": 41,
-    "icon": "partly-cloudy",
-    "note": "Sample note — replace me",
-    "hourly": [
-      { "label": "NOW", "temp_f": 58, "icon": "partly-cloudy", "wet": false },
-      { "label": "4P", "temp_f": 57, "icon": "cloudy", "wet": false },
-      { "label": "5P", "temp_f": 55, "icon": "rain", "wet": true },
-      { "label": "6P", "temp_f": 53, "icon": "rain", "wet": true },
-      { "label": "7P", "temp_f": 51, "icon": "rain", "wet": true },
-      { "label": "8P", "temp_f": 49, "icon": "cloudy", "wet": false },
-      { "label": "9P", "temp_f": 47, "icon": "cloudy", "wet": false }
-    ]
-  },
+  "_comment": "Placeholder family data -- replace people/events/chores/groceries with your real family once you tell Claude the real names. Generated/updated by the scheduled agent once that's wired up.",
 
   "people": [
-    { "id": "sample1", "name": "Sample Kid", "initial": "S", "color": "#2D5BFF", "status": "Home", "eta_min": null },
-    { "id": "sample2", "name": "Sample Grownup", "initial": "G", "color": "#E4007C", "status": "At the office", "eta_min": 12 }
+    { "id": "sample1", "name": "Sample Kid", "color": "#2D5BFF", "home": true, "status": "Home" },
+    { "id": "sample2", "name": "Sample Grownup", "color": "#E4007C", "home": false, "status": "At the office", "eta": 12 }
   ],
 
-  "next_up": {
-    "person_id": "sample1",
-    "title": "Sample event — replace me",
-    "time_range": "3:45 – 4:30 PM",
-    "location": "Somewhere",
-    "minutes_until": 27,
-    "leave_in_min": 15
-  },
+  "family": { "name": "Family", "color": "#111111" },
 
-  "lanes": [
-    {
-      "person_id": "sample1",
-      "events": [
-        { "time": "5:00", "title": "Sample event" },
-        { "time": "6:30", "title": "Dinner at Nonna's" }
-      ]
-    },
-    {
-      "person_id": "sample2",
-      "events": [
-        { "time": "4:05", "title": "Sample event" }
-      ]
-    }
+  "events": [
+    { "id": "e1", "start": "2026-11-15T17:00:00", "end": "2026-11-15T17:45:00", "title": "Sample event — replace me", "people": ["sample1"], "loc": "Somewhere", "travel": 15 },
+    { "id": "e2", "start": "2026-11-15T18:30:00", "end": "2026-11-15T19:30:00", "title": "Dinner at Nonna's", "people": ["sample1", "sample2"], "loc": "Nonna's house" },
+    { "id": "e3", "start": "2026-11-15T16:05:00", "end": "2026-11-15T16:30:00", "title": "Sample event", "people": ["sample2"] },
+    { "id": "e4", "start": "2026-11-16T08:00:00", "end": "2026-11-16T08:30:00", "title": "Sample event — replace me", "people": ["sample1"] }
   ],
 
-  "calendar": [
-    { "date": "2026-11-15", "time": "5:00 PM", "title": "Sample event", "person_id": "sample1", "location": "" },
-    { "date": "2026-11-15", "time": "6:30 PM", "title": "Dinner at Nonna's", "person_id": "sample1", "location": "Nonna's house" },
-    { "date": "2026-11-15", "time": "4:05 PM", "title": "Sample event", "person_id": "sample2", "location": "" },
-    { "date": "2026-11-16", "time": "8:00 AM", "title": "Sample event — replace me", "person_id": "sample1", "location": "" }
+  "chores": [
+    { "id": "c1", "r": "morning", "who": "sample1", "title": "Make bed", "emoji": "🛏️", "stars": 1, "done": true },
+    { "id": "c2", "r": "morning", "who": "sample1", "title": "Brush teeth", "emoji": "🪥", "stars": 1, "done": false },
+    { "id": "c3", "r": "after", "who": "sample1", "title": "Homework", "emoji": "📚", "stars": 2, "done": false },
+    { "id": "c4", "r": "after", "who": "sample2", "title": "Unload dishwasher", "emoji": "🍽️", "stars": 0, "done": true },
+    { "id": "c5", "r": "after", "who": "sample2", "title": "Take out trash", "emoji": "♻️", "stars": 0, "done": false },
+    { "id": "c6", "r": "any", "who": "any", "title": "Feed the dog", "emoji": "🐕", "stars": 1, "done": false },
+    { "id": "c7", "r": "evening", "who": "sample1", "title": "Lay out clothes", "emoji": "👕", "stars": 1, "done": false }
   ],
+  "stars": { "sample1": 12 },
 
-  "photo_of_the_day": {
-    "url": null,
-    "caption": "ON THIS DAY",
-    "subcaption": "",
-    "location": ""
-  },
+  "groceries": [
+    { "id": "g1", "name": "Milk", "cat": "Dairy & Eggs", "qty": 1, "done": false },
+    { "id": "g2", "name": "Eggs", "cat": "Dairy & Eggs", "qty": 1, "done": false }
+  ],
+  "catalog": [
+    ["Milk", "Dairy & Eggs"], ["Eggs", "Dairy & Eggs"], ["Bread", "Bakery"], ["Bananas", "Produce"],
+    ["Apples", "Produce"], ["Chicken breasts", "Meat & Fish"], ["Paper towels", "Household"]
+  ],
+  "usuals": ["Milk", "Eggs", "Bread", "Bananas"],
 
-  "chores": {
-    "label": "CHORES · AFTER SCHOOL",
-    "rings": [
-      { "person_id": "sample1", "done": 1, "total": 2 },
-      { "person_id": "sample2", "done": 1, "total": 3 }
-    ],
-    "columns": [
-      {
-        "person_id": "sample1",
-        "items": [
-          { "task": "Feed the dog", "done": false },
-          { "task": "Make bed", "done": true }
-        ]
-      },
-      {
-        "person_id": "sample2",
-        "items": [
-          { "task": "Unload dishwasher", "done": true },
-          { "task": "Take out trash", "done": false },
-          { "task": "Laundry", "done": false }
-        ]
-      }
-    ]
-  },
-
-  "shopping": {
-    "count": 2,
-    "recent": ["Milk", "Eggs"],
-    "items": [
-      { "item": "Milk", "done": false },
-      { "item": "Eggs", "done": false }
-    ]
-  },
-
-  "home_status": {
-    "lights_on": 0,
-    "all_locked": true,
-    "inside_temp_f": 70
+  "weather": {
+    "hi": 64, "lo": 41, "feels": 56, "humidity": 60, "wind": 8,
+    "t": [48, 47, 46, 46, 45, 46, 48, 51, 54, 57, 60, 62, 63, 64, 63, 61, 58, 56, 54, 52, 50, 49, 48, 47],
+    "c": ["moon", "moon", "moon", "moon", "moon", "moon", "sun", "sun", "sun", "partly", "partly", "partly", "cloud", "cloud", "cloud", "rain", "rain", "cloud", "cloud", "moon", "moon", "moon", "moon", "moon"],
+    "p": [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 10, 15, 20, 30, 55, 60, 30, 10, 0, 0, 0, 0, 0]
   },
 
   "photos": [
-    "photos/IMG_8089.jpeg",
-    "photos/IMG_8091.jpeg",
-    "photos/IMG_8216.jpeg"
-  ]
+    { "url": "photos/IMG_8089.jpeg", "o": "l", "date": "2026-11-15", "place": "Myrtle Beach", "from": "sample2" },
+    { "url": "photos/IMG_8091.jpeg", "o": "l", "date": "2026-11-15", "place": "Myrtle Beach", "from": "sample2" },
+    { "url": "photos/IMG_8216.jpeg", "o": "l", "date": "2026-11-15", "place": "Home", "from": "sample1" }
+  ],
+
+  "home_status": { "lights_on": 0, "all_locked": true, "inside_temp_f": 70 }
 }
