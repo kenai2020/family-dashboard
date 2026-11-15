@@ -50,6 +50,65 @@
     return Object.assign({}, e, { start: new Date(e.start), end: new Date(e.end) });
   }
 
+  // ---------------------------------------------------------------- chore/star persistence
+  // dashboard.json is re-fetched from GitHub every 5 minutes (and on load), which would otherwise
+  // wipe out any chore someone just checked off and any stars just earned. We keep today's
+  // checked-off chores and star totals in this browser's localStorage (this dashboard only ever
+  // runs on the one photo frame, so "this browser" effectively means "the frame"), keyed by local
+  // calendar date so it naturally resets to a clean slate every morning without any extra code.
+  var PROGRESS_PREFIX = 'fd_chores_';
+  function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+  function todayKey() {
+    var d = new Date();
+    return PROGRESS_PREFIX + d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+  }
+  function readProgress() {
+    try {
+      var raw = localStorage.getItem(todayKey());
+      return raw ? JSON.parse(raw) : { done: {}, stars: {} };
+    } catch (e) { return { done: {}, stars: {} }; }
+  }
+  function writeProgress(p) {
+    try {
+      localStorage.setItem(todayKey(), JSON.stringify(p));
+      // Clean up any older days' keys so localStorage doesn't grow forever.
+      for (var i = localStorage.length - 1; i >= 0; i--) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf(PROGRESS_PREFIX) === 0 && k !== todayKey()) localStorage.removeItem(k);
+      }
+    } catch (e) { /* storage unavailable (private mode, quota, etc.) -- fall back to in-memory only */ }
+  }
+  // Re-applies today's saved progress on top of freshly-fetched chores/stars from dashboard.json.
+  function applyProgress() {
+    var p = readProgress();
+    DATA.chores.forEach(function (c) {
+      var rec = p.done[c.id];
+      if (rec) {
+        c.done = true;
+        if (rec.by) c.doneBy = rec.by;
+      }
+    });
+    Object.keys(p.stars).forEach(function (who) {
+      if (DATA.stars[who] != null) DATA.stars[who] += p.stars[who];
+    });
+  }
+  // Called by tasks.js whenever a chore is checked/unchecked, so the change survives the next
+  // refresh instead of only living in the in-memory DATA object.
+  window.ChoreProgress = {
+    complete: function (choreId, by, earner, stars) {
+      var p = readProgress();
+      p.done[choreId] = { by: by || null };
+      if (earner && stars) p.stars[earner] = (p.stars[earner] || 0) + stars;
+      writeProgress(p);
+    },
+    uncomplete: function (choreId, earner, stars) {
+      var p = readProgress();
+      delete p.done[choreId];
+      if (earner && stars) p.stars[earner] = (p.stars[earner] || 0) - stars;
+      writeProgress(p);
+    }
+  };
+
   function applyReal(real) {
     // window.DATA (= DATA = D in every other module) is one stable object; reassigning its
     // properties here is all that's needed -- just never reassign window.DATA itself.
@@ -68,6 +127,7 @@
     DATA.chores = real.chores || [];
     DATA.stars = real.stars || {};
     DATA.week = real.week || {};
+    applyProgress(); // re-layer today's checked-off chores + earned stars on top of the raw data file
 
     DATA.stores = real.stores || [];
     // catOrder must always have an "all" key (shopping.js looks up D.catOrder[V.store], and 'all'

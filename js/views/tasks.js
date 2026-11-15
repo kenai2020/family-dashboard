@@ -74,6 +74,7 @@
       if (by) c.doneBy = by;
       var earner = D.stars[c.who] != null ? c.who : (by && D.stars[by] != null ? by : null);
       if (earner && c.stars) D.stars[earner] += c.stars;
+      if (window.ChoreProgress) window.ChoreProgress.complete(c.id, by, earner, c.stars);
       render();
       App.emit('data');
       var laneList = listFor(c.who, r);
@@ -89,6 +90,7 @@
           c.done = false;
           delete c.doneBy;
           if (earner && c.stars) D.stars[earner] -= c.stars;
+          if (window.ChoreProgress) window.ChoreProgress.uncomplete(c.id, earner, c.stars);
           render();
           App.emit('data');
         }
@@ -124,6 +126,7 @@
         c.done = false;
         var earner = D.stars[c.who] != null ? c.who : (c.doneBy && D.stars[c.doneBy] != null ? c.doneBy : null);
         if (earner && c.stars) D.stars[earner] -= c.stars;
+        if (window.ChoreProgress) window.ChoreProgress.uncomplete(c.id, earner, c.stars);
         delete c.doneBy;
         render();
         App.emit('data');
