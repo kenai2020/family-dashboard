@@ -24,6 +24,11 @@
 .ch-ring .num { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: grid; place-items: center; font-size: 15px; }
 
 .ch-list { flex: 1; min-height: 0; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.ch-row { display: flex; align-items: center; gap: 6px; }
+.ch-row .ch { flex: 1; min-width: 0; }
+.ch-del { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--paper-2); color: var(--mute); }
+.ch-del:active { transform: scale(.9); }
+.t-add { flex: none; }
 .ch {
   flex: none;
   display: flex; align-items: center; gap: 10px;

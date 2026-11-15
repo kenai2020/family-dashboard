@@ -9,6 +9,7 @@
   'use strict';
   var D = window.DATA;
   var DAY_LABELS = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
+  var EMOJI_CHOICES = ['✅', '🧹', '🧺', '🍽️', '🛏️', '🪥', '📚', '🐕', '🗑️', '🧸', '🧦', '🚿'];
   var V = { el: null, day: null, pending: {} }; // V.day: 0-6, defaults to today
 
   function LANES() { return D.people.map(function (p) { return p.id; }).concat(['any']); }
@@ -49,13 +50,16 @@
   function row(c, dayIdx) {
     var pend = V.pending[dayIdx + ':' + c.id];
     var canCheck = isToday(dayIdx);
-    return '<button class="ch' + (c.done ? ' is-done' : '') + (pend ? ' is-checking' : '') + (canCheck ? '' : ' is-locked') + '"' +
+    return '<div class="ch-row">' +
+      '<button class="ch' + (c.done ? ' is-done' : '') + (pend ? ' is-checking' : '') + (canCheck ? '' : ' is-locked') + '"' +
       (canCheck ? ' data-ch="' + c.id + '"' : '') + '>' +
       '<span class="ch-emoji">' + c.emoji + '<span class="ch-check"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span></span>' +
       '<span class="ch-text"><b>' + App.esc(c.title) + '</b>' +
       (c.freq === 'weekly' ? '<small>Weekly · ' + DAY_LABELS[c.day] + '</small>' : c.stars ? '<small>' + App.icon('star', 14, 'i--fill') + c.stars + (c.doneBy ? ' · ' + App.person(c.doneBy).name : '') + '</small>' : (c.doneBy ? '<small>by ' + App.person(c.doneBy).name + '</small>' : '')) +
       '</span>' +
-      '</button>';
+      '</button>' +
+      (c.custom ? '<button class="ch-del" data-del-chore="' + c.id + '" aria-label="Remove chore">' + App.icon('x', 18) + '</button>' : '') +
+      '</div>';
   }
 
   function lane(who, dayIdx) {
@@ -86,6 +90,7 @@
         return '<button class="' + (i === dayIdx ? 'is-on' : '') + (isToday(i) ? ' is-today' : '') + '" data-day="' + i + '">' + lbl + '</button>';
       }).join('') + '</div>' +
       '<div class="t-progress"><span class="num">' + done + '<small>/' + inDay.length + '</small></span><div class="t-bar"><i style="width:' + (inDay.length ? done / inDay.length * 100 : 0) + '%"></i></div><span class="label">done</span></div>' +
+      '<button class="btn btn--ghost t-add" data-add-chore>' + App.icon('plus', 22) + ' Add chore</button>' +
       '</header>' +
       '<div class="ch-lanes">' + LANES().map(function (w) { return lane(w, dayIdx); }).join('') + '</div>' +
       '</div>';
@@ -137,8 +142,76 @@
     });
   }
 
+  // Builds a chore from the UI: title, who it's for (including "Anyone"), daily vs. weekly (+
+  // which day, if weekly), an emoji, and a star value. Saved via window.ChoreProgress.addChore so
+  // it survives the 5-minute dashboard.json refresh the same way completion/stars already do.
+  function addChoreSheet() {
+    var st = { who: (D.people[0] && D.people[0].id) || 'any', freq: 'daily', day: todayIdx(), stars: 1, emoji: EMOJI_CHOICES[0] };
+    App.sheet(
+      '<div class="sheet-pad add">' +
+      '<div class="label">New chore</div>' +
+      '<input class="big-input serif" placeholder="What’s the chore?" data-f="title">' +
+      '<div class="label">Icon</div><div class="chips">' + EMOJI_CHOICES.map(function (em) {
+        return '<button class="chip' + (em === st.emoji ? ' is-on' : '') + '" data-emoji="' + em + '">' + em + '</button>';
+      }).join('') + '</div>' +
+      '<div class="label">Who</div><div class="add-who">' + D.people.map(function (p) {
+        return '<button class="who-btn' + (p.id === st.who ? ' is-on' : '') + '" data-who="' + p.id + '" style="' + App.pstyle(p) + '">' + App.avatar(p, 56) + '<span>' + p.name + '</span></button>';
+      }).join('') + '<button class="who-btn' + (st.who === 'any' ? ' is-on' : '') + '" data-who="any">' + App.avatar({ id: 'any', color: '#6B6B6B', ink: '#FFFFFF' }, 56) + '<span>Anyone</span></button></div>' +
+      '<div class="add-row"><div><div class="label">Repeats</div><div class="chips">' +
+      ['daily', 'weekly'].map(function (f) { return '<button class="chip' + (f === st.freq ? ' is-on' : '') + '" data-freq="' + f + '">' + (f === 'daily' ? 'Every day' : 'Weekly') + '</button>'; }).join('') +
+      '</div></div>' +
+      '<div class="add-day-wrap"' + (st.freq === 'weekly' ? '' : ' style="display:none"') + '><div class="label">Which day</div><div class="chips">' +
+      DAY_LABELS.map(function (lbl, i) { return '<button class="chip' + (i === st.day ? ' is-on' : '') + '" data-wday="' + i + '">' + lbl + '</button>'; }).join('') +
+      '</div></div></div>' +
+      '<div class="label">Stars</div><div class="chips">' + [0, 1, 2, 3].map(function (n) {
+        return '<button class="chip' + (n === st.stars ? ' is-on' : '') + '" data-stars="' + n + '">' + (n === 0 ? 'None' : '★ ' + n) + '</button>';
+      }).join('') + '</div>' +
+      '<div class="sheet-actions"><button class="btn btn--ghost" data-close>Cancel</button><button class="btn btn--solid" data-save>Add chore</button></div>' +
+      '</div>', {
+        cls: 'sheet--wide',
+        onMount: function (s, close) {
+          var input = s.querySelector('[data-f=title]');
+          input.focus();
+          s.addEventListener('click', function (ev) {
+            var t = ev.target.closest('button');
+            if (!t) return;
+            if (t.dataset.emoji) { st.emoji = t.dataset.emoji; App.$$('[data-emoji]', s).forEach(function (b) { b.classList.toggle('is-on', b === t); }); }
+            if (t.dataset.who) { st.who = t.dataset.who; App.$$('[data-who]', s).forEach(function (b) { b.classList.toggle('is-on', b === t); }); }
+            if (t.dataset.freq) {
+              st.freq = t.dataset.freq;
+              App.$$('[data-freq]', s).forEach(function (b) { b.classList.toggle('is-on', b === t); });
+              s.querySelector('.add-day-wrap').style.display = st.freq === 'weekly' ? '' : 'none';
+            }
+            if (t.dataset.wday != null) { st.day = +t.dataset.wday; App.$$('[data-wday]', s).forEach(function (b) { b.classList.toggle('is-on', b === t); }); }
+            if (t.dataset.stars != null) { st.stars = +t.dataset.stars; App.$$('[data-stars]', s).forEach(function (b) { b.classList.toggle('is-on', b === t); }); }
+            if (t.hasAttribute('data-save')) {
+              var title = input.value.trim();
+              if (!title) return input.focus();
+              var chore = { id: 'custom-' + D._gid(), who: st.who, title: title, emoji: st.emoji, stars: st.stars, freq: st.freq, custom: true };
+              if (st.freq === 'weekly') chore.day = st.day;
+              window.ChoreProgress.addChore(chore);
+              close();
+              render();
+              App.emit('data');
+              App.toast('Added <b>' + App.esc(title) + '</b>', { icon: 'check', ms: 3000 });
+            }
+          });
+        }
+      }
+    );
+  }
+
   function onClick(e) {
     var t;
+    if ((t = e.target.closest('[data-add-chore]'))) return addChoreSheet();
+    if ((t = e.target.closest('[data-del-chore]'))) {
+      var gone = D.chores.filter(function (x) { return x.id === t.dataset.delChore; })[0];
+      window.ChoreProgress.removeChore(t.dataset.delChore);
+      render();
+      App.emit('data');
+      if (gone) App.toast('Removed <b>' + App.esc(gone.title) + '</b>', { icon: 'check', ms: 2500 });
+      return;
+    }
     if ((t = e.target.closest('[data-day]'))) { V.day = +t.dataset.day; return render(); }
     if ((t = e.target.closest('[data-ch]'))) {
       var dayIdx = selectedDay();

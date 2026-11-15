@@ -100,8 +100,24 @@
       if (DATA.stars[who] != null) DATA.stars[who] += totals[who];
     });
   }
+  // Chores added from the UI (rather than written into dashboard.json by hand) also need to
+  // survive the 5-minute refresh, since that refetches dashboard.json and would otherwise wipe
+  // them out same as the done-checkmarks would be. Kept as a separate list and merged onto
+  // whatever dashboard.json defines every time real.chores is applied.
+  var CUSTOM_CHORES_KEY = 'fd_custom_chores';
+  function readCustomChores() {
+    try {
+      var raw = localStorage.getItem(CUSTOM_CHORES_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function writeCustomChores(list) {
+    try { localStorage.setItem(CUSTOM_CHORES_KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
+  }
+
   // Used by tasks.js: dateKey() for building the Su-Sat week; getRecord()/toggle() for reading
-  // and writing a specific day's chore checkmarks (and the running star total alongside it).
+  // and writing a specific day's chore checkmarks (and the running star total alongside it);
+  // addChore()/removeChore() for chores created on the Chores page itself.
   window.ChoreProgress = {
     dateKey: dateKey,
     getRecord: function (key, choreId) {
@@ -118,6 +134,16 @@
         writeStarsTotal(totals);
         if (DATA.stars[earner] != null) DATA.stars[earner] += (done ? stars : -stars);
       }
+    },
+    addChore: function (chore) {
+      var list = readCustomChores();
+      list.push(chore);
+      writeCustomChores(list);
+      DATA.chores.push(chore);
+    },
+    removeChore: function (choreId) {
+      writeCustomChores(readCustomChores().filter(function (c) { return c.id !== choreId; }));
+      DATA.chores = DATA.chores.filter(function (c) { return c.id !== choreId; });
     }
   };
 
@@ -136,10 +162,10 @@
 
     if (real.routines && real.routines.length) DATA.routines = real.routines;
 
-    DATA.chores = real.chores || [];
+    DATA.chores = (real.chores || []).concat(readCustomChores());
     DATA.stars = real.stars || {};
     DATA.week = real.week || {};
-    applyProgress(); // re-layer today's checked-off chores + earned stars on top of the raw data file
+    applyProgress(); // re-layer the running star total on top of the raw data file
 
     DATA.stores = real.stores || [];
     // catOrder must always have an "all" key (shopping.js looks up D.catOrder[V.store], and 'all'
