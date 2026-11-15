@@ -52,60 +52,72 @@
 
   // ---------------------------------------------------------------- chore/star persistence
   // dashboard.json is re-fetched from GitHub every 5 minutes (and on load), which would otherwise
-  // wipe out any chore someone just checked off and any stars just earned. We keep today's
-  // checked-off chores and star totals in this browser's localStorage (this dashboard only ever
-  // runs on the one photo frame, so "this browser" effectively means "the frame"), keyed by local
-  // calendar date so it naturally resets to a clean slate every morning without any extra code.
-  var PROGRESS_PREFIX = 'fd_chores_';
+  // wipe out any chore someone just checked off and any stars just earned. Chores now live on a
+  // Sun-Sat week grid (some daily, some weekly-on-one-day), so "done" is tracked per calendar
+  // date rather than as a single flag on the chore itself -- that's what lets the week view show
+  // Monday's history even after Tuesday's refresh. Stars are a running total that never resets
+  // (only the chore checkmarks reset, daily or weekly depending on the chore), so they're kept
+  // separately as one cumulative delta added on top of whatever dashboard.json says. All of this
+  // lives in this browser's localStorage -- this dashboard only ever runs on the one photo frame,
+  // so "this browser" effectively means "the frame".
   function pad2(n) { return n < 10 ? '0' + n : '' + n; }
-  function todayKey() {
-    var d = new Date();
-    return PROGRESS_PREFIX + d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-  }
-  function readProgress() {
+  function dateKey(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+  var DAY_RECORD_PREFIX = 'fd_day_';
+  var STARS_TOTAL_KEY = 'fd_stars_total';
+
+  function readDayRecord(key) {
     try {
-      var raw = localStorage.getItem(todayKey());
-      return raw ? JSON.parse(raw) : { done: {}, stars: {} };
-    } catch (e) { return { done: {}, stars: {} }; }
+      var raw = localStorage.getItem(DAY_RECORD_PREFIX + key);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) { return {}; }
   }
-  function writeProgress(p) {
+  function writeDayRecord(key, rec) {
     try {
-      localStorage.setItem(todayKey(), JSON.stringify(p));
-      // Clean up any older days' keys so localStorage doesn't grow forever.
+      localStorage.setItem(DAY_RECORD_PREFIX + key, JSON.stringify(rec));
+      // Keep ~2 weeks of history so last week's chores don't linger forever in storage.
+      var cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 14);
       for (var i = localStorage.length - 1; i >= 0; i--) {
         var k = localStorage.key(i);
-        if (k && k.indexOf(PROGRESS_PREFIX) === 0 && k !== todayKey()) localStorage.removeItem(k);
+        if (!k || k.indexOf(DAY_RECORD_PREFIX) !== 0) continue;
+        var d = new Date(k.slice(DAY_RECORD_PREFIX.length) + 'T00:00:00');
+        if (isNaN(d.getTime()) || d < cutoff) localStorage.removeItem(k);
       }
-    } catch (e) { /* storage unavailable (private mode, quota, etc.) -- fall back to in-memory only */ }
+    } catch (e) { /* storage unavailable (private mode, quota, etc.) -- falls back to in-memory only */ }
   }
-  // Re-applies today's saved progress on top of freshly-fetched chores/stars from dashboard.json.
+  function readStarsTotal() {
+    try {
+      var raw = localStorage.getItem(STARS_TOTAL_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) { return {}; }
+  }
+  function writeStarsTotal(t) {
+    try { localStorage.setItem(STARS_TOTAL_KEY, JSON.stringify(t)); } catch (e) { /* ignore */ }
+  }
+  // Re-layers the running star total on top of freshly-fetched dashboard.json stars.
   function applyProgress() {
-    var p = readProgress();
-    DATA.chores.forEach(function (c) {
-      var rec = p.done[c.id];
-      if (rec) {
-        c.done = true;
-        if (rec.by) c.doneBy = rec.by;
-      }
-    });
-    Object.keys(p.stars).forEach(function (who) {
-      if (DATA.stars[who] != null) DATA.stars[who] += p.stars[who];
+    var totals = readStarsTotal();
+    Object.keys(totals).forEach(function (who) {
+      if (DATA.stars[who] != null) DATA.stars[who] += totals[who];
     });
   }
-  // Called by tasks.js whenever a chore is checked/unchecked, so the change survives the next
-  // refresh instead of only living in the in-memory DATA object.
+  // Used by tasks.js: dateKey() for building the Su-Sat week; getRecord()/toggle() for reading
+  // and writing a specific day's chore checkmarks (and the running star total alongside it).
   window.ChoreProgress = {
-    complete: function (choreId, by, earner, stars) {
-      var p = readProgress();
-      p.done[choreId] = { by: by || null };
-      if (earner && stars) p.stars[earner] = (p.stars[earner] || 0) + stars;
-      writeProgress(p);
+    dateKey: dateKey,
+    getRecord: function (key, choreId) {
+      return readDayRecord(key)[choreId] || null;
     },
-    uncomplete: function (choreId, earner, stars) {
-      var p = readProgress();
-      delete p.done[choreId];
-      if (earner && stars) p.stars[earner] = (p.stars[earner] || 0) - stars;
-      writeProgress(p);
+    toggle: function (key, choreId, done, by, earner, stars) {
+      var rec = readDayRecord(key);
+      if (done) rec[choreId] = { by: by || null };
+      else delete rec[choreId];
+      writeDayRecord(key, rec);
+      if (earner && stars) {
+        var totals = readStarsTotal();
+        totals[earner] = (totals[earner] || 0) + (done ? stars : -stars);
+        writeStarsTotal(totals);
+        if (DATA.stars[earner] != null) DATA.stars[earner] += (done ? stars : -stars);
+      }
     }
   };
 

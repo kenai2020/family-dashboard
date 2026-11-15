@@ -17,14 +17,14 @@
   ],
 
   "chores": [
-    { "id": "c1", "r": "morning", "who": "kayla", "title": "Make bed", "emoji": "🛏️", "stars": 1, "done": true },
-    { "id": "c2", "r": "morning", "who": "kort", "title": "Brush teeth", "emoji": "🪥", "stars": 1, "done": false },
-    { "id": "c3", "r": "after", "who": "kayla", "title": "Homework", "emoji": "📚", "stars": 2, "done": false },
-    { "id": "c4", "r": "after", "who": "kort", "title": "Homework", "emoji": "📚", "stars": 2, "done": false },
-    { "id": "c5", "r": "after", "who": "thomas", "title": "Unload dishwasher", "emoji": "🍽️", "stars": 0, "done": true },
-    { "id": "c6", "r": "after", "who": "heather", "title": "Take out trash", "emoji": "♻️", "stars": 0, "done": false },
-    { "id": "c7", "r": "any", "who": "any", "title": "Feed Moose", "emoji": "🐕", "stars": 1, "done": false },
-    { "id": "c8", "r": "evening", "who": "kort", "title": "Lay out clothes", "emoji": "👕", "stars": 1, "done": false }
+    { "id": "c1", "who": "kayla", "title": "Make bed", "emoji": "🛏️", "stars": 1, "freq": "daily" },
+    { "id": "c2", "who": "kort", "title": "Brush teeth", "emoji": "🪥", "stars": 1, "freq": "daily" },
+    { "id": "c3", "who": "kayla", "title": "Homework", "emoji": "📚", "stars": 2, "freq": "daily" },
+    { "id": "c4", "who": "kort", "title": "Homework", "emoji": "📚", "stars": 2, "freq": "daily" },
+    { "id": "c5", "who": "thomas", "title": "Unload dishwasher", "emoji": "🍽️", "stars": 0, "freq": "weekly", "day": 1 },
+    { "id": "c6", "who": "heather", "title": "Take out trash", "emoji": "♻️", "stars": 0, "freq": "weekly", "day": 4 },
+    { "id": "c7", "who": "any", "title": "Feed Moose", "emoji": "🐕", "stars": 1, "freq": "daily" },
+    { "id": "c8", "who": "kort", "title": "Lay out clothes", "emoji": "👕", "stars": 1, "freq": "daily" }
   ],
   "stars": { "kayla": 12, "kort": 8 },
 

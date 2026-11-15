@@ -86,13 +86,18 @@
   }
   App.ring = ring;
 
+  // Chores are now a Sun-Sat week grid (see views/tasks.js): a chore is "active" today if it's
+  // daily, or weekly and today is its assigned day. Done-ness is tracked per calendar date in
+  // ChoreProgress, not on the chore object itself, so this widget reads today's record the same
+  // way the Chores page does.
   function chores() {
-    var r = App.currentRoutine();
+    var todayIdx = App.now().getDay(), key = window.ChoreProgress ? window.ChoreProgress.dateKey(App.now()) : null;
+    var active = D.chores.filter(function (c) { return c.freq === 'weekly' ? c.day === todayIdx : true; });
     var who = D.people.map(function (p) { return p.id; }).concat(['any']);
-    return '<div class="label">Chores · ' + r.name + '</div><div class="h-rings">' + who.map(function (id) {
-      var list = D.chores.filter(function (c) { return c.r === r.id && c.who === id; });
+    return '<div class="label">Chores · Today</div><div class="h-rings">' + who.map(function (id) {
+      var list = active.filter(function (c) { return c.who === id; });
       if (!list.length) return '';
-      var done = list.filter(function (c) { return c.done; }).length;
+      var done = list.filter(function (c) { return key && window.ChoreProgress.getRecord(key, c.id); }).length;
       var p = App.person(id);
       return '<div class="h-ring' + (done === list.length ? ' is-done' : '') + '" style="' + App.pstyle(p) + '">' + ring(done, list.length, 64) +
         '<b class="num">' + (done === list.length ? '✓' : done + '/' + list.length) + '</b><span>' + (id === 'any' ? 'Anyone' : p.name) + '</span></div>';

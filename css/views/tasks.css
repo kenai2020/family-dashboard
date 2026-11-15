@@ -55,6 +55,10 @@
 .ch.is-done .ch-text b { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--mute); }
 .ch.is-done .ch-emoji { box-shadow: none; }
 .ch-none { font-size: 22px; color: var(--mute); padding: 12px 6px; }
+.ch.is-locked { opacity: .55; }
+.ch.is-locked.is-done { opacity: .85; }
+.t-head .seg button.is-today::after { content: ''; position: absolute; top: 6px; right: 10px; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .6; }
+.t-head .seg button { position: relative; }
 .ch-alldone { font-size: 40px; text-align: center; padding: 6px 0 4px; color: var(--c); }
 .ch-lane:not([data-lane="otto"]) .ch-alldone { color: var(--c); }
 .ch-lane[data-lane="otto"] .ch-alldone { color: #C98A00; }
