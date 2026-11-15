@@ -29,11 +29,12 @@
   ],
   "stars": { "kayla": 12, "kort": 8 },
 
-  "stores": [{ "id": "grocery", "name": "Grocery" }, { "id": "costco", "name": "Costco" }],
+  "stores": [{ "id": "grocery", "name": "Grocery" }, { "id": "costco", "name": "Costco" }, { "id": "other", "name": "Other" }],
   "catOrder": {
     "all": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"],
     "grocery": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"],
-    "costco": ["Household", "Dairy & Eggs", "Meat & Fish", "Produce", "Bakery"]
+    "costco": ["Household", "Dairy & Eggs", "Meat & Fish", "Produce", "Bakery"],
+    "other": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"]
   },
   "groceries": [
     { "id": "g1", "name": "Milk", "cat": "Dairy & Eggs", "qty": 1, "store": "grocery", "done": false },
