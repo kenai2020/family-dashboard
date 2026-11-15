@@ -94,22 +94,92 @@
     applyReal(real);
   }
 
-  window.DATA_READY = load().catch(function (err) {
+  // ---------------------------------------------------------------- weather (National Weather
+  // Service -- api.weather.gov; free, no API key, US-only). The dashboard.json "weather" block
+  // above is only a fallback shown until this first resolves.
+  //
+  // Zip 30501 (Gainesville, GA). If the family ever moves, update GEO and nothing else here needs
+  // to change.
+  var GEO = { lat: 34.3042, lon: -83.8269 };
+  var weatherUrls = null; // resolved once from /points/, then reused (NWS asks that you not repeat that lookup every time)
+
+  function classifyCond(shortForecast, isDaytime) {
+    var s = (shortForecast || '').toLowerCase();
+    if (/thunder|rain|shower|drizzle|snow|sleet|wintry/.test(s)) return 'rain'; // no snow icon; closest available
+    if (/overcast|mostly cloudy|cloudy/.test(s)) return 'cloud';
+    if (/partly|chance/.test(s)) return 'partly';
+    return isDaytime ? 'sun' : 'moon'; // clear/sunny/fair and anything unrecognized
+  }
+
+  async function resolveWeatherUrls() {
+    var res = await fetch('https://api.weather.gov/points/' + GEO.lat + ',' + GEO.lon);
+    var j = await res.json();
+    weatherUrls = { hourly: j.properties.forecastHourly, daily: j.properties.forecast };
+  }
+
+  async function fetchWeather() {
+    if (!weatherUrls) await resolveWeatherUrls();
+
+    var hourlyRes = await fetch(weatherUrls.hourly);
+    var hourlyJ = await hourlyRes.json();
+    var now = new Date(), today = now.toDateString();
+    var t = DATA.weather.t.slice(), c = DATA.weather.c.slice(), p = DATA.weather.p.slice();
+    hourlyJ.properties.periods.forEach(function (period) {
+      var d = new Date(period.startTime);
+      if (d.toDateString() !== today) return; // only today's 24 hours fill t/c/p (app indexes by getHours())
+      var h = d.getHours();
+      t[h] = period.temperature;
+      c[h] = classifyCond(period.shortForecast, period.isDaytime);
+      p[h] = (period.probabilityOfPrecipitation && period.probabilityOfPrecipitation.value) || 0;
+    });
+
+    var dailyRes = await fetch(weatherUrls.daily);
+    var dailyJ = await dailyRes.json();
+    var todays = dailyJ.properties.periods.filter(function (period) {
+      return new Date(period.startTime).toDateString() === today;
+    });
+    var hiPeriod = todays.filter(function (period) { return period.isDaytime; })[0];
+    var loPeriod = todays.filter(function (period) { return !period.isDaytime; })[0];
+
+    DATA.weather = Object.assign({}, DATA.weather, {
+      t: t, c: c, p: p,
+      hi: hiPeriod ? hiPeriod.temperature : DATA.weather.hi,
+      lo: loPeriod ? loPeriod.temperature : DATA.weather.lo
+    });
+  }
+
+  window.DATA_READY = load().then(function () {
+    // Weather fetch runs AFTER load() resolves, and deliberately not awaited here: load()'s
+    // applyReal() sets DATA.weather from dashboard.json's static fallback every time it runs, so
+    // this must always happen strictly after it (not in parallel -- a parallel race could let the
+    // static fallback overwrite real numbers depending on which settles last). Not awaiting it
+    // means DATA_READY itself (and app startup) isn't held up waiting on a third-party API; the
+    // static fallback covers the brief gap until this resolves and repaints.
+    fetchWeather().then(function () {
+      if (window.App) { window.App.emit('data'); window.App.rerender(); }
+    }).catch(function (err) {
+      console.error('Initial weather fetch failed; keeping the fallback numbers from dashboard.json.', err);
+    });
+  }).catch(function (err) {
     console.error('Initial dashboard data load failed; starting with empty data.', err);
   });
 
   // Periodic refresh: re-fetch, re-apply onto the SAME window.DATA object, then tell the app to
   // re-render (App.emit('data') -- app.js's markStale() listens for this and marks every
   // non-current view dirty so it rebuilds next time it's shown; the current view is explicitly
-  // rerendered by App.rerender() right after).
+  // rerendered by App.rerender() right after). load() then fetchWeather(), in that order and not
+  // in parallel, for the same reason as above.
   setInterval(function () {
-    load().then(function () {
-      if (window.App) {
-        window.App.emit('data');
-        window.App.rerender();
-      }
-    }).catch(function (err) {
-      console.error('Dashboard data refresh failed; keeping previous data.', err);
-    });
+    load()
+      .then(function () { return fetchWeather().catch(function (err) { console.error('Weather refresh failed; keeping previous numbers.', err); }); })
+      .then(function () {
+        if (window.App) {
+          window.App.emit('data');
+          window.App.rerender();
+        }
+      })
+      .catch(function (err) {
+        console.error('Dashboard data refresh failed; keeping previous data.', err);
+      });
   }, REFRESH_MS);
 })();
