@@ -36,13 +36,7 @@
     "costco": ["Household", "Dairy & Eggs", "Meat & Fish", "Beverages", "Produce", "Bakery"],
     "other": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Beverages", "Household"]
   },
-  "groceries": [
-    { "id": "g1", "name": "Milk", "cat": "Dairy & Eggs", "qty": 1, "store": "grocery", "done": false },
-    { "id": "g2", "name": "Eggs", "cat": "Dairy & Eggs", "qty": 1, "store": "grocery", "done": false },
-    { "id": "g3", "name": "Bananas", "cat": "Produce", "qty": 1, "store": "grocery", "done": false },
-    { "id": "g4", "name": "Paper towels", "cat": "Household", "qty": 1, "store": "costco", "done": false },
-    { "id": "g5", "name": "Dog food", "cat": "Household", "qty": 1, "store": "costco", "done": false }
-  ],
+  "groceries": [],
   "_catalog_comment": "Each entry is [name, category] or [name, category, defaultStore]. A defaultStore means tapping that usual always adds it to that store, regardless of the 'Add to' toggle.",
   "catalog": [
     ["Milk", "Dairy & Eggs"], ["Bread", "Bakery"], ["Bananas", "Produce"],
