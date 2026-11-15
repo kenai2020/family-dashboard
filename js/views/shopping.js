@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var D = window.DATA;
-  var V = { el: null, store: 'all', query: '', drawer: false, pending: {}, flash: null };
+  var V = { el: null, store: 'all', addStore: null, query: '', drawer: false, pending: {}, flash: null };
 
   function open() { return D.groceries.filter(function (g) { return !g.done && (V.store === 'all' || g.store === V.store); }); }
   function done() { return D.groceries.filter(function (g) { return g.done && (V.store === 'all' || g.store === V.store); }); }
@@ -120,6 +120,14 @@
       return '<button class="' + (V.store === s[0] ? 'is-on' : '') + '" data-store="' + s[0] + '">' + s[1] + ' <span class="num">' + n + '</span></button>';
     }).join('');
   }
+  function addStoreHTML() {
+    if (!V.addStore) V.addStore = (V.store !== 'all' && V.store) || (D.stores[0] && D.stores[0].id);
+    if (!D.stores.length) return '';
+    return '<div class="label label--light" style="margin-bottom:6px">Add to</div><div class="seg seg--dark s-add-store">' + D.stores.map(function (s) {
+      return '<button class="' + (V.addStore === s.id ? 'is-on' : '') + '" data-add-store="' + s.id + '">' + s.name + '</button>';
+    }).join('') + '</div>';
+  }
+
   function render() {
     V.el.innerHTML = '<div class="shop">' +
       '<header class="s-head"><div><div class="label">Shared list</div><h1 class="serif">Groceries</h1></div><div class="s-count"></div><div class="seg s-stores"></div></header>' +
@@ -127,6 +135,7 @@
       '<aside class="s-side">' +
       '  <div class="s-add">' +
       '    <label class="s-input-wrap">' + App.icon('plus', 30) + '<input class="s-input" placeholder="Add an item…" autocomplete="off" enterkeyhint="done"></label>' +
+      '    <div class="s-add-store-wrap">' + addStoreHTML() + '</div>' +
       '  </div>' +
       '  <div class="s-suggest"></div>' +
       '</aside></div>';
@@ -151,9 +160,9 @@
       paintList();
     } else {
       var cat = D.catalog.filter(function (c) { return c[0].toLowerCase() === name.toLowerCase(); })[0];
-      // Upstream hardcodes 'grocer' as the default store for items added from the "All" tab;
-      // our store ids are different, so default to whichever store is listed first instead.
-      g = { id: D._gid(), name: cat ? cat[0] : name.charAt(0).toUpperCase() + name.slice(1), cat: categorize(name), qty: 1, store: V.store === 'all' ? D.stores[0].id : V.store, done: false, note: '' };
+      // Which list a new item lands on is whatever's picked in the "Add to" toggle, not
+      // whichever store tab happens to be selected above the list.
+      g = { id: D._gid(), name: cat ? cat[0] : name.charAt(0).toUpperCase() + name.slice(1), cat: categorize(name), qty: 1, store: V.addStore, done: false, note: '' };
       D.groceries.push(g);
       msg = 'Added <b>' + App.esc(g.name) + '</b> to ' + g.cat;
       insertRow(g);
@@ -211,6 +220,11 @@
     }
     if ((t = e.target.closest('[data-add]'))) return add(t.dataset.add);
     if ((t = e.target.closest('[data-store]'))) { V.store = t.dataset.store; return paintList(); }
+    if ((t = e.target.closest('[data-add-store]'))) {
+      V.addStore = t.dataset.addStore;
+      App.$$('[data-add-store]', V.el).forEach(function (b) { b.classList.toggle('is-on', b === t); });
+      return;
+    }
     if ((t = e.target.closest('[data-drawer]'))) { V.drawer = !V.drawer; return paintList(); }
     if ((t = e.target.closest('[data-revive]'))) {
       var r = D.groceries.filter(function (x) { return x.id === t.dataset.revive; })[0];
