@@ -70,7 +70,15 @@
     DATA.week = real.week || {};
 
     DATA.stores = real.stores || [];
+    // catOrder must always have an "all" key (shopping.js looks up D.catOrder[V.store], and 'all'
+    // is the default/only store when none are configured) -- derive one from the catalog's own
+    // categories, in first-seen order, when it's missing from the data file.
     DATA.catOrder = real.catOrder || {};
+    if (!DATA.catOrder.all) {
+      var seen = [], cats = real.catalog || [];
+      for (var i = 0; i < cats.length; i++) { if (seen.indexOf(cats[i][1]) === -1) seen.push(cats[i][1]); }
+      DATA.catOrder.all = seen;
+    }
     DATA.groceries = real.groceries || [];
     DATA.catalog = real.catalog || [];
     DATA.usuals = real.usuals || [];

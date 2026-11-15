@@ -30,6 +30,7 @@
     { "id": "g1", "name": "Milk", "cat": "Dairy & Eggs", "qty": 1, "done": false },
     { "id": "g2", "name": "Eggs", "cat": "Dairy & Eggs", "qty": 1, "done": false }
   ],
+  "catOrder": { "all": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"] },
   "catalog": [
     ["Milk", "Dairy & Eggs"], ["Eggs", "Dairy & Eggs"], ["Bread", "Bakery"], ["Bananas", "Produce"],
     ["Apples", "Produce"], ["Chicken breasts", "Meat & Fish"], ["Paper towels", "Household"]
