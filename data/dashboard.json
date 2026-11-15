@@ -31,10 +31,10 @@
 
   "stores": [{ "id": "grocery", "name": "Grocery" }, { "id": "costco", "name": "Costco" }, { "id": "other", "name": "Other" }],
   "catOrder": {
-    "all": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"],
-    "grocery": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"],
-    "costco": ["Household", "Dairy & Eggs", "Meat & Fish", "Produce", "Bakery"],
-    "other": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"]
+    "all": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Beverages", "Household"],
+    "grocery": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Beverages", "Household"],
+    "costco": ["Household", "Dairy & Eggs", "Meat & Fish", "Beverages", "Produce", "Bakery"],
+    "other": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Beverages", "Household"]
   },
   "groceries": [
     { "id": "g1", "name": "Milk", "cat": "Dairy & Eggs", "qty": 1, "store": "grocery", "done": false },
@@ -43,12 +43,22 @@
     { "id": "g4", "name": "Paper towels", "cat": "Household", "qty": 1, "store": "costco", "done": false },
     { "id": "g5", "name": "Dog food", "cat": "Household", "qty": 1, "store": "costco", "done": false }
   ],
+  "_catalog_comment": "Each entry is [name, category] or [name, category, defaultStore]. A defaultStore means tapping that usual always adds it to that store, regardless of the 'Add to' toggle.",
   "catalog": [
-    ["Milk", "Dairy & Eggs"], ["Eggs", "Dairy & Eggs"], ["Bread", "Bakery"], ["Bananas", "Produce"],
-    ["Apples", "Produce"], ["Chicken breasts", "Meat & Fish"], ["Paper towels", "Household"],
-    ["Dog food", "Household"]
+    ["Milk", "Dairy & Eggs"], ["Bread", "Bakery"], ["Bananas", "Produce"],
+    ["Apples", "Produce"], ["Chicken breasts", "Meat & Fish"], ["Dog food", "Household"],
+
+    ["Bread & buns", "Bakery", "grocery"],
+    ["Lunch meat", "Meat & Fish", "grocery"],
+    ["Sliced cheese", "Dairy & Eggs", "grocery"],
+    ["Shredded cheese", "Dairy & Eggs", "grocery"],
+    ["Eggs", "Dairy & Eggs", "grocery"],
+    ["Propel", "Beverages", "grocery"],
+    ["Diet Mt. Dew", "Beverages", "other"],
+    ["Toilet paper", "Household", "costco"],
+    ["Paper towels", "Household", "costco"]
   ],
-  "usuals": ["Milk", "Eggs", "Bread", "Bananas", "Dog food"],
+  "usuals": ["Bread & buns", "Lunch meat", "Sliced cheese", "Shredded cheese", "Eggs", "Propel", "Diet Mt. Dew", "Toilet paper", "Paper towels"],
 
   "weather": {
     "hi": 64, "lo": 41, "feels": 56, "humidity": 60, "wind": 8,

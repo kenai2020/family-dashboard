@@ -162,9 +162,11 @@
       paintList();
     } else {
       var cat = D.catalog.filter(function (c) { return c[0].toLowerCase() === name.toLowerCase(); })[0];
-      // Which list a new item lands on is whatever's picked in the "Add to" toggle, not
-      // whichever store tab happens to be selected above the list.
-      g = { id: D._gid(), name: cat ? cat[0] : name.charAt(0).toUpperCase() + name.slice(1), cat: categorize(name), qty: 1, store: V.addStore, done: false, note: '' };
+      // A catalog entry can carry its own default store as an optional 3rd element
+      // (e.g. ['Toilet paper', 'Household', 'costco']) -- known items always land there, so you
+      // don't have to flip the "Add to" toggle for things that only ever come from one store.
+      // Anything without one (or typed fresh) uses whatever the toggle is currently set to.
+      g = { id: D._gid(), name: cat ? cat[0] : name.charAt(0).toUpperCase() + name.slice(1), cat: categorize(name), qty: 1, store: (cat && cat[2]) || V.addStore, done: false, note: '' };
       D.groceries.push(g);
       msg = 'Added <b>' + App.esc(g.name) + '</b> to ' + g.cat;
       insertRow(g);
