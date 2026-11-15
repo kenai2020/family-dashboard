@@ -261,6 +261,27 @@
     });
   }
 
+  // On a cold boot (app launches the instant Android starts it, since it's the Home app), Wi-Fi
+  // can still be associating when this first runs -- the page itself loads fine (that has its own
+  // native-side retry), but these fetches have none, so a bad first attempt otherwise leaves
+  // everything empty until the full 5-minute steady-state refresh comes around. Retry quickly a
+  // few times instead, then fall back to spacing retries out.
+  var RETRY_DELAYS_MS = [5000, 10000, 20000, 60000];
+  function retryInitial(fn, label) {
+    var attempt = 0;
+    function tryOnce() {
+      fn().then(function () {
+        if (window.App) { window.App.emit('data'); window.App.rerender(); }
+      }).catch(function (err) {
+        var wait = RETRY_DELAYS_MS[Math.min(attempt, RETRY_DELAYS_MS.length - 1)];
+        attempt++;
+        console.error(label + ' failed (attempt ' + attempt + '); retrying in ' + (wait / 1000) + 's.', err);
+        setTimeout(tryOnce, wait);
+      });
+    }
+    tryOnce();
+  }
+
   window.DATA_READY = load().then(function () {
     // Weather fetch runs AFTER load() resolves, and deliberately not awaited here: load()'s
     // applyReal() sets DATA.weather from dashboard.json's static fallback every time it runs, so
@@ -271,10 +292,18 @@
     fetchWeather().then(function () {
       if (window.App) { window.App.emit('data'); window.App.rerender(); }
     }).catch(function (err) {
-      console.error('Initial weather fetch failed; keeping the fallback numbers from dashboard.json.', err);
+      console.error('Initial weather fetch failed; keeping the fallback numbers from dashboard.json. Retrying...', err);
+      retryInitial(fetchWeather, 'Weather fetch');
     });
   }).catch(function (err) {
-    console.error('Initial dashboard data load failed; starting with empty data.', err);
+    console.error('Initial dashboard data load failed; starting with empty data. Retrying...', err);
+    retryInitial(function () {
+      return load().then(function () {
+        return fetchWeather().catch(function (e) {
+          console.error('Weather fetch failed during data-load retry; keeping previous numbers.', e);
+        });
+      });
+    }, 'Dashboard data load');
   });
 
   // Periodic refresh: re-fetch, re-apply onto the SAME window.DATA object, then tell the app to
