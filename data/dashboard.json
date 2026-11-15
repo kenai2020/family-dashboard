@@ -1,30 +1,33 @@
 {
-  "_comment": "Placeholder family data -- replace people/events/chores/groceries with your real family once you tell Claude the real names. Generated/updated by the scheduled agent once that's wired up.",
+  "_comment": "Real family data. Events/chores/groceries below are still sample placeholders for layout -- the scheduled agent will keep this updated with real school emails, photos, etc. once that's wired up.",
 
   "people": [
-    { "id": "sample1", "name": "Sample Kid", "color": "#2D5BFF", "home": true, "status": "Home" },
-    { "id": "sample2", "name": "Sample Grownup", "color": "#E4007C", "home": false, "status": "At the office", "eta": 12 }
+    { "id": "thomas", "name": "Thomas", "color": "#2D5BFF", "home": true, "status": "Home" },
+    { "id": "heather", "name": "Heather", "color": "#E4007C", "home": true, "status": "Home" },
+    { "id": "kayla", "name": "Kayla", "color": "#7C3AED", "home": true, "status": "Home" },
+    { "id": "kort", "name": "Kort", "color": "#F59E0B", "home": true, "status": "Home" }
   ],
 
   "family": { "name": "Family", "color": "#111111" },
 
   "events": [
-    { "id": "e1", "start": "2026-11-15T17:00:00", "end": "2026-11-15T17:45:00", "title": "Sample event — replace me", "people": ["sample1"], "loc": "Somewhere", "travel": 15 },
-    { "id": "e2", "start": "2026-11-15T18:30:00", "end": "2026-11-15T19:30:00", "title": "Dinner at Nonna's", "people": ["sample1", "sample2"], "loc": "Nonna's house" },
-    { "id": "e3", "start": "2026-11-15T16:05:00", "end": "2026-11-15T16:30:00", "title": "Sample event", "people": ["sample2"] },
-    { "id": "e4", "start": "2026-11-16T08:00:00", "end": "2026-11-16T08:30:00", "title": "Sample event — replace me", "people": ["sample1"] }
+    { "id": "e1", "start": "2026-11-15T17:00:00", "end": "2026-11-15T17:45:00", "title": "Sample event — replace me", "people": ["kayla"], "loc": "Somewhere", "travel": 15 },
+    { "id": "e2", "start": "2026-11-15T18:30:00", "end": "2026-11-15T19:30:00", "title": "Dinner at Nonna's", "people": ["thomas", "heather", "kayla", "kort"], "loc": "Nonna's house" },
+    { "id": "e3", "start": "2026-11-15T16:05:00", "end": "2026-11-15T16:30:00", "title": "Sample event", "people": ["kort"] },
+    { "id": "e4", "start": "2026-11-16T08:00:00", "end": "2026-11-16T08:30:00", "title": "Sample event — replace me", "people": ["kayla"] }
   ],
 
   "chores": [
-    { "id": "c1", "r": "morning", "who": "sample1", "title": "Make bed", "emoji": "🛏️", "stars": 1, "done": true },
-    { "id": "c2", "r": "morning", "who": "sample1", "title": "Brush teeth", "emoji": "🪥", "stars": 1, "done": false },
-    { "id": "c3", "r": "after", "who": "sample1", "title": "Homework", "emoji": "📚", "stars": 2, "done": false },
-    { "id": "c4", "r": "after", "who": "sample2", "title": "Unload dishwasher", "emoji": "🍽️", "stars": 0, "done": true },
-    { "id": "c5", "r": "after", "who": "sample2", "title": "Take out trash", "emoji": "♻️", "stars": 0, "done": false },
-    { "id": "c6", "r": "any", "who": "any", "title": "Feed the dog", "emoji": "🐕", "stars": 1, "done": false },
-    { "id": "c7", "r": "evening", "who": "sample1", "title": "Lay out clothes", "emoji": "👕", "stars": 1, "done": false }
+    { "id": "c1", "r": "morning", "who": "kayla", "title": "Make bed", "emoji": "🛏️", "stars": 1, "done": true },
+    { "id": "c2", "r": "morning", "who": "kort", "title": "Brush teeth", "emoji": "🪥", "stars": 1, "done": false },
+    { "id": "c3", "r": "after", "who": "kayla", "title": "Homework", "emoji": "📚", "stars": 2, "done": false },
+    { "id": "c4", "r": "after", "who": "kort", "title": "Homework", "emoji": "📚", "stars": 2, "done": false },
+    { "id": "c5", "r": "after", "who": "thomas", "title": "Unload dishwasher", "emoji": "🍽️", "stars": 0, "done": true },
+    { "id": "c6", "r": "after", "who": "heather", "title": "Take out trash", "emoji": "♻️", "stars": 0, "done": false },
+    { "id": "c7", "r": "any", "who": "any", "title": "Feed Moose", "emoji": "🐕", "stars": 1, "done": false },
+    { "id": "c8", "r": "evening", "who": "kort", "title": "Lay out clothes", "emoji": "👕", "stars": 1, "done": false }
   ],
-  "stars": { "sample1": 12 },
+  "stars": { "kayla": 12, "kort": 8 },
 
   "groceries": [
     { "id": "g1", "name": "Milk", "cat": "Dairy & Eggs", "qty": 1, "done": false },
@@ -33,9 +36,10 @@
   "catOrder": { "all": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"] },
   "catalog": [
     ["Milk", "Dairy & Eggs"], ["Eggs", "Dairy & Eggs"], ["Bread", "Bakery"], ["Bananas", "Produce"],
-    ["Apples", "Produce"], ["Chicken breasts", "Meat & Fish"], ["Paper towels", "Household"]
+    ["Apples", "Produce"], ["Chicken breasts", "Meat & Fish"], ["Paper towels", "Household"],
+    ["Dog food", "Household"]
   ],
-  "usuals": ["Milk", "Eggs", "Bread", "Bananas"],
+  "usuals": ["Milk", "Eggs", "Bread", "Bananas", "Dog food"],
 
   "weather": {
     "hi": 64, "lo": 41, "feels": 56, "humidity": 60, "wind": 8,
@@ -45,9 +49,9 @@
   },
 
   "photos": [
-    { "url": "photos/IMG_8089.jpeg", "o": "l", "date": "2026-11-15", "place": "Myrtle Beach", "from": "sample2" },
-    { "url": "photos/IMG_8091.jpeg", "o": "l", "date": "2026-11-15", "place": "Myrtle Beach", "from": "sample2" },
-    { "url": "photos/IMG_8216.jpeg", "o": "l", "date": "2026-11-15", "place": "Home", "from": "sample1" }
+    { "url": "photos/IMG_8089.jpeg", "o": "l", "date": "2026-11-15", "place": "Myrtle Beach", "from": "heather" },
+    { "url": "photos/IMG_8091.jpeg", "o": "l", "date": "2026-11-15", "place": "Myrtle Beach", "from": "heather" },
+    { "url": "photos/IMG_8216.jpeg", "o": "l", "date": "2026-11-15", "place": "Home — Moose", "from": "thomas" }
   ],
 
   "home_status": { "lights_on": 0, "all_locked": true, "inside_temp_f": 70 }
