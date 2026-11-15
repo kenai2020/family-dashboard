@@ -143,6 +143,7 @@
         el.innerHTML = '<div class="home">' +
           '<div class="h-clock" data-go="calendar"></div>' +
           '<div class="h-weather" data-go="weather"></div>' +
+          '<div class="h-rule"></div>' +
           '<div class="h-main"><div class="h-hero-slot"></div><div class="h-lanes" style="grid-template-columns:repeat(' + D.people.length + ',1fr)"></div></div>' +
           '<div class="h-side">' +
           '  <button class="h-photo"><div class="h-photo-stage"></div><div class="h-photo-cap"></div></button>' +
