@@ -156,7 +156,7 @@
       }).join('') + '</div>' +
       '<div class="label">Who</div><div class="add-who">' + D.people.map(function (p) {
         return '<button class="who-btn' + (p.id === st.who ? ' is-on' : '') + '" data-who="' + p.id + '" style="' + App.pstyle(p) + '">' + App.avatar(p, 56) + '<span>' + p.name + '</span></button>';
-      }).join('') + '<button class="who-btn' + (st.who === 'any' ? ' is-on' : '') + '" data-who="any">' + App.avatar({ id: 'any', color: '#6B6B6B', ink: '#FFFFFF' }, 56) + '<span>Anyone</span></button></div>' +
+      }).join('') + '<button class="who-btn' + (st.who === 'any' ? ' is-on' : '') + '" data-who="any" style="' + App.pstyle('any') + '">' + App.avatar('any', 56) + '<span>Anyone</span></button></div>' +
       '<div class="add-row"><div><div class="label">Repeats</div><div class="chips">' +
       ['daily', 'weekly'].map(function (f) { return '<button class="chip' + (f === st.freq ? ' is-on' : '') + '" data-freq="' + f + '">' + (f === 'daily' ? 'Every day' : 'Weekly') + '</button>'; }).join('') +
       '</div></div>' +
