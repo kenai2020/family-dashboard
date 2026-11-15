@@ -33,4 +33,5 @@
 .wx-day-t .mute { color: var(--mute); }
 .wx-day-p { display: flex; align-items: center; gap: 4px; color: #1F6FEB; font-size: 15px; font-weight: 700; }
 .wx-day-p svg { width: 15px; height: 15px; }
+.wx-day-p.is-dry { color: var(--mute); font-weight: 400; opacity: .6; }
 .wx-day-short { color: var(--mute); font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

@@ -11,7 +11,7 @@
 
   function weather() {
     var w = App.weatherNow();
-    var hours = App.hourly(9);
+    var hours = App.hourly(7);
     var tmin = Math.min.apply(null, hours.map(function (h) { return h.t; }));
     var tmax = Math.max.apply(null, hours.map(function (h) { return h.t; }));
     return '<div class="h-wx-top">' +

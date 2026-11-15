@@ -54,7 +54,7 @@
         '<span class="wx-day-l">' + dayLabel(e.date, e.key === today) + '</span>' +
         '<span class="wx-day-i">' + App.icon(main.cond, 30) + '</span>' +
         '<span class="wx-day-t">' + (e.day ? '<b>' + e.day.temp + '°</b>' : '') + (e.night ? ' <span class="mute">' + e.night.temp + '°</span>' : '') + '</span>' +
-        '<span class="wx-day-p">' + (pop > 0 ? App.icon('rain', 16) + pop + '%' : '') + '</span>' +
+        '<span class="wx-day-p' + (pop === 0 ? ' is-dry' : '') + '">' + App.icon('rain', 16) + pop + '%</span>' +
         '<span class="wx-day-short">' + App.esc(main.short) + '</span>' +
         '</div>';
     }).join('') + '</div>';
