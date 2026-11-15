@@ -29,11 +29,19 @@
   ],
   "stars": { "kayla": 12, "kort": 8 },
 
+  "stores": [{ "id": "grocery", "name": "Grocery" }, { "id": "costco", "name": "Costco" }],
+  "catOrder": {
+    "all": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"],
+    "grocery": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"],
+    "costco": ["Household", "Dairy & Eggs", "Meat & Fish", "Produce", "Bakery"]
+  },
   "groceries": [
-    { "id": "g1", "name": "Milk", "cat": "Dairy & Eggs", "qty": 1, "done": false },
-    { "id": "g2", "name": "Eggs", "cat": "Dairy & Eggs", "qty": 1, "done": false }
+    { "id": "g1", "name": "Milk", "cat": "Dairy & Eggs", "qty": 1, "store": "grocery", "done": false },
+    { "id": "g2", "name": "Eggs", "cat": "Dairy & Eggs", "qty": 1, "store": "grocery", "done": false },
+    { "id": "g3", "name": "Bananas", "cat": "Produce", "qty": 1, "store": "grocery", "done": false },
+    { "id": "g4", "name": "Paper towels", "cat": "Household", "qty": 1, "store": "costco", "done": false },
+    { "id": "g5", "name": "Dog food", "cat": "Household", "qty": 1, "store": "costco", "done": false }
   ],
-  "catOrder": { "all": ["Produce", "Dairy & Eggs", "Bakery", "Meat & Fish", "Household"] },
   "catalog": [
     ["Milk", "Dairy & Eggs"], ["Eggs", "Dairy & Eggs"], ["Bread", "Bakery"], ["Bananas", "Produce"],
     ["Apples", "Produce"], ["Chicken breasts", "Meat & Fish"], ["Paper towels", "Household"],
