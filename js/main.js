@@ -14,3 +14,8 @@ await import('./views/calendar.js');
 await import('./views/tasks.js');
 await import('./views/shopping.js');
 await import('./views/control-simple.js');
+
+// app.js normally starts itself on 'DOMContentLoaded', but that event already fired long before
+// this dynamic import chain finished (the fetch in real-data.js takes a moment), so its listener
+// never gets attached in time. Start it ourselves instead -- the DOM is already ready by now.
+window.App.start();

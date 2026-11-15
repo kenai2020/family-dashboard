@@ -360,5 +360,8 @@
     // (Upstream shows a "press and hold the clock for demo controls" tip here -- that demo
     // drawer's module isn't loaded in this build, so the tip is dropped too.)
   };
-  document.addEventListener('DOMContentLoaded', function () { App.start(); });
+  // Not auto-starting on DOMContentLoaded here: that event has always already fired by the time
+  // this module finishes loading (it's dynamically imported after an async data fetch in
+  // real-data.js), so a listener for it would simply never run. main.js calls App.start()
+  // explicitly once every module it needs is in place.
 })();
