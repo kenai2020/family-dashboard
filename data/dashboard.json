@@ -654,6 +654,41 @@
       "date": "2026-11-15",
       "place": "Home — Moose",
       "from": "thomas"
+    },
+    {
+      "url": "photos/IMG_7842.jpeg",
+      "o": "l",
+      "date": "2026-11-15",
+      "place": "Dinner out",
+      "from": "heather"
+    },
+    {
+      "url": "photos/IMG_7960.jpeg",
+      "o": "p",
+      "date": "2026-11-15",
+      "place": "Home — Moose",
+      "from": "heather"
+    },
+    {
+      "url": "photos/IMG_7991.jpeg",
+      "o": "l",
+      "date": "2026-11-15",
+      "place": "Appalachian Trail",
+      "from": "heather"
+    },
+    {
+      "url": "photos/IMG_7996.jpeg",
+      "o": "l",
+      "date": "2026-11-15",
+      "place": "Appalachian Trail",
+      "from": "heather"
+    },
+    {
+      "url": "photos/IMG_7997.jpeg",
+      "o": "l",
+      "date": "2026-11-15",
+      "place": "Appalachian Trail",
+      "from": "heather"
     }
   ],
   "home_status": {
