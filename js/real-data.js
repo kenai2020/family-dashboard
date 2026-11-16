@@ -171,9 +171,11 @@
     } catch (e) { /* storage unavailable -- falls back to in-memory only */ }
   }
   window.MealPlan = {
-    set: function (key, recipeId) {
+    // value is the day's full list of items (recipe ids and/or quick-typed names), or null/empty
+    // to clear the day entirely -- meals.js always passes the whole list, never a single item.
+    set: function (key, value) {
       var m = readMealPlan();
-      if (recipeId) m[key] = recipeId; else delete m[key];
+      if (value && value.length) m[key] = value; else delete m[key];
       writeMealPlan(m);
     }
   };

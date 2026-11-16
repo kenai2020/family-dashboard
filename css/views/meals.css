@@ -18,12 +18,22 @@
 .mw-day.is-sel .mw-dot { background: var(--paper); }
 
 .mw-pane { padding: 4px 2px 40px; }
-.mw-title { font-size: 44px; line-height: 1.05; margin: 4px 0 6px; }
 .mw-empty, .mr-grid + .mw-empty { font-size: 30px; line-height: 1.3; color: var(--mute); padding: 40px 0 28px; text-align: center; }
-.mw-actions { display: flex; gap: 12px; margin-top: 22px; }
 
 .mw-empty-wrap { text-align: center; }
 .mw-empty-actions { display: flex; gap: 12px; justify-content: center; }
+
+/* one item on a day's list -- a quick entry or a full recipe, stacked with the next */
+.mw-item { padding: 18px 0; border-bottom: 2px solid var(--line); }
+.mw-item:first-of-type { padding-top: 4px; }
+.mw-item-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.mw-item-title { font-size: 36px; line-height: 1.1; }
+.mw-item-x {
+  flex: none; width: 40px; height: 40px; margin-top: 2px; border-radius: 50%;
+  display: grid; place-items: center; color: var(--mute);
+}
+.mw-item-x:active { background: var(--line); color: var(--ink); }
+.mw-add-more { display: flex; gap: 12px; margin-top: 20px; }
 
 .mw-assignbar {
   display: flex; align-items: center; justify-content: space-between;

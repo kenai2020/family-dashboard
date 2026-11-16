@@ -7,10 +7,11 @@
 // "Recipes" (a scrollable list you assign onto a day). The week is always THIS calendar week
 // (Mon start), so it rolls over on its own -- no manual reset needed.
 //
-// D.meal_plan is date-keyed ("YYYY-MM-DD" -> recipe id), same idea as the chores day-grid, and
-// for the same reason: dashboard.json is re-fetched every 5 minutes, which would otherwise wipe
-// out a plan you just set. Assignments made from the UI are layered on top via window.MealPlan
-// (localStorage), exactly like ChoreProgress does for chore checkmarks.
+// D.meal_plan is date-keyed ("YYYY-MM-DD" -> an ARRAY of items, since a day can hold more than
+// one thing -- "chicken, potatoes, salad, zucchini" is four items on one day, not one). Same idea
+// as the chores day-grid, and for the same reason: dashboard.json is re-fetched every 5 minutes,
+// which would otherwise wipe out a plan you just set. Assignments made from the UI are layered on
+// top via window.MealPlan (localStorage), exactly like ChoreProgress does for chore checkmarks.
 (function () {
   'use strict';
   var D = window.DATA, V = { el: null, tab: 'week', day: null, assignTarget: null };
@@ -57,10 +58,34 @@
     App.toast('Added <b>' + App.esc(name) + '</b> to Shopping', { icon: 'cart', ms: 2200 });
   }
 
-  function setMeal(key, recipeId) {
-    if (recipeId) D.meal_plan[key] = recipeId; else delete D.meal_plan[key];
-    window.MealPlan.set(key, recipeId);
+  // A day's list holds items that are either a recipe id (looked up in D.recipes) or, for a
+  // quick/manual entry like "Spaghetti" that doesn't need a recipe, the plain typed name itself
+  // -- recipeById() simply won't find a match for that string, and that's how the two are told
+  // apart (no separate flag needed).
+  function dayItems(key) { return D.meal_plan[key] || []; }
+  function saveDayItems(key, list) {
+    if (list && list.length) D.meal_plan[key] = list; else delete D.meal_plan[key];
+    window.MealPlan.set(key, list && list.length ? list : null);
     App.emit('data');
+  }
+  function addMealItem(key, value) {
+    var list = dayItems(key).slice();
+    list.push(value);
+    saveDayItems(key, list);
+  }
+  function removeMealItem(key, idx) {
+    var list = dayItems(key).slice();
+    list.splice(idx, 1);
+    saveDayItems(key, list);
+  }
+  // Toggling a recipe onto/off a day from its own sheet (as opposed to adding a fresh item every
+  // tap) -- returns whether it ended up added, so the caller can toast/style accordingly.
+  function toggleMealItem(key, value) {
+    var list = dayItems(key).slice();
+    var idx = list.indexOf(value);
+    if (idx > -1) list.splice(idx, 1); else list.push(value);
+    saveDayItems(key, list);
+    return idx === -1;
   }
 
   // ------------------------------------------------------------ shared recipe markup
@@ -82,37 +107,38 @@
   // ------------------------------------------------------------ "This week" tab
   function weekbarHTML() {
     return [0, 1, 2, 3, 4, 5, 6].map(function (i) {
-      var d = dateForDay(i), key = dkey(d), has = !!D.meal_plan[key];
+      var d = dateForDay(i), key = dkey(d), n = dayItems(key).length;
       return '<button class="mw-day' + (i === todayIdx() ? ' is-today' : '') + (i === selectedDay() ? ' is-sel' : '') + '" data-day="' + i + '">' +
         '<span class="mw-dow">' + DOW[i] + '</span><span class="mw-date num">' + d.getDate() + '</span>' +
-        (has ? '<i class="mw-dot"></i>' : '') + '</button>';
+        (n ? '<i class="mw-dot"></i>' : '') + '</button>';
     }).join('');
   }
-  // A day's D.meal_plan[key] value is either a recipe id (looked up in D.recipes) or, for a
-  // quick/manual entry like "Spaghetti" that doesn't need a recipe, the plain typed name itself
-  // -- recipeById() simply won't find a match for that string, and that's how the two are told
-  // apart (no separate flag needed).
+  function mealItemHTML(key, value, idx) {
+    var r = recipeById(value);
+    var x = '<button class="mw-item-x" data-remove-item="' + key + ':' + idx + '" aria-label="Remove">' + App.icon('x', 20) + '</button>';
+    if (!r) {
+      return '<div class="mw-item"><div class="mw-item-head"><h3 class="serif mw-item-title">' + App.esc(value) + '</h3>' + x + '</div>' +
+        '<div class="label">Added manually</div></div>';
+    }
+    return '<div class="mw-item"><div class="mw-item-head"><h3 class="serif mw-item-title">' + App.esc(r.title) + '</h3>' + x + '</div>' +
+      '<div class="label">' + recipeMetaHTML(r) + '</div>' +
+      '<div class="label">Ingredients</div>' + ingredientsHTML(r) +
+      instructionsHTML(r) +
+      '</div>';
+  }
   function dayPaneHTML(i) {
-    var d = dateForDay(i), key = dkey(d), v = D.meal_plan[key];
+    var d = dateForDay(i), key = dkey(d), list = dayItems(key);
     var head = '<div class="label">' + DOW_FULL[i] + ' · ' + App.fmt.month(d) + ' ' + d.getDate() + '</div>';
-    if (!v) {
+    if (!list.length) {
       return head + '<div class="mw-empty-wrap">' +
         '<div class="mw-empty serif">Nothing planned yet.</div>' +
         '<div class="mw-empty-actions"><button class="btn btn--solid" data-quick-sheet="' + key + '">+ Add a meal</button>' +
         '<button class="btn btn--ghost" data-choose="' + key + '">Choose a recipe</button></div>' +
         '</div>';
     }
-    var r = recipeById(v);
-    if (!r) {
-      return head + '<h2 class="serif mw-title">' + App.esc(v) + '</h2>' +
-        '<div class="label">Added manually · no recipe</div>' +
-        '<div class="mw-actions"><button class="btn btn--ghost" data-choose="' + key + '">Change</button><button class="btn btn--ghost" data-unassign="' + key + '">Remove</button></div>';
-    }
-    return head + '<h2 class="serif mw-title">' + App.esc(r.title) + '</h2>' +
-      '<div class="label">' + recipeMetaHTML(r) + '</div>' +
-      '<div class="label">Ingredients</div>' + ingredientsHTML(r) +
-      instructionsHTML(r) +
-      '<div class="mw-actions"><button class="btn btn--ghost" data-choose="' + key + '">Change recipe</button><button class="btn btn--ghost" data-unassign="' + key + '">Remove</button></div>';
+    return head + list.map(function (v, idx) { return mealItemHTML(key, v, idx); }).join('') +
+      '<div class="mw-add-more"><button class="btn btn--ghost" data-quick-sheet="' + key + '">+ Add another</button>' +
+      '<button class="btn btn--ghost" data-choose="' + key + '">+ From recipes</button></div>';
   }
 
   // ------------------------------------------------------------ "Recipes" tab
@@ -145,7 +171,7 @@
       instructionsHTML(r) +
       '<div class="label">Add to a day</div>' +
       '<div class="chips mr-days">' + [0, 1, 2, 3, 4, 5, 6].map(function (i) {
-        var d = dateForDay(i), key = dkey(d), on = D.meal_plan[key] === r.id;
+        var d = dateForDay(i), key = dkey(d), on = dayItems(key).indexOf(r.id) > -1;
         return '<button class="chip' + (on ? ' is-on' : '') + '" data-assign-day="' + key + '" data-assign-recipe="' + r.id + '">' + DOW[i] + ' ' + d.getDate() + '</button>';
       }).join('') + '</div>' +
       '</div>',
@@ -160,9 +186,9 @@
               return;
             }
             if ((t = e.target.closest('[data-assign-day]'))) {
-              setMeal(t.dataset.assignDay, t.dataset.assignRecipe);
-              App.toast('Added to the plan', { icon: 'utensils', ms: 1800 });
-              App.$$('[data-assign-day]', s).forEach(function (b) { b.classList.toggle('is-on', b.dataset.assignDay === t.dataset.assignDay); });
+              var added = toggleMealItem(t.dataset.assignDay, t.dataset.assignRecipe);
+              App.toast(added ? 'Added to the plan' : 'Removed from the plan', { icon: 'utensils', ms: 1800 });
+              t.classList.toggle('is-on', added);
               return;
             }
           });
@@ -203,7 +229,7 @@
           function save() {
             var val = input.value.trim();
             if (!val) { input.focus(); return; }
-            setMeal(key, val);
+            addMealItem(key, val);
             App.toast('Added <b>' + App.esc(val) + '</b> to the plan', { icon: 'utensils' });
             close();
             paint();
@@ -225,7 +251,12 @@
     if ((t = e.target.closest('[data-tab]'))) { V.tab = t.dataset.tab; paint(); return; }
     if ((t = e.target.closest('[data-day]'))) { V.day = +t.dataset.day; paint(); return; }
     if ((t = e.target.closest('[data-choose]'))) { V.assignTarget = t.dataset.choose; V.tab = 'recipes'; paint(); return; }
-    if ((t = e.target.closest('[data-unassign]'))) { setMeal(t.dataset.unassign, null); paint(); return; }
+    if ((t = e.target.closest('[data-remove-item]'))) {
+      var parts0 = t.dataset.removeItem.split(':');
+      removeMealItem(parts0[0], +parts0[1]);
+      paint();
+      return;
+    }
     if ((t = e.target.closest('[data-cancel-assign]'))) { V.assignTarget = null; paint(); return; }
     if ((t = e.target.closest('[data-quick-sheet]'))) { openQuickSheet(t.dataset.quickSheet); return; }
     if ((t = e.target.closest('[data-add-ing]'))) {
@@ -237,7 +268,7 @@
       var r = recipeById(t.dataset.recipe);
       if (!r) return;
       if (V.assignTarget) {
-        setMeal(V.assignTarget, r.id);
+        addMealItem(V.assignTarget, r.id);
         App.toast('Added <b>' + App.esc(r.title) + '</b> to the plan', { icon: 'utensils' });
         for (var i = 0; i < 7; i++) { if (dkey(dateForDay(i)) === V.assignTarget) V.day = i; }
         V.assignTarget = null; V.tab = 'week'; paint();
