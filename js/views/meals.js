@@ -97,10 +97,9 @@
     var head = '<div class="label">' + DOW_FULL[i] + ' · ' + App.fmt.month(d) + ' ' + d.getDate() + '</div>';
     if (!v) {
       return head + '<div class="mw-empty-wrap">' +
-        '<div class="mw-empty serif">Nothing planned yet.<br><i>Pick a recipe, or just type one in.</i></div>' +
-        '<div class="mw-quick"><input class="mw-quick-input" type="text" placeholder="e.g. Spaghetti" data-quick-key="' + key + '">' +
-        '<button class="btn btn--solid" data-quick-add="' + key + '">Add</button></div>' +
-        '<button class="btn btn--ghost" data-choose="' + key + '">Choose a recipe instead</button>' +
+        '<div class="mw-empty serif">Nothing planned yet.</div>' +
+        '<div class="mw-empty-actions"><button class="btn btn--solid" data-quick-sheet="' + key + '">+ Add a meal</button>' +
+        '<button class="btn btn--ghost" data-choose="' + key + '">Choose a recipe</button></div>' +
         '</div>';
     }
     var r = recipeById(v);
@@ -186,20 +185,39 @@
 
   // Quick/manual entry: no recipe behind it, just a plain name typed straight into a day --
   // dayPaneHTML() and weekbarHTML() treat it exactly like a recipe id that happens not to
-  // resolve, so nothing else needs to know this path exists.
-  function quickAdd(key) {
-    var input = V.el.querySelector('.mw-quick-input[data-quick-key="' + key + '"]');
-    var val = input && input.value.trim();
-    if (!val) return;
-    setMeal(key, val);
-    App.toast('Added <b>' + App.esc(val) + '</b> to the plan', { icon: 'utensils' });
-    paint();
-  }
-  function onKeydown(e) {
-    if (e.key === 'Enter' && e.target.classList.contains('mw-quick-input')) {
-      e.preventDefault();
-      quickAdd(e.target.dataset.quickKey);
-    }
+  // resolve, so nothing else needs to know this path exists. Uses the same sheet pattern as
+  // Calendar's "Add event" (big serif input + tappable idea chips) rather than a cramped inline
+  // text box in the day pane itself.
+  var QUICK_IDEAS = ['Spaghetti', 'Tacos', 'Pizza night', 'Breakfast for dinner', 'Leftovers', 'Takeout'];
+  function openQuickSheet(key) {
+    App.sheet(
+      '<div class="sheet-pad add">' +
+      '<div class="label">New meal</div>' +
+      '<input class="big-input serif" placeholder="What’s for dinner?" data-f="title">' +
+      '<div class="chips">' + QUICK_IDEAS.map(function (i) { return '<button class="chip chip--ghost" data-idea="' + i + '">' + i + '</button>'; }).join('') + '</div>' +
+      '<div class="sheet-actions"><button class="btn btn--ghost" data-close>Cancel</button><button class="btn btn--solid" data-save>Add</button></div>' +
+      '</div>',
+      {
+        onMount: function (s, close) {
+          var input = s.querySelector('[data-f="title"]');
+          function save() {
+            var val = input.value.trim();
+            if (!val) { input.focus(); return; }
+            setMeal(key, val);
+            App.toast('Added <b>' + App.esc(val) + '</b> to the plan', { icon: 'utensils' });
+            close();
+            paint();
+          }
+          s.addEventListener('click', function (e) {
+            var t;
+            if ((t = e.target.closest('[data-idea]'))) { input.value = t.dataset.idea; input.focus(); return; }
+            if (e.target.closest('[data-save]')) save();
+          });
+          input.addEventListener('keydown', function (e) { if (e.key === 'Enter') save(); });
+          input.focus();
+        }
+      }
+    );
   }
 
   function onClick(e) {
@@ -209,7 +227,7 @@
     if ((t = e.target.closest('[data-choose]'))) { V.assignTarget = t.dataset.choose; V.tab = 'recipes'; paint(); return; }
     if ((t = e.target.closest('[data-unassign]'))) { setMeal(t.dataset.unassign, null); paint(); return; }
     if ((t = e.target.closest('[data-cancel-assign]'))) { V.assignTarget = null; paint(); return; }
-    if ((t = e.target.closest('[data-quick-add]'))) { quickAdd(t.dataset.quickAdd); return; }
+    if ((t = e.target.closest('[data-quick-sheet]'))) { openQuickSheet(t.dataset.quickSheet); return; }
     if ((t = e.target.closest('[data-add-ing]'))) {
       var parts = t.dataset.addIng.split(':'), rec = recipeById(parts[0]);
       if (rec) addIngredientToShopping(rec.ingredients[+parts[1]]);
@@ -236,7 +254,6 @@
       if (!el.firstChild) {
         el.innerHTML = '<div class="meals"><div class="meals-seg"></div><div class="meals-body"></div></div>';
         el.addEventListener('click', onClick);
-        el.addEventListener('keydown', onKeydown);
       }
       paint();
     }

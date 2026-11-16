@@ -23,14 +23,7 @@
 .mw-actions { display: flex; gap: 12px; margin-top: 22px; }
 
 .mw-empty-wrap { text-align: center; }
-.mw-quick { display: flex; gap: 10px; max-width: 480px; margin: 0 auto 14px; }
-.mw-quick-input {
-  flex: 1; min-width: 0; height: 64px; padding: 0 20px; border-radius: 14px;
-  background: var(--card); border: 0; outline: none; font-size: 22px; font-family: var(--sans); color: var(--ink);
-  box-shadow: inset 0 0 0 2px var(--line);
-}
-.mw-quick-input:focus { box-shadow: inset 0 0 0 2px var(--ink); }
-.mw-quick .btn { flex: none; }
+.mw-empty-actions { display: flex; gap: 12px; justify-content: center; }
 
 .mw-assignbar {
   display: flex; align-items: center; justify-content: space-between;
