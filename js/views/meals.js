@@ -88,12 +88,26 @@
         (has ? '<i class="mw-dot"></i>' : '') + '</button>';
     }).join('');
   }
+  // A day's D.meal_plan[key] value is either a recipe id (looked up in D.recipes) or, for a
+  // quick/manual entry like "Spaghetti" that doesn't need a recipe, the plain typed name itself
+  // -- recipeById() simply won't find a match for that string, and that's how the two are told
+  // apart (no separate flag needed).
   function dayPaneHTML(i) {
-    var d = dateForDay(i), key = dkey(d), rid = D.meal_plan[key], r = rid && recipeById(rid);
+    var d = dateForDay(i), key = dkey(d), v = D.meal_plan[key];
     var head = '<div class="label">' + DOW_FULL[i] + ' · ' + App.fmt.month(d) + ' ' + d.getDate() + '</div>';
+    if (!v) {
+      return head + '<div class="mw-empty-wrap">' +
+        '<div class="mw-empty serif">Nothing planned yet.<br><i>Pick a recipe, or just type one in.</i></div>' +
+        '<div class="mw-quick"><input class="mw-quick-input" type="text" placeholder="e.g. Spaghetti" data-quick-key="' + key + '">' +
+        '<button class="btn btn--solid" data-quick-add="' + key + '">Add</button></div>' +
+        '<button class="btn btn--ghost" data-choose="' + key + '">Choose a recipe instead</button>' +
+        '</div>';
+    }
+    var r = recipeById(v);
     if (!r) {
-      return head + '<div class="mw-empty serif">Nothing planned yet.<br><i>Pick a recipe to fill this day.</i></div>' +
-        '<button class="btn btn--solid" data-choose="' + key + '">Choose a recipe</button>';
+      return head + '<h2 class="serif mw-title">' + App.esc(v) + '</h2>' +
+        '<div class="label">Added manually · no recipe</div>' +
+        '<div class="mw-actions"><button class="btn btn--ghost" data-choose="' + key + '">Change</button><button class="btn btn--ghost" data-unassign="' + key + '">Remove</button></div>';
     }
     return head + '<h2 class="serif mw-title">' + App.esc(r.title) + '</h2>' +
       '<div class="label">' + recipeMetaHTML(r) + '</div>' +
@@ -170,6 +184,24 @@
       : recipesTabHTML();
   }
 
+  // Quick/manual entry: no recipe behind it, just a plain name typed straight into a day --
+  // dayPaneHTML() and weekbarHTML() treat it exactly like a recipe id that happens not to
+  // resolve, so nothing else needs to know this path exists.
+  function quickAdd(key) {
+    var input = V.el.querySelector('.mw-quick-input[data-quick-key="' + key + '"]');
+    var val = input && input.value.trim();
+    if (!val) return;
+    setMeal(key, val);
+    App.toast('Added <b>' + App.esc(val) + '</b> to the plan', { icon: 'utensils' });
+    paint();
+  }
+  function onKeydown(e) {
+    if (e.key === 'Enter' && e.target.classList.contains('mw-quick-input')) {
+      e.preventDefault();
+      quickAdd(e.target.dataset.quickKey);
+    }
+  }
+
   function onClick(e) {
     var t;
     if ((t = e.target.closest('[data-tab]'))) { V.tab = t.dataset.tab; paint(); return; }
@@ -177,6 +209,7 @@
     if ((t = e.target.closest('[data-choose]'))) { V.assignTarget = t.dataset.choose; V.tab = 'recipes'; paint(); return; }
     if ((t = e.target.closest('[data-unassign]'))) { setMeal(t.dataset.unassign, null); paint(); return; }
     if ((t = e.target.closest('[data-cancel-assign]'))) { V.assignTarget = null; paint(); return; }
+    if ((t = e.target.closest('[data-quick-add]'))) { quickAdd(t.dataset.quickAdd); return; }
     if ((t = e.target.closest('[data-add-ing]'))) {
       var parts = t.dataset.addIng.split(':'), rec = recipeById(parts[0]);
       if (rec) addIngredientToShopping(rec.ingredients[+parts[1]]);
@@ -203,6 +236,7 @@
       if (!el.firstChild) {
         el.innerHTML = '<div class="meals"><div class="meals-seg"></div><div class="meals-body"></div></div>';
         el.addEventListener('click', onClick);
+        el.addEventListener('keydown', onKeydown);
       }
       paint();
     }

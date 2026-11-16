@@ -19,8 +19,18 @@
 
 .mw-pane { padding: 4px 2px 40px; }
 .mw-title { font-size: 44px; line-height: 1.05; margin: 4px 0 6px; }
-.mw-empty, .mr-grid + .mw-empty { font-size: 30px; line-height: 1.3; color: var(--mute); padding: 40px 0; text-align: center; }
+.mw-empty, .mr-grid + .mw-empty { font-size: 30px; line-height: 1.3; color: var(--mute); padding: 40px 0 28px; text-align: center; }
 .mw-actions { display: flex; gap: 12px; margin-top: 22px; }
+
+.mw-empty-wrap { text-align: center; }
+.mw-quick { display: flex; gap: 10px; max-width: 480px; margin: 0 auto 14px; }
+.mw-quick-input {
+  flex: 1; min-width: 0; height: 64px; padding: 0 20px; border-radius: 14px;
+  background: var(--card); border: 0; outline: none; font-size: 22px; font-family: var(--sans); color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--line);
+}
+.mw-quick-input:focus { box-shadow: inset 0 0 0 2px var(--ink); }
+.mw-quick .btn { flex: none; }
 
 .mw-assignbar {
   display: flex; align-items: center; justify-content: space-between;
