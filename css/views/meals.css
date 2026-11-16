@@ -1,0 +1,52 @@
+/* Meals */
+.meals { height: 100%; display: flex; flex-direction: column; gap: 18px; }
+.meals-seg { flex: none; }
+.meals-body { flex: 1; min-height: 0; overflow-y: auto; }
+
+/* week bar */
+.mw-bar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 18px; }
+.mw-day {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 14px 4px 16px; border-radius: var(--r); background: var(--card);
+  position: relative;
+}
+.mw-day.is-today { box-shadow: inset 0 0 0 2px var(--ink); }
+.mw-day.is-sel { background: var(--ink); color: var(--paper); }
+.mw-dow { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; opacity: .65; }
+.mw-date { font-size: 26px; }
+.mw-dot { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; border-radius: 50%; background: var(--amber); }
+.mw-day.is-sel .mw-dot { background: var(--paper); }
+
+.mw-pane { padding: 4px 2px 40px; }
+.mw-title { font-size: 44px; line-height: 1.05; margin: 4px 0 6px; }
+.mw-empty, .mr-grid + .mw-empty { font-size: 30px; line-height: 1.3; color: var(--mute); padding: 40px 0; text-align: center; }
+.mw-actions { display: flex; gap: 12px; margin-top: 22px; }
+
+.mw-assignbar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--ink); color: var(--paper); border-radius: var(--r);
+  padding: 14px 18px; margin-bottom: 16px; font-size: 20px;
+}
+.mw-assignbar b { font-weight: 800; }
+.mw-assignbar .btn { color: var(--paper); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .5); }
+
+/* ingredients / instructions, shared between the day pane and the recipe sheet */
+.mr-ing { display: flex; flex-direction: column; gap: 2px; margin: 4px 0 20px; }
+.mr-ing li { display: flex; align-items: center; gap: 14px; min-height: 52px; font-size: 21px; border-bottom: 1px solid var(--line); }
+.mr-add {
+  flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
+  box-shadow: inset 0 0 0 2px var(--line); color: var(--mute);
+}
+.mr-add:active { background: var(--ink); color: var(--paper); box-shadow: none; transform: scale(1.08); }
+.mr-steps { margin: 4px 0 20px 26px; display: flex; flex-direction: column; gap: 10px; font-size: 20px; line-height: 1.4; }
+.mr-steps li { padding-left: 4px; }
+
+/* recipes grid */
+.mr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.mr-card { text-align: left; background: var(--card); border-radius: var(--r); padding: 18px 20px; min-height: 120px; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; }
+.mr-card:active { transform: scale(.97); }
+.mr-card-title { font-size: 28px; line-height: 1.1; }
+.mr-card-meta { font-size: 16px; color: var(--mute); }
+
+.mr-days { margin-top: 4px; }
+.mr-sheet .mr-ing, .mr-sheet .mr-steps { max-height: none; }

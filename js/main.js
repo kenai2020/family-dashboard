@@ -8,8 +8,8 @@
 // CACHE-BUSTING: bump CB below whenever any file imported here changes content but keeps its
 // path -- browsers have repeatedly served a stale cached copy of these modules under their
 // unversioned URLs even well after a fresh deploy landed on GitHub Pages.
-var CB = 'v=24';
-import './icons.js?v=24';
+var CB = 'v=25';
+import './icons.js?v=25';
 await import('./real-data.js?' + CB);
 await window.DATA_READY;
 await import('./app.js?' + CB);
@@ -19,6 +19,7 @@ await import('./views/home.js?' + CB);
 await import('./views/calendar.js?' + CB);
 await import('./views/tasks.js?' + CB);
 await import('./views/shopping.js?' + CB);
+await import('./views/meals.js?' + CB);
 await import('./views/control-simple.js?' + CB);
 await import('./views/photos.js?' + CB);
 await import('./views/weather.js?' + CB);

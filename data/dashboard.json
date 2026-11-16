@@ -785,5 +785,7 @@
     "lights_on": 0,
     "all_locked": true,
     "inside_temp_f": 70
-  }
+  },
+  "recipes": [],
+  "meal_plan": {}
 }

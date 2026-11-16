@@ -42,6 +42,7 @@
     weather: { hi: null, lo: null, feels: null, humidity: null, wind: null, t: new Array(24).fill(null), c: new Array(24).fill('cloud'), p: new Array(24).fill(0), outlook: [] },
     photos: [],
     home_status: { lights_on: 0, all_locked: true, inside_temp_f: null },
+    recipes: [], meal_plan: {},
     _gid: function () { return 'g' + Math.random().toString(36).slice(2, 9); },
     _eid: function () { return 'e' + Math.random().toString(36).slice(2, 9); }
   };
@@ -147,6 +148,36 @@
     }
   };
 
+  // ---------------------------------------------------------------- meal-plan persistence
+  // Recipes themselves come from dashboard.json (the +recipe email task writes them there), but
+  // which recipe is assigned to which day is set from the dashboard itself -- same 5-minute
+  // refetch problem as chores, same fix: keep the date->recipe-id assignments in localStorage and
+  // layer them on top of whatever (if anything) dashboard.json says, every time real.meal_plan is
+  // applied. Keys are "YYYY-MM-DD" strings, same format as ChoreProgress's dateKey.
+  var MEAL_PLAN_KEY = 'fd_meal_plan';
+  function readMealPlan() {
+    try { var raw = localStorage.getItem(MEAL_PLAN_KEY); return raw ? JSON.parse(raw) : {}; }
+    catch (e) { return {}; }
+  }
+  function writeMealPlan(m) {
+    try {
+      // Keep ~2 weeks of history, same as chore day-records, so old weeks don't linger forever.
+      var cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 14);
+      Object.keys(m).forEach(function (k) {
+        var d = new Date(k + 'T00:00:00');
+        if (isNaN(d.getTime()) || d < cutoff) delete m[k];
+      });
+      localStorage.setItem(MEAL_PLAN_KEY, JSON.stringify(m));
+    } catch (e) { /* storage unavailable -- falls back to in-memory only */ }
+  }
+  window.MealPlan = {
+    set: function (key, recipeId) {
+      var m = readMealPlan();
+      if (recipeId) m[key] = recipeId; else delete m[key];
+      writeMealPlan(m);
+    }
+  };
+
   function applyReal(real) {
     // window.DATA (= DATA = D in every other module) is one stable object; reassigning its
     // properties here is all that's needed -- just never reassign window.DATA itself.
@@ -184,6 +215,8 @@
     DATA.weather = Object.assign({}, DATA.weather, real.weather);
     DATA.photos = real.photos || [];
     DATA.home_status = Object.assign({}, DATA.home_status, real.home_status);
+    DATA.recipes = real.recipes || [];
+    DATA.meal_plan = Object.assign({}, real.meal_plan || {}, readMealPlan());
   }
 
   async function load() {
