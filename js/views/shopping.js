@@ -211,6 +211,7 @@
     if (input) input.value = '';
     if (hadQuery) paintSuggest(); else refreshSuggestFor(g);
     flash(g);
+    window.GroceryList.save();
     App.emit('data');
     App.toast(msg, { icon: 'cart', ms: 3000 });
   }
@@ -225,6 +226,7 @@
       g.done = true;
       removeRow(g);
       refreshSuggestFor(g);
+      window.GroceryList.save();
       App.emit('data');
     }, 1200);
     App.toast('<b>' + App.esc(g.name) + '</b> checked off', {
@@ -236,6 +238,7 @@
         if (wasDone) paintList();
         else { var r = V.el.querySelector('.s-list [data-id="' + g.id + '"]'); if (r) r.classList.remove('is-checking'); }
         refreshSuggestFor(g);
+        window.GroceryList.save();
         App.emit('data');
       }
     });
@@ -254,6 +257,7 @@
       q.qty = Math.max(1, q.qty + +t.dataset.qty);
       t.parentNode.querySelector('.num').textContent = q.qty;
       refreshSuggestFor(q);
+      window.GroceryList.save();
       return;
     }
     if ((t = e.target.closest('[data-add]'))) return add(t.dataset.add);
@@ -267,7 +271,7 @@
     if ((t = e.target.closest('[data-drawer]'))) { V.drawer = !V.drawer; return paintList(); }
     if ((t = e.target.closest('[data-revive]'))) {
       var r = D.groceries.filter(function (x) { return x.id === t.dataset.revive; })[0];
-      r.done = false; paintList(); paintSuggest(); App.emit('data');
+      r.done = false; paintList(); paintSuggest(); window.GroceryList.save(); App.emit('data');
       return App.toast('Added back <b>' + App.esc(r.name) + '</b>', { icon: 'cart', ms: 2500 });
     }
     if ((t = e.target.closest('[data-clear]'))) {
@@ -275,8 +279,9 @@
       D.groceries = D.groceries.filter(function (x) { return gone.indexOf(x) < 0; });
       V.drawer = false;
       paintList();
+      window.GroceryList.save();
       App.toast('Cleared ' + gone.length + ' items', {
-        icon: 'check', undo: function () { D.groceries = D.groceries.concat(gone); paintList(); }
+        icon: 'check', undo: function () { D.groceries = D.groceries.concat(gone); paintList(); window.GroceryList.save(); }
       });
     }
   }

@@ -180,6 +180,32 @@
     }
   };
 
+  // ---------------------------------------------------------------- grocery-list persistence
+  // Same 5-minute refetch problem as chores/meal_plan: items added, checked off, or re-quantified
+  // on the Shopping page only ever lived in window.DATA.groceries in memory, so the very next
+  // periodic dashboard.json refetch (every 5 min) called applyReal() again, which did
+  // `DATA.groceries = real.groceries || []` -- unconditionally overwriting whatever was just added
+  // with whatever (usually nothing) dashboard.json has on file. That's why items "disappeared
+  // after a few minutes." Fix: once the list has ever been saved from the UI, localStorage is the
+  // authoritative copy and wins over dashboard.json on every load/refresh, the same way
+  // ChoreProgress/MealPlan's local data wins. dashboard.json's "groceries" key is only ever used
+  // to seed a brand-new frame that has no localStorage history yet.
+  var GROCERIES_KEY = 'fd_groceries';
+  function readGroceries() {
+    try {
+      var raw = localStorage.getItem(GROCERIES_KEY);
+      return raw ? JSON.parse(raw) : null; // null (not []) means "never saved yet -- use the file"
+    } catch (e) { return null; }
+  }
+  function writeGroceries(list) {
+    try { localStorage.setItem(GROCERIES_KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
+  }
+  // shopping.js calls this after every add/check/qty/revive/clear so the change survives the next
+  // periodic refetch -- same explicit-call pattern as ChoreProgress.toggle()/addChore().
+  window.GroceryList = {
+    save: function () { writeGroceries(DATA.groceries); }
+  };
+
   function applyReal(real) {
     // window.DATA (= DATA = D in every other module) is one stable object; reassigning its
     // properties here is all that's needed -- just never reassign window.DATA itself.
@@ -210,7 +236,8 @@
       for (var i = 0; i < cats.length; i++) { if (seen.indexOf(cats[i][1]) === -1) seen.push(cats[i][1]); }
       DATA.catOrder.all = seen;
     }
-    DATA.groceries = real.groceries || [];
+    var storedGroceries = readGroceries();
+    DATA.groceries = storedGroceries !== null ? storedGroceries : (real.groceries || []);
     DATA.catalog = real.catalog || [];
     DATA.usuals = real.usuals || [];
 

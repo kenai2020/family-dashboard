@@ -54,6 +54,7 @@
         qty: 1, store: (cat && cat[2]) || (D.stores[0] && D.stores[0].id) || null, done: false, note: ''
       });
     }
+    window.GroceryList.save();
     App.emit('data');
     App.toast('Added <b>' + App.esc(name) + '</b> to Shopping', { icon: 'cart', ms: 2200 });
   }
