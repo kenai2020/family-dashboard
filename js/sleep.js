@@ -39,11 +39,14 @@
     el.classList.add('is-open');
   };
 
-  App.on('ready', function () {
-    el = App.$('#sleepOverlay');
-    el.addEventListener('pointerdown', wake);
-    App.hold(App.$('#railClock'), 900, { done: App.sleepNow });
-    update();
-  });
+  // Bind immediately rather than waiting for 'ready': #sleepOverlay is static markup, already in
+  // the DOM by the time this module runs, and App.start()'s very first tick() emits 'minute'
+  // (calling update()) BEFORE it emits 'ready' -- so waiting for 'ready' left `el` undefined when
+  // update() ran, threw, and aborted the rest of App.start() (killing the clock tick/interval and
+  // the 'ready' emit itself). That's why the overlay never armed and the frame stayed lit forever.
+  el = App.$('#sleepOverlay');
+  el.addEventListener('pointerdown', wake);
+  App.hold(App.$('#railClock'), 900, { done: App.sleepNow });
+  update();
   App.on('minute', update);
 })();
