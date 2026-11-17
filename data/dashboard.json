@@ -36,24 +36,6 @@
   },
   "events": [
     {
-      "id": "6c3nvj73p5i6uc0h5vsftmi12g",
-      "start": "2026-11-15T16:05:00",
-      "end": "2026-11-15T19:05:00",
-      "title": "Seahawks at Raiders 🏈",
-      "people": [
-        "heather"
-      ]
-    },
-    {
-      "id": "n133mdo2umdr7c7lfkk07our9k",
-      "start": "2026-11-15T16:35:00",
-      "end": "2026-11-15T19:35:00",
-      "title": "Cowboys at San Francisco 🏈",
-      "people": [
-        "thomas"
-      ]
-    },
-    {
       "id": "lhksh7q7qbdkiivo67og0iliic",
       "start": "2026-11-16T15:00:00",
       "end": "2026-11-16T15:00:00",
@@ -518,6 +500,19 @@
         "kayla",
         "kort"
       ]
+    },
+    {
+      "id": "71cub3b8armh97ueufdnkk86bf",
+      "start": "2027-01-15T00:00:00",
+      "end": "2027-01-15T00:00:00",
+      "title": "Kona Ice at BCMS",
+      "people": [
+        "thomas",
+        "heather",
+        "kayla",
+        "kort"
+      ],
+      "allDay": true
     }
   ],
   "chores": [
