@@ -4,6 +4,12 @@
 .s-head h1 { font-size: 64px; line-height: .95; }
 .s-count { margin-right: auto; font-size: 22px; color: var(--mute); padding-top: 22px; }
 .s-count .num { font-size: 34px; color: var(--ink); }
+.s-send { flex: none; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--card); color: var(--ink); }
+.s-send:active { background: var(--ink); color: var(--paper); }
+
+.qr-sheet { text-align: center; }
+.qr-wrap { margin: 10px auto 18px; max-width: 320px; }
+.qr-wrap svg { width: 100%; height: auto; display: block; }
 
 .s-list { min-height: 0; overflow-y: auto; padding-bottom: 110px; }
 .s-cat { margin-bottom: 14px; }

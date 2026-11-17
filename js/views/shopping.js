@@ -127,6 +127,34 @@
       return '<button class="' + (V.store === s[0] ? 'is-on' : '') + '" data-store="' + s[0] + '">' + s[1] + ' <span class="num">' + n + '</span></button>';
     }).join('');
   }
+  // ---- "Send to phone": a QR code of a Shortcuts URL, scanned with the iPhone's Camera app, that
+  // runs a one-time-setup Shortcut (named to match SHORTCUT_NAME below) which adds each line as a
+  // new Reminder. Generated entirely client-side (js/vendor/qrcode.js) -- the list never leaves
+  // the frame over the network; it only ever reaches the phone that scans the code.
+  var SHORTCUT_NAME = 'Add Groceries';
+  function listText() {
+    return D.groceries.filter(function (g) { return !g.done; })
+      .map(function (g) { return g.qty > 1 ? g.name + ' (x' + g.qty + ')' : g.name; })
+      .join('\n');
+  }
+  function openSendSheet() {
+    var text = listText();
+    if (!text) { App.toast('Nothing on the list to send', { icon: 'cart' }); return; }
+    var url = 'shortcuts://run-shortcut?name=' + encodeURIComponent(SHORTCUT_NAME) + '&input=text&text=' + encodeURIComponent(text);
+    var qr = qrcode(0, 'M');
+    qr.addData(url);
+    qr.make();
+    var svg = qr.createSvgTag({ cellSize: 8, margin: 16, scalable: true });
+    App.sheet(
+      '<div class="sheet-pad qr-sheet">' +
+      '<div class="label">Scan with your iPhone’s Camera</div>' +
+      '<h2 class="serif sheet-h">Send to Reminders</h2>' +
+      '<div class="qr-wrap">' + svg + '</div>' +
+      '<div class="sheet-p">Runs the “' + App.esc(SHORTCUT_NAME) + '” Shortcut on your phone and adds each line as a Reminder. One-time setup needed first.</div>' +
+      '</div>'
+    );
+  }
+
   function addStoreHTML() {
     if (!V.addStore) V.addStore = (V.store !== 'all' && V.store) || (D.stores[0] && D.stores[0].id);
     if (!D.stores.length) return '';
@@ -137,7 +165,8 @@
 
   function render() {
     V.el.innerHTML = '<div class="shop">' +
-      '<header class="s-head"><div><div class="label">Shared list</div><h1 class="serif">Groceries</h1></div><div class="s-count"></div><div class="seg s-stores"></div></header>' +
+      '<header class="s-head"><div><div class="label">Shared list</div><h1 class="serif">Groceries</h1></div><div class="s-count"></div><div class="seg s-stores"></div>' +
+      '<button class="s-send" data-send-qr aria-label="Send to phone">' + App.icon('camera', 26) + '</button></header>' +
       '<div class="s-list"></div>' +
       '<aside class="s-side">' +
       '  <div class="s-add">' +
@@ -234,6 +263,7 @@
       App.$$('[data-add-store]', V.el).forEach(function (b) { b.classList.toggle('is-on', b === t); });
       return;
     }
+    if ((t = e.target.closest('[data-send-qr]'))) { openSendSheet(); return; }
     if ((t = e.target.closest('[data-drawer]'))) { V.drawer = !V.drawer; return paintList(); }
     if ((t = e.target.closest('[data-revive]'))) {
       var r = D.groceries.filter(function (x) { return x.id === t.dataset.revive; })[0];
