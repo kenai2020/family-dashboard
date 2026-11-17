@@ -50,7 +50,7 @@
       "end": "2026-11-16T21:00:00",
       "title": "Ibuprofen",
       "people": [
-        "heather"
+        "thomas"
       ]
     },
     {
@@ -123,11 +123,27 @@
       "loc": "AT&T Stadium, Arlington, TX"
     },
     {
+      "id": "52rd796md5fkgdrhtp88nls2hk",
+      "start": "2026-11-23T00:00:00",
+      "end": "2026-11-27T00:00:00",
+      "title": "Thanksgiving Holidays (Banks Co. Schools)",
+      "people": [
+        "thomas",
+        "heather",
+        "kayla",
+        "kort"
+      ],
+      "allDay": true
+    },
+    {
       "id": "7t1ah3h00bb9nbn4j9b69lu3cg_20261123",
       "start": "2026-11-23T00:00:00",
       "end": "2026-11-23T00:00:00",
       "title": "Kortney's Birthday",
       "people": [
+        "thomas",
+        "heather",
+        "kayla",
         "kort"
       ],
       "allDay": true
@@ -209,6 +225,19 @@
       ]
     },
     {
+      "id": "050ffp5q8t7u6cj60tls4ep18u",
+      "start": "2026-12-04T00:00:00",
+      "end": "2026-12-04T00:00:00",
+      "title": "Kona Ice at BCMS",
+      "people": [
+        "thomas",
+        "heather",
+        "kayla",
+        "kort"
+      ],
+      "allDay": true
+    },
+    {
       "id": "4akq1hlot5m84n5llfhqu1q80k",
       "start": "2026-12-07T20:15:00",
       "end": "2026-12-07T23:15:00",
@@ -284,6 +313,19 @@
         "thomas"
       ],
       "loc": "SoFi Stadium, Inglewood, CA"
+    },
+    {
+      "id": "fb088d3l3pid7s3lvt6d2p4sf4",
+      "start": "2026-12-21T00:00:00",
+      "end": "2027-01-01T00:00:00",
+      "title": "Christmas Holidays (Banks Co. Schools)",
+      "people": [
+        "thomas",
+        "heather",
+        "kayla",
+        "kort"
+      ],
+      "allDay": true
     },
     {
       "id": "5n5u4d2nedjk1vq037t8fajqg0",
@@ -378,6 +420,16 @@
       "allDay": true
     },
     {
+      "id": "gg12r54gqbej3fbidolhibbjc8",
+      "start": "2027-01-01T00:00:00",
+      "end": "2027-01-01T00:00:00",
+      "title": "New Year's Day Holiday (Banks Co.)",
+      "people": [
+        "kort"
+      ],
+      "allDay": true
+    },
+    {
       "id": "a2km5uvrh1icjne777icrommgc",
       "start": "2027-01-03T13:00:00",
       "end": "2027-01-03T16:00:00",
@@ -395,6 +447,19 @@
       "people": [
         "heather"
       ]
+    },
+    {
+      "id": "077g4arv2ke0mdfdb272la0n3o",
+      "start": "2027-01-04T00:00:00",
+      "end": "2027-01-04T00:00:00",
+      "title": "Professional Learning Day (Banks Co., no school)",
+      "people": [
+        "thomas",
+        "heather",
+        "kayla",
+        "kort"
+      ],
+      "allDay": true
     },
     {
       "id": "j7d0jj08cr9rovuog73fuf280c",
@@ -435,6 +500,19 @@
         "kayla",
         "kort"
       ]
+    },
+    {
+      "id": "71cub3b8armh97ueufdnkk86bf",
+      "start": "2027-01-15T00:00:00",
+      "end": "2027-01-15T00:00:00",
+      "title": "Kona Ice at BCMS",
+      "people": [
+        "thomas",
+        "heather",
+        "kayla",
+        "kort"
+      ],
+      "allDay": true
     }
   ],
   "chores": [
