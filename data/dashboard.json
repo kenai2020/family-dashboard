@@ -59,9 +59,6 @@
       "start": "2026-11-17T17:00:00",
       "end": "2026-11-17T19:00:00",
       "people": [
-        "thomas",
-        "heather",
-        "kayla",
         "kort"
       ]
     },
@@ -79,10 +76,10 @@
       "title": "Orthopedic Follow Up",
       "start": "2026-11-18T08:55:00",
       "end": "2026-11-18T09:55:00",
-      "loc": "Northeast Georgia Physicians Group Orthopedic Surgery",
       "people": [
         "heather"
-      ]
+      ],
+      "loc": "Northeast Georgia Physicians Group Orthopedic Surgery"
     },
     {
       "id": "63vpbaahk18n0d3gsb96tblat8",
@@ -98,20 +95,20 @@
       "title": "Georgia at South Carolina 🏈",
       "start": "2026-11-21T19:30:00",
       "end": "2026-11-21T23:00:00",
-      "loc": "Williams-Brice Stadium, Columbia, SC",
       "people": [
         "thomas"
-      ]
+      ],
+      "loc": "Williams-Brice Stadium, Columbia, SC"
     },
     {
       "id": "379ar3oa927t00h93eqit60gag",
       "title": "Cowboys vs Titans 🏈",
       "start": "2026-11-22T13:00:00",
       "end": "2026-11-22T16:00:00",
-      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
-      ]
+      ],
+      "loc": "AT&T Stadium, Arlington, TX"
     },
     {
       "id": "52rd796md5fkgdrhtp88nls2hk",
@@ -120,9 +117,6 @@
       "end": "2026-11-27T00:00:00",
       "allDay": true,
       "people": [
-        "thomas",
-        "heather",
-        "kayla",
         "kort"
       ]
     },
@@ -133,9 +127,6 @@
       "end": "2026-11-23T00:00:00",
       "allDay": true,
       "people": [
-        "thomas",
-        "heather",
-        "kayla",
         "kort"
       ]
     },
@@ -170,20 +161,20 @@
       "title": "Cowboys vs Eagles 🏈🦃",
       "start": "2026-11-26T16:30:00",
       "end": "2026-11-26T19:30:00",
-      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
-      ]
+      ],
+      "loc": "AT&T Stadium, Arlington, TX"
     },
     {
       "id": "jjsbe2633ehf31i1jrigs780ic",
       "title": "Georgia vs Georgia Tech 🏈",
       "start": "2026-11-28T18:00:00",
       "end": "2026-11-28T21:30:00",
-      "loc": "Sanford Stadium, Athens, GA",
       "people": [
         "thomas"
-      ]
+      ],
+      "loc": "Sanford Stadium, Athens, GA"
     },
     {
       "id": "61hivk80fq22up8sr9im5kdtdo",
@@ -201,9 +192,6 @@
       "end": "2026-12-04T00:00:00",
       "allDay": true,
       "people": [
-        "thomas",
-        "heather",
-        "kayla",
         "kort"
       ]
     },
@@ -212,10 +200,10 @@
       "title": "Cowboys at Seahawks 🏈",
       "start": "2026-12-07T20:15:00",
       "end": "2026-12-07T23:15:00",
-      "loc": "Lumen Field, Seattle, WA",
       "people": [
         "thomas"
-      ]
+      ],
+      "loc": "Lumen Field, Seattle, WA"
     },
     {
       "id": "vv5uq7obeju4uc3r9fvjcsmkpg",
@@ -258,10 +246,10 @@
       "title": "Cowboys at Rams 🏈",
       "start": "2026-12-20T16:25:00",
       "end": "2026-12-20T19:25:00",
-      "loc": "SoFi Stadium, Inglewood, CA",
       "people": [
         "thomas"
-      ]
+      ],
+      "loc": "SoFi Stadium, Inglewood, CA"
     },
     {
       "id": "fb088d3l3pid7s3lvt6d2p4sf4",
@@ -270,9 +258,6 @@
       "end": "2027-01-01T00:00:00",
       "allDay": true,
       "people": [
-        "thomas",
-        "heather",
-        "kayla",
         "kort"
       ]
     },
@@ -283,9 +268,6 @@
       "end": "2026-12-24T00:00:00",
       "allDay": true,
       "people": [
-        "thomas",
-        "heather",
-        "kayla",
         "kort"
       ]
     },
@@ -316,10 +298,10 @@
       "title": "Cowboys vs Jaguars 🏈",
       "start": "2026-12-27T20:20:00",
       "end": "2026-12-27T23:20:00",
-      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
-      ]
+      ],
+      "loc": "AT&T Stadium, Arlington, TX"
     },
     {
       "id": "hosi14krp448o7qv8l2625pdk8",
@@ -362,10 +344,10 @@
       "title": "Cowboys vs Giants 🏈",
       "start": "2027-01-03T13:00:00",
       "end": "2027-01-03T16:00:00",
-      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
-      ]
+      ],
+      "loc": "AT&T Stadium, Arlington, TX"
     },
     {
       "id": "mtt4lob1qs86gjqis5enrkgfek",
@@ -383,9 +365,6 @@
       "end": "2027-01-04T00:00:00",
       "allDay": true,
       "people": [
-        "thomas",
-        "heather",
-        "kayla",
         "kort"
       ]
     },
@@ -403,10 +382,10 @@
       "title": "Cowboys at Commanders (Week 18) 🏈 — time TBD",
       "start": "2027-01-10T13:00:00",
       "end": "2027-01-10T16:00:00",
-      "loc": "Northwest Stadium, Landover, MD",
       "people": [
         "thomas"
-      ]
+      ],
+      "loc": "Northwest Stadium, Landover, MD"
     },
     {
       "id": "71cub3b8armh97ueufdnkk86bf",
@@ -415,9 +394,6 @@
       "end": "2027-01-15T00:00:00",
       "allDay": true,
       "people": [
-        "thomas",
-        "heather",
-        "kayla",
         "kort"
       ]
     }
