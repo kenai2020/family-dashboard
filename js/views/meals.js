@@ -62,7 +62,14 @@
   // quick/manual entry like "Spaghetti" that doesn't need a recipe, the plain typed name itself
   // -- recipeById() simply won't find a match for that string, and that's how the two are told
   // apart (no separate flag needed).
-  function dayItems(key) { return D.meal_plan[key] || []; }
+  // Defensive against a leftover single-value entry from before a day's plan became a list (an
+  // old localStorage/dashboard.json write, or any other way a bare string/id ends up here) --
+  // normalize it into a one-item list instead of calling .map() on a plain string and crashing.
+  function dayItems(key) {
+    var v = D.meal_plan[key];
+    if (!v) return [];
+    return Array.isArray(v) ? v : [v];
+  }
   function saveDayItems(key, list) {
     if (list && list.length) D.meal_plan[key] = list; else delete D.meal_plan[key];
     window.MealPlan.set(key, list && list.length ? list : null);
