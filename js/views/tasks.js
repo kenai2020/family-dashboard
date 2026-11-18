@@ -70,7 +70,7 @@
     return '<section class="ch-lane' + (all ? ' is-complete' : '') + '" data-lane="' + who + '" style="' + App.pstyle(p) + '">' +
       '<header class="ch-head">' + App.avatar(p, 42) +
       '<div><b>' + (who === 'any' ? 'Anyone' : p.name) + '</b>' +
-      (kid ? '<span class="ch-stars">' + App.icon('star', 18, 'i--fill') + '<span class="num">' + D.stars[who] + '</span></span>' : '<span class="ch-sub">' + (who === 'any' ? 'Up for grabs' : (list.length ? done + ' of ' + list.length : 'Nothing')) + '</span>') + '</div>' +
+      (kid ? '<span class="ch-stars">' + App.icon('star', 18, 'i--fill') + '<span class="num">' + D.stars[who] + '</span><button class="ch-reset-stars" data-reset-stars="' + who + '" aria-label="Reset stars">' + App.icon('x', 14) + '</button></span>' : '<span class="ch-sub">' + (who === 'any' ? 'Up for grabs' : (list.length ? done + ' of ' + list.length : 'Nothing')) + '</span>') + '</div>' +
       '<div class="ch-ring">' + App.ring(done, list.length || 1, 46) + '<span class="num">' + (all ? '✓' : list.length ? done + '/' + list.length : '–') + '</span></div>' +
       '</header>' +
       '<div class="ch-list">' + (list.length ? list.map(function (c) { return row(c, dayIdx); }).join('') : '<div class="ch-none serif"><i>Nothing ' + (isToday(dayIdx) ? 'today' : 'that day') + '</i></div>') +
@@ -201,9 +201,34 @@
     );
   }
 
+  // Confirm-then-zero a person's star total. A deliberate, rare action (not undo-able the way a
+  // single chore checkmark is), so it goes through a confirm sheet rather than firing on tap.
+  function resetStarsSheet(who) {
+    var p = App.person(who);
+    App.sheet(
+      '<div class="sheet-pad"><div class="label">Reset</div>' +
+      '<h2 class="serif sheet-h">Reset ' + App.esc(p.name) + '’s stars to 0?</h2>' +
+      '<div class="sheet-p">This can’t be undone.</div>' +
+      '<div class="sheet-actions"><button class="btn btn--ghost" data-close>Cancel</button><button class="btn btn--solid" data-confirm-reset>Reset</button></div></div>',
+      {
+        onMount: function (s, close) {
+          s.addEventListener('click', function (e2) {
+            if (!e2.target.closest('[data-confirm-reset]')) return;
+            window.ChoreProgress.resetStars(who);
+            close();
+            render();
+            App.emit('data');
+            App.toast('Reset ' + App.esc(p.name) + '’s stars to 0', { icon: 'star', ms: 2500 });
+          });
+        }
+      }
+    );
+  }
+
   function onClick(e) {
     var t;
     if ((t = e.target.closest('[data-add-chore]'))) return addChoreSheet();
+    if ((t = e.target.closest('[data-reset-stars]'))) return resetStarsSheet(t.dataset.resetStars);
     if ((t = e.target.closest('[data-del-chore]'))) {
       var gone = D.chores.filter(function (x) { return x.id === t.dataset.delChore; })[0];
       window.ChoreProgress.removeChore(t.dataset.delChore);

@@ -17,6 +17,8 @@
 .ch-head .avatar { background: var(--c-ink); color: var(--c); }
 .ch-stars { display: inline-flex; align-items: center; gap: 4px; font-size: 22px; }
 .ch-stars .num { font-size: 24px; }
+.ch-reset-stars { flex: none; width: 26px; height: 26px; margin-left: 2px; border-radius: 50%; display: grid; place-items: center; opacity: .55; color: inherit; background: rgba(255, 255, 255, .18); }
+.ch-reset-stars:active { opacity: 1; transform: scale(.9); }
 .ch-sub { font-size: var(--fs-min); opacity: .85; font-weight: 600; }
 .ch-ring { position: relative; width: 46px; height: 46px; flex: none; }
 .ch-ring .ring-bg { stroke: rgba(255, 255, 255, .3); }

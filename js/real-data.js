@@ -136,6 +136,18 @@
         if (DATA.stars[earner] != null) DATA.stars[earner] += (done ? stars : -stars);
       }
     },
+    // Zeroes a person's star total permanently (until they earn more). Stars are dashboard.json's
+    // baseline PLUS a running localStorage delta that's never otherwise cleared, so zeroing just
+    // the delta isn't enough if the baseline itself is nonzero -- instead, store a delta equal to
+    // -(their current combined total) so baseline + delta lands exactly on 0 right now, and future
+    // chores keep adding/subtracting stars normally from that new zero point.
+    resetStars: function (who) {
+      var totals = readStarsTotal();
+      var current = DATA.stars[who] || 0;
+      totals[who] = (totals[who] || 0) - current;
+      writeStarsTotal(totals);
+      DATA.stars[who] = 0;
+    },
     addChore: function (chore) {
       var list = readCustomChores();
       list.push(chore);
