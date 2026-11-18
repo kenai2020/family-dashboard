@@ -89,46 +89,46 @@
       "title": "Thanksgiving Holidays (Banks Co. Schools)",
       "start": "2026-11-23T00:00:00",
       "end": "2026-11-27T00:00:00",
+      "allDay": true,
       "people": [
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "7t1ah3h00bb9nbn4j9b69lu3cg_20261123",
       "title": "Kortney's Birthday",
       "start": "2026-11-23T00:00:00",
       "end": "2026-11-23T00:00:00",
+      "allDay": true,
       "people": [
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "0hvrgor6f73a4l5jhmf719cbh4",
       "title": "Thanksgiving",
       "start": "2026-11-26T00:00:00",
       "end": "2026-11-26T00:00:00",
+      "allDay": true,
       "people": [
         "thomas",
         "heather",
         "kayla",
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "sdhhaenmu1291addd4arb2m0g4",
       "title": "Thanksgiving Day",
       "start": "2026-11-26T00:00:00",
       "end": "2026-11-26T00:00:00",
+      "allDay": true,
       "people": [
         "thomas",
         "heather",
         "kayla",
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "ukdca07g2d6vol53e7hpfv09ak",
@@ -164,10 +164,10 @@
       "title": "Kona Ice at BCMS",
       "start": "2026-12-04T00:00:00",
       "end": "2026-12-04T00:00:00",
+      "allDay": true,
       "people": [
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "4akq1hlot5m84n5llfhqu1q80k",
@@ -230,33 +230,33 @@
       "title": "Christmas Holidays (Banks Co. Schools)",
       "start": "2026-12-21T00:00:00",
       "end": "2027-01-01T00:00:00",
+      "allDay": true,
       "people": [
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "5n5u4d2nedjk1vq037t8fajqg0",
       "title": "Christmas Eve",
       "start": "2026-12-24T00:00:00",
       "end": "2026-12-24T00:00:00",
+      "allDay": true,
       "people": [
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "5jbpjshd70s18njsk1rjuacag8",
       "title": "Christmas Day",
       "start": "2026-12-25T00:00:00",
       "end": "2026-12-25T00:00:00",
+      "allDay": true,
       "people": [
         "thomas",
         "heather",
         "kayla",
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "he6h92bgeascbivtud39r651so",
@@ -282,36 +282,36 @@
       "title": "New Year's Eve",
       "start": "2026-12-31T00:00:00",
       "end": "2026-12-31T00:00:00",
+      "allDay": true,
       "people": [
         "thomas",
         "heather",
         "kayla",
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "86pppt34ehb5jdimhjnge6vafs",
       "title": "New Year's Day",
       "start": "2027-01-01T00:00:00",
       "end": "2027-01-01T00:00:00",
+      "allDay": true,
       "people": [
         "thomas",
         "heather",
         "kayla",
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "gg12r54gqbej3fbidolhibbjc8",
       "title": "New Year's Day Holiday (Banks Co.)",
       "start": "2027-01-01T00:00:00",
       "end": "2027-01-01T00:00:00",
+      "allDay": true,
       "people": [
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "a2km5uvrh1icjne777icrommgc",
@@ -337,10 +337,10 @@
       "title": "Professional Learning Day (Banks Co., no school)",
       "start": "2027-01-04T00:00:00",
       "end": "2027-01-04T00:00:00",
+      "allDay": true,
       "people": [
         "kort"
-      ],
-      "allDay": true
+      ]
     },
     {
       "id": "j7d0jj08cr9rovuog73fuf280c",
@@ -366,10 +366,10 @@
       "title": "Kona Ice at BCMS",
       "start": "2027-01-15T00:00:00",
       "end": "2027-01-15T00:00:00",
+      "allDay": true,
       "people": [
         "kort"
-      ],
-      "allDay": true
+      ]
     }
   ],
   "chores": [
