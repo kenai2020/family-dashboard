@@ -218,6 +218,39 @@
     save: function () { writeGroceries(DATA.groceries); }
   };
 
+  // ---------------------------------------------------------------- locally-added event persistence
+  // Calendar's "Add event" button (calendar.js addSheet) only ever pushed straight into
+  // DATA.events in memory -- no persistence at all, unlike groceries/chores/meal_plan. Worse than
+  // those: Google Calendar is the source of truth for the "events" key, and the hourly
+  // "Sync Google Calendar to family dashboard" task REPLACES the whole key from Google Calendar
+  // every run (plus the client's own 5-minute dashboard.json refetch does the same client-side) --
+  // since an event added on the frame was never actually created in Google Calendar, it has no
+  // way to survive either refresh and just disappears a few minutes after being added.
+  // Fix: keep locally-added events in localStorage, keyed by id, and merge them on top of
+  // whatever dashboard.json/Google Calendar provide every time it's applied (their ids are always
+  // freshly generated via D._eid() and can never collide with a real Google Calendar id, so this
+  // merge is safe and never shadows a real synced event). Kept ~60 days so a stale one eventually
+  // drops off instead of accumulating forever.
+  var LOCAL_EVENTS_KEY = 'fd_local_events';
+  function readLocalEvents() {
+    try { var raw = localStorage.getItem(LOCAL_EVENTS_KEY); return raw ? JSON.parse(raw) : {}; }
+    catch (e) { return {}; }
+  }
+  function writeLocalEvents(m) {
+    try {
+      var cutoff = Date.now() - 60 * 864e5;
+      Object.keys(m).forEach(function (id) {
+        var t = new Date(m[id].end || m[id].start).getTime();
+        if (isNaN(t) || t < cutoff) delete m[id];
+      });
+      localStorage.setItem(LOCAL_EVENTS_KEY, JSON.stringify(m));
+    } catch (e) { /* storage unavailable -- falls back to in-memory only */ }
+  }
+  window.LocalEvents = {
+    add: function (e) { var m = readLocalEvents(); m[e.id] = e; writeLocalEvents(m); },
+    remove: function (id) { var m = readLocalEvents(); delete m[id]; writeLocalEvents(m); }
+  };
+
   function applyReal(real) {
     // window.DATA (= DATA = D in every other module) is one stable object; reassigning its
     // properties here is all that's needed -- just never reassign window.DATA itself.
@@ -228,7 +261,14 @@
     DATA.ALL = people.map(function (p) { return p.id; });
     if (real.family) DATA.family = Object.assign({}, DATA.family, real.family);
 
-    DATA.events = (real.events || []).map(parseEvent);
+    var fileEvents = (real.events || []).map(parseEvent);
+    var fileEventIds = {};
+    fileEvents.forEach(function (e) { fileEventIds[e.id] = true; });
+    var localEvents = readLocalEvents();
+    var mergedLocal = Object.keys(localEvents)
+      .filter(function (id) { return !fileEventIds[id]; })
+      .map(function (id) { return parseEvent(localEvents[id]); });
+    DATA.events = fileEvents.concat(mergedLocal);
     DATA.busyExtras = (real.busyExtras || []).map(parseEvent);
 
     if (real.routines && real.routines.length) DATA.routines = real.routines;
