@@ -48,7 +48,16 @@
   };
 
   function parseEvent(e) {
-    return Object.assign({}, e, { start: new Date(e.start), end: new Date(e.end) });
+    var start = new Date(e.start), end = new Date(e.end);
+    // All-day events for a single day are sometimes written with end === start
+    // (midnight to midnight) rather than the next day's midnight. app.js's
+    // calendar filters use a strict "ev.end > dayStart" check, so an event
+    // whose end isn't actually after its start never matches any day and
+    // silently never renders. Normalize here so every event has a real span.
+    if (e.allDay && +end <= +start) {
+      end = new Date(+start + 24 * 60 * 60 * 1000);
+    }
+    return Object.assign({}, e, { start: start, end: end });
   }
 
   // ---------------------------------------------------------------- chore/star persistence
