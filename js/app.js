@@ -324,6 +324,23 @@
     stage.style.transform = Math.abs(s - 1) < 0.01 ? '' : 'scale(' + s + ')';
   }
 
+  // ------------------------------------------------------------ daily reload
+  // Nothing else ever reloads this page -- real-data.js's 5-minute timer only re-fetches
+  // dashboard.json over the already-running page, it never re-fetches index.html/js/css. That
+  // means every pushed code/CSS fix sits waiting in GitHub until this physical frame's browser
+  // tab happens to reload on its own (restart, power cycle, manual refresh), which on a kiosk
+  // that's just left running could be never. Force one reload a day at a quiet hour (3am, when
+  // no one's looking at it) so deploys actually reach the frame without anyone touching it.
+  var RELOAD_HOUR = 3;
+  var reloadedOn = null;
+  App.on('minute', function (n) {
+    var today = n.getFullYear() + '-' + n.getMonth() + '-' + n.getDate();
+    if (n.getHours() === RELOAD_HOUR && reloadedOn !== today) {
+      reloadedOn = today;
+      location.reload();
+    }
+  });
+
   // ------------------------------------------------------------ clock tick
   var lastMin = -1;
   function tick() {

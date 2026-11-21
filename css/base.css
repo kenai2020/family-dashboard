@@ -65,6 +65,10 @@ ul { margin: 0; padding: 0; list-style: none; }
   color: var(--ink-2);
   position: relative;
 }
+/* "Countdown" is a hair wider than every other rail label at the standard size -- shrink just
+   this one instead of relying on it wrapping to two lines (word-wrap behavior isn't reliable
+   across the frame's browser and a desktop preview). */
+.rail-item--tight span { font-size: 9px; }
 .rail-item.is-active { background: var(--ink); color: var(--paper); }
 .rail-item:active { background: var(--paper-2); }
 .rail-item.is-active:active { background: var(--ink-2); }
