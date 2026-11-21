@@ -267,6 +267,46 @@ button.card:active, .h-hero:active, .h-photo:active { transform: scale(.985); }
 .tk-btn.is-holding { background: rgba(255, 255, 255, .34); }
 
 .takeover--alarm { background: var(--alert); color: #fff; }
+
+/* ---------------------------------------------------------------- birthday takeover */
+/* Shown over everything during idle moments on someone's birthday (see js/birthday.js) --
+   tapping anywhere closes it, and it reopens after the next idle stretch. Pure-CSS looping
+   animations (no JS ticking, no DOM churn) so it can run continuously all day without any
+   per-frame cost or memory growth. */
+.takeover--birthday { background: var(--c); color: var(--c-ink); overflow: hidden; }
+.tk-bday-fx { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+.tk-bday-msg {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  gap: 18px; padding: 40px;
+}
+.tk-bday-emoji { font-size: 90px; line-height: 1; }
+.tk-bday-title { font-size: 96px; line-height: 1.05; margin: 0; }
+.tk-bday-sub { font-size: 26px; opacity: .85; font-weight: 700; font-stretch: 80%; text-transform: uppercase; letter-spacing: .08em; }
+
+.tk-confetti {
+  position: absolute; top: -12%; width: 10px; height: 16px;
+  animation-name: confetti-fall; animation-timing-function: linear; animation-iteration-count: infinite;
+}
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(132vh) rotate(540deg); }
+}
+.tk-balloon {
+  position: absolute; bottom: -24%; width: 64px; height: 78px;
+  border-radius: 50% 50% 48% 48% / 58% 58% 42% 42%;
+  animation-name: balloon-rise; animation-timing-function: ease-in-out; animation-iteration-count: infinite;
+  opacity: .92;
+}
+.tk-balloon::after {
+  content: ''; position: absolute; left: 50%; top: 100%; width: 1px; height: 46px;
+  background: rgba(0, 0, 0, .25); transform: translateX(-50%);
+}
+@keyframes balloon-rise {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(18px, -62vh); }
+  100% { transform: translate(-18px, -128vh); }
+}
 .tk-alarm { position: absolute; left: 60px; right: 60px; top: 60px; bottom: 60px; display: flex; flex-direction: column; justify-content: flex-end; }
 .tk-alarm-icon { position: absolute; right: 0; top: 0; width: 200px; height: 200px; border-radius: 50%; background: rgba(255, 255, 255, .15); display: grid; place-items: center; }
 .tk-huge { font-size: 210px; font-weight: 900; font-stretch: 62%; text-transform: uppercase; line-height: .82; letter-spacing: -.02em; word-spacing: .12em; margin: 14px 0 18px; }
