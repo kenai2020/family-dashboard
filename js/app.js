@@ -251,7 +251,17 @@
       layer.innerHTML = '';
     }
     App.closeSheet = close;
-    layer.querySelector('.sheet-scrim').addEventListener('click', close);
+    // Deferred by a tick on purpose: a sheet opened from a pointerdown handler (e.g. the rail's
+    // Countdown button) builds this scrim while the same physical tap is still in flight -- the
+    // browser's trailing synthetic "click" for that tap lands right after, and by then the scrim
+    // is sitting on top of wherever the finger was, which would immediately close the sheet that
+    // pointerdown just opened. Binding on the next tick lets that trailing click pass through
+    // harmlessly (listener isn't attached yet); any later, genuine tap on the scrim still closes
+    // it normally once this runs.
+    setTimeout(function () {
+      var scrim = layer.querySelector('.sheet-scrim');
+      if (scrim) scrim.addEventListener('click', close);
+    }, 0);
     App.$$('[data-close]', layer).forEach(function (b) { b.addEventListener('click', close); });
     if (opts.onMount) opts.onMount(layer.querySelector('.sheet'), close);
     return close;
