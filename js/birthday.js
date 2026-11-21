@@ -71,7 +71,6 @@
       '<div class="tk-bday-msg">' +
       '<div class="tk-bday-emoji">🎉🎂🎉</div>' +
       '<h1 class="tk-bday-title serif">Happy Birthday' + (names ? ',<br>' + App.esc(names) : '') + '!</h1>' +
-      '<div class="tk-bday-sub">Tap anywhere to continue</div>' +
       '</div>';
   }
   function open() {
