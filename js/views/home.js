@@ -132,6 +132,9 @@
     var target = new Date(dateStr + 'T00:00:00');
     return Math.round((target - App.dayStart(App.now())) / 864e5);
   }
+  // Returns { html, person } where person is the D.people entry (or D.family) whose color the
+  // card should borrow -- only set when the countdown was picked from an existing calendar event
+  // (which carries a people[] array); a typed custom countdown has no person to borrow from.
   function countdownCard() {
     if (!window.Countdown) return null;
     var c = window.Countdown.get();
@@ -140,9 +143,14 @@
     if (days < 0) { window.Countdown.clear(); return null; } // quietly expire past dates
     var big = days === 0 ? '🎉' : days;
     var small = days === 0 ? 'Today!' : (days === 1 ? 'day to go' : 'days to go');
-    return '<div class="label">Countdown</div>' +
-      '<div class="h-stat"><span class="num">' + big + '</span><small>' + small + '</small></div>' +
-      '<div class="h-count-title">' + App.esc(c.title) + '</div>';
+    var person = (c.people && c.people.length) ? (c.people.length >= D.people.length ? D.family : App.person(c.people[0])) : null;
+    var labelCls = person ? 'label label--on' : 'label';
+    return {
+      person: person,
+      html: '<div class="' + labelCls + '">Countdown</div>' +
+        '<div class="h-stat"><span class="num">' + big + '</span><small>' + small + '</small></div>' +
+        '<div class="h-count-title">' + App.esc(c.title) + '</div>'
+    };
   }
   // The picker sheet: pulls upcoming events (today or later) as quick-pick rows, plus a custom
   // title/date fallback for anything not on the calendar, and a way to turn it back off.
@@ -178,7 +186,7 @@
           b.addEventListener('click', function () {
             var e = App.findEvent(b.dataset.pick);
             if (!e) return;
-            window.Countdown.set(e.title, window.Countdown.dateKey(e.start));
+            window.Countdown.set(e.title, window.Countdown.dateKey(e.start), e.people);
             close(); App.rerender();
           });
         });
@@ -206,13 +214,22 @@
     el.querySelector('.h-shop').innerHTML = shopping();
     var statusBtn = el.querySelector('.h-status'), cd = countdownCard();
     if (cd) {
-      statusBtn.innerHTML = cd;
+      statusBtn.innerHTML = cd.html;
       statusBtn.dataset.action = 'countdown';
       delete statusBtn.dataset.go;
+      if (cd.person) {
+        statusBtn.classList.add('is-colored');
+        statusBtn.setAttribute('style', App.pstyle(cd.person));
+      } else {
+        statusBtn.classList.remove('is-colored');
+        statusBtn.removeAttribute('style');
+      }
     } else {
       statusBtn.innerHTML = status();
       statusBtn.dataset.go = 'control';
       delete statusBtn.dataset.action;
+      statusBtn.classList.remove('is-colored');
+      statusBtn.removeAttribute('style');
     }
   }
 

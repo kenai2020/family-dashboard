@@ -278,7 +278,10 @@
   window.Countdown = {
     dateKey: dateKey,
     get: readCountdown,
-    set: function (title, dateStr) { writeCountdown({ title: title, date: dateStr }); },
+    // people: the event's D.events[].people array, when set from an existing calendar event --
+    // lets the widget tint itself the same color as that person's events. Custom (typed)
+    // countdowns have no person to borrow a color from, so omit it for those.
+    set: function (title, dateStr, people) { writeCountdown({ title: title, date: dateStr, people: people || null }); },
     clear: function () { writeCountdown(null); }
   };
 

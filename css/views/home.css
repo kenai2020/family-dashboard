@@ -101,4 +101,9 @@
 
 /* ---- optional countdown widget (takes over .h-status when set, see views/home.js) */
 .h-count-title { font-size: 16px; font-weight: 700; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Tinted the same color as the person it's counting down for (see countdownCard() in home.js);
+   a custom/typed countdown has no person attached, so it stays the plain card color. */
+.h-status.is-colored { background: var(--c); color: var(--c-ink); }
+.h-status.is-colored .h-stat small,
+.h-status.is-colored .h-count-title { color: inherit; opacity: .8; }
 .h-st-row.is-warn span { color: inherit; }
