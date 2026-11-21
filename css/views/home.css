@@ -98,4 +98,7 @@
 .h-st-row b { font-size: 24px; }
 .h-st-row span { color: var(--ink-2); }
 .h-st-row.is-warn { color: #B45F00; font-weight: 800; }
+
+/* ---- optional countdown widget (takes over .h-status when set, see views/home.js) */
+.h-count-title { font-size: 16px; font-weight: 700; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .h-st-row.is-warn span { color: inherit; }

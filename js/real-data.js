@@ -260,6 +260,28 @@
     remove: function (id) { var m = readLocalEvents(); delete m[id]; writeLocalEvents(m); }
   };
 
+  // ---------------------------------------------------------------- countdown widget persistence
+  // Pure UI preference -- which event (title + date) the optional Home-screen countdown widget
+  // is counting down to. Just a snapshot taken at pick time, not a live link to a calendar event,
+  // so it's unaffected by the 5-minute data refetch and never written into dashboard.json.
+  var COUNTDOWN_KEY = 'fd_countdown';
+  function readCountdown() {
+    try { var raw = localStorage.getItem(COUNTDOWN_KEY); return raw ? JSON.parse(raw) : null; }
+    catch (e) { return null; }
+  }
+  function writeCountdown(c) {
+    try {
+      if (c) localStorage.setItem(COUNTDOWN_KEY, JSON.stringify(c));
+      else localStorage.removeItem(COUNTDOWN_KEY);
+    } catch (e) { /* storage unavailable -- falls back to in-memory only (resets on reload) */ }
+  }
+  window.Countdown = {
+    dateKey: dateKey,
+    get: readCountdown,
+    set: function (title, dateStr) { writeCountdown({ title: title, date: dateStr }); },
+    clear: function () { writeCountdown(null); }
+  };
+
   function applyReal(real) {
     // window.DATA (= DATA = D in every other module) is one stable object; reassigning its
     // properties here is all that's needed -- just never reassign window.DATA itself.

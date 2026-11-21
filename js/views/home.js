@@ -125,6 +125,77 @@
       (s.inside_temp_f != null ? '<div class="h-st-row">' + App.icon('thermo', 24) + '<b class="num">' + s.inside_temp_f + '°</b><span>inside</span></div>' : '');
   }
 
+  // ---------------------------------------------------------------- optional countdown widget
+  // Picked from the rail (data-action="countdown", see app.js's railActions). When set, it takes
+  // over the Home card (data-go="control") so the fixed 3-row layout never has to change.
+  function daysUntil(dateStr) {
+    var target = new Date(dateStr + 'T00:00:00');
+    return Math.round((target - App.dayStart(App.now())) / 864e5);
+  }
+  function countdownCard() {
+    if (!window.Countdown) return null;
+    var c = window.Countdown.get();
+    if (!c) return null;
+    var days = daysUntil(c.date);
+    if (days < 0) { window.Countdown.clear(); return null; } // quietly expire past dates
+    var big = days === 0 ? '🎉' : days;
+    var small = days === 0 ? 'Today!' : (days === 1 ? 'day to go' : 'days to go');
+    return '<div class="label">Countdown</div>' +
+      '<div class="h-stat"><span class="num">' + big + '</span><small>' + small + '</small></div>' +
+      '<div class="h-count-title">' + App.esc(c.title) + '</div>';
+  }
+  // The picker sheet: pulls upcoming events (today or later) as quick-pick rows, plus a custom
+  // title/date fallback for anything not on the calendar, and a way to turn it back off.
+  App.countdownSheet = function () {
+    var today = App.dayStart(App.now());
+    var seen = {}, rows = D.events
+      .filter(function (e) { return e.end > today; })
+      .sort(function (a, b) { return a.start - b.start; })
+      .filter(function (e) {
+        var k = e.title + '|' + window.Countdown.dateKey(e.start);
+        if (seen[k]) return false;
+        seen[k] = true; return true;
+      })
+      .slice(0, 10)
+      .map(function (e) {
+        return '<button class="more-row" data-pick="' + e.id + '"><i style="' + App.pstyle(App.evColor(e)) + '"></i>' +
+          '<b>' + App.esc(e.title) + '</b><span>' + App.fmt.dayShort(e.start) + ' ' + App.fmt.month(e.start) + ' ' + e.start.getDate() + '</span></button>';
+      }).join('');
+    var current = window.Countdown.get();
+    App.sheet(
+      '<div class="sheet-pad">' +
+      '<div class="label">Countdown to…</div><h2 class="serif sheet-h">Pick an event</h2>' +
+      '<div class="more-list">' + (rows || '<p class="h-free serif"><i>No upcoming events yet.</i></p>') + '</div>' +
+      '<div class="label" style="margin-top:18px">Or something else</div>' +
+      '<input class="big-input serif" placeholder="What are you counting down to?" data-f="title">' +
+      '<input class="big-input" type="date" data-f="date" min="' + window.Countdown.dateKey(today) + '">' +
+      '<div class="sheet-actions">' +
+      (current ? '<button class="btn btn--ghost" data-turn-off>Turn off countdown</button>' : '<button class="btn btn--ghost" data-close>Cancel</button>') +
+      '<button class="btn btn--solid" data-set>Set countdown</button>' +
+      '</div></div>',
+      { cls: 'sheet--countdown', onMount: function (root, close) {
+        root.querySelectorAll('[data-pick]').forEach(function (b) {
+          b.addEventListener('click', function () {
+            var e = App.findEvent(b.dataset.pick);
+            if (!e) return;
+            window.Countdown.set(e.title, window.Countdown.dateKey(e.start));
+            close(); App.rerender();
+          });
+        });
+        var off = root.querySelector('[data-turn-off]');
+        if (off) off.addEventListener('click', function () { window.Countdown.clear(); close(); App.rerender(); });
+        root.querySelector('[data-set]').addEventListener('click', function () {
+          var title = root.querySelector('[data-f="title"]').value.trim();
+          var date = root.querySelector('[data-f="date"]').value;
+          if (!title || !date) return;
+          window.Countdown.set(title, date);
+          close(); App.rerender();
+        });
+      } }
+    );
+  };
+  App.railActions.countdown = App.countdownSheet;
+
   function paint() {
     var el = V.el;
     el.querySelector('.h-clock').innerHTML = clock();
@@ -133,7 +204,16 @@
     el.querySelector('.h-lanes').innerHTML = lanes();
     el.querySelector('.h-chores').innerHTML = chores();
     el.querySelector('.h-shop').innerHTML = shopping();
-    el.querySelector('.h-status').innerHTML = status();
+    var statusBtn = el.querySelector('.h-status'), cd = countdownCard();
+    if (cd) {
+      statusBtn.innerHTML = cd;
+      statusBtn.dataset.action = 'countdown';
+      delete statusBtn.dataset.go;
+    } else {
+      statusBtn.innerHTML = status();
+      statusBtn.dataset.go = 'control';
+      delete statusBtn.dataset.action;
+    }
   }
 
   function photoCaption(s) {
@@ -157,6 +237,8 @@
         el.addEventListener('click', function (e) {
           var ev = e.target.closest('[data-ev]');
           if (ev) { App.eventSheet(App.findEvent(ev.dataset.ev)); return; }
+          var act = e.target.closest('[data-action]');
+          if (act && App.railActions[act.dataset.action]) { App.railActions[act.dataset.action](); return; }
           var g = e.target.closest('[data-go]');
           if (g) App.go(g.dataset.go);
         });

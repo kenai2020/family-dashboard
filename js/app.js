@@ -159,6 +159,9 @@
 
   // ------------------------------------------------------------ router
   App.register = function (name, view) { App.views[name] = view; };
+  // Rail buttons that run an action in place (data-action) instead of navigating (data-go)
+  // register a handler here, keyed by their data-action value. See views/home.js for "countdown".
+  App.railActions = {};
   // Views are built once and kept laid out (hidden with content-visibility), so switching tabs
   // only has to paint. A view is rebuilt when its data changed ('data'/'time' events) or, for
   // time-sensitive views (minutely: true), when the minute has rolled over since it was built.
@@ -342,13 +345,23 @@
     window.addEventListener('resize', fit);
     // Switch tabs the instant a finger lands (pointerdown), not on release. Keyboard "clicks"
     // (detail === 0) still work.
+    // Some rail buttons (e.g. the Countdown picker) don't navigate to a view -- they run an
+    // action in place, so they're marked data-action instead of data-go and skip App.go entirely.
+    function railAction(e) {
+      var a = e.target.closest('[data-action]');
+      if (a && App.railActions[a.dataset.action]) { App.railActions[a.dataset.action](); return true; }
+      return false;
+    }
     $('#rail').addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 || railAction(e)) return;
       var b = e.target.closest('[data-go]');
-      if (b && e.button === 0) App.go(b.dataset.go);
+      if (b) App.go(b.dataset.go);
     });
     $('#rail').addEventListener('click', function (e) {
+      if (e.detail !== 0) return;
+      if (railAction(e)) return;
       var b = e.target.closest('[data-go]');
-      if (b && e.detail === 0) App.go(b.dataset.go);
+      if (b) App.go(b.dataset.go);
     });
     document.addEventListener('pointerdown', App.resetIdle, true);
     window.addEventListener('hashchange', function () { App.go(location.hash.slice(1)); });
