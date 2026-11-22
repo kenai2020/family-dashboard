@@ -33,6 +33,13 @@
   display: grid; place-items: center; color: var(--mute);
 }
 .mw-item-x:active { background: var(--line); color: var(--ink); }
+.mw-item-toggle {
+  flex: none; width: 40px; height: 40px; margin-top: 2px; border-radius: 50%;
+  display: grid; place-items: center; color: var(--mute);
+  transition: transform .15s ease;
+}
+.mw-item-toggle.is-open { transform: rotate(180deg); }
+.mw-item-toggle:active { background: var(--line); color: var(--ink); }
 .mw-add-more { display: flex; gap: 12px; margin-top: 20px; }
 
 .mw-assignbar {

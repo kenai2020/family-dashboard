@@ -14,7 +14,10 @@
 // top via window.MealPlan (localStorage), exactly like ChoreProgress does for chore checkmarks.
 (function () {
   'use strict';
-  var D = window.DATA, V = { el: null, tab: 'week', day: null, assignTarget: null };
+  // expanded: which assigned recipes (keyed "dayKey:idx", matching data-remove-item) are shown in
+  // full on the "This week" pane -- collapsed (just title + a one-line summary) by default so a
+  // day with several things planned stays scannable instead of a wall of ingredients/steps.
+  var D = window.DATA, V = { el: null, tab: 'week', day: null, assignTarget: null, expanded: {} };
   var DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   var DOW_FULL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -128,10 +131,12 @@
       return '<div class="mw-item"><div class="mw-item-head"><h3 class="serif mw-item-title">' + App.esc(value) + '</h3>' + x + '</div>' +
         '<div class="label">Added manually</div></div>';
     }
-    return '<div class="mw-item"><div class="mw-item-head"><h3 class="serif mw-item-title">' + App.esc(r.title) + '</h3>' + x + '</div>' +
-      '<div class="label">' + recipeMetaHTML(r) + '</div>' +
-      '<div class="label">Ingredients</div>' + ingredientsHTML(r) +
-      instructionsHTML(r) +
+    var ek = key + ':' + idx, open = !!V.expanded[ek];
+    var toggle = '<button class="mw-item-toggle' + (open ? ' is-open' : '') + '" data-toggle-item="' + ek + '" aria-label="' +
+      (open ? 'Collapse recipe' : 'Expand recipe') + '" aria-expanded="' + open + '">' + App.icon('chevron', 22) + '</button>';
+    return '<div class="mw-item"><div class="mw-item-head"><h3 class="serif mw-item-title">' + App.esc(r.title) + '</h3>' + toggle + x + '</div>' +
+      '<div class="label">' + recipeMetaHTML(r) + ' · ' + r.ingredients.length + ' ingredient' + (r.ingredients.length === 1 ? '' : 's') + '</div>' +
+      (open ? '<div class="label">Ingredients</div>' + ingredientsHTML(r) + instructionsHTML(r) : '') +
       '</div>';
   }
   function dayPaneHTML(i) {
@@ -259,6 +264,12 @@
     if ((t = e.target.closest('[data-tab]'))) { V.tab = t.dataset.tab; paint(); return; }
     if ((t = e.target.closest('[data-day]'))) { V.day = +t.dataset.day; paint(); return; }
     if ((t = e.target.closest('[data-choose]'))) { V.assignTarget = t.dataset.choose; V.tab = 'recipes'; paint(); return; }
+    if ((t = e.target.closest('[data-toggle-item]'))) {
+      var ek0 = t.dataset.toggleItem;
+      V.expanded[ek0] = !V.expanded[ek0];
+      paint();
+      return;
+    }
     if ((t = e.target.closest('[data-remove-item]'))) {
       var parts0 = t.dataset.removeItem.split(':');
       removeMealItem(parts0[0], +parts0[1]);
@@ -276,9 +287,13 @@
       var r = recipeById(t.dataset.recipe);
       if (!r) return;
       if (V.assignTarget) {
-        addMealItem(V.assignTarget, r.id);
+        var targetKey = V.assignTarget;
+        addMealItem(targetKey, r.id);
+        // Expand the one just added so adding it visibly confirms what landed on the day,
+        // instead of it showing up collapsed and looking like nothing happened.
+        V.expanded[targetKey + ':' + (dayItems(targetKey).length - 1)] = true;
         App.toast('Added <b>' + App.esc(r.title) + '</b> to the plan', { icon: 'utensils' });
-        for (var i = 0; i < 7; i++) { if (dkey(dateForDay(i)) === V.assignTarget) V.day = i; }
+        for (var i = 0; i < 7; i++) { if (dkey(dateForDay(i)) === targetKey) V.day = i; }
         V.assignTarget = null; V.tab = 'week'; paint();
       } else {
         openRecipeSheet(r);
