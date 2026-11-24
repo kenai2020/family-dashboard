@@ -93,9 +93,9 @@
     {
       "id": "ukdca07g2d6vol53e7hpfv09ak",
       "title": "Cowboys vs Eagles 🏈🦃",
-      "loc": "AT&T Stadium, Arlington, TX",
       "start": "2026-11-26T16:30:00",
       "end": "2026-11-26T19:30:00",
+      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
       ]
@@ -103,10 +103,10 @@
     {
       "id": "hugpkbq16dip380rim024c7fkk",
       "title": "Clemson vs South Carolina (Palmetto Bowl) — kickoff TBA",
-      "loc": "Memorial Stadium, Clemson, SC",
       "allDay": true,
       "start": "2026-11-28T00:00:00",
       "end": "2026-11-29T00:00:00",
+      "loc": "Memorial Stadium, Clemson, SC",
       "people": [
         "kort"
       ]
@@ -114,9 +114,9 @@
     {
       "id": "jjsbe2633ehf31i1jrigs780ic",
       "title": "Georgia vs Georgia Tech 🏈",
-      "loc": "Sanford Stadium, Athens, GA",
       "start": "2026-11-28T18:00:00",
       "end": "2026-11-28T21:30:00",
+      "loc": "Sanford Stadium, Athens, GA",
       "people": [
         "thomas"
       ]
@@ -143,9 +143,9 @@
     {
       "id": "4akq1hlot5m84n5llfhqu1q80k",
       "title": "Cowboys at Seahawks 🏈",
-      "loc": "Lumen Field, Seattle, WA",
       "start": "2026-12-07T20:15:00",
       "end": "2026-12-07T23:15:00",
+      "loc": "Lumen Field, Seattle, WA",
       "people": [
         "thomas"
       ]
@@ -199,9 +199,9 @@
     {
       "id": "ea0d2n9n8nbvsin0po1osefm2s",
       "title": "Cowboys at Rams 🏈",
-      "loc": "SoFi Stadium, Inglewood, CA",
       "start": "2026-12-20T16:25:00",
       "end": "2026-12-20T19:25:00",
+      "loc": "SoFi Stadium, Inglewood, CA",
       "people": [
         "thomas"
       ]
@@ -251,9 +251,9 @@
     {
       "id": "tkbt7631cp9bad0l9qu0tcnp4g",
       "title": "Cowboys vs Jaguars 🏈",
-      "loc": "AT&T Stadium, Arlington, TX",
       "start": "2026-12-27T20:20:00",
       "end": "2026-12-27T23:20:00",
+      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
       ]
@@ -297,9 +297,9 @@
     {
       "id": "a2km5uvrh1icjne777icrommgc",
       "title": "Cowboys vs Giants 🏈",
-      "loc": "AT&T Stadium, Arlington, TX",
       "start": "2027-01-03T13:00:00",
       "end": "2027-01-03T16:00:00",
+      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
       ]
@@ -335,9 +335,9 @@
     {
       "id": "tclc7an9p0gnn1eg7qcnvrpsr0",
       "title": "Cowboys at Commanders (Week 18) 🏈 — time TBD",
-      "loc": "Northwest Stadium, Landover, MD",
       "start": "2027-01-10T13:00:00",
       "end": "2027-01-10T16:00:00",
+      "loc": "Northwest Stadium, Landover, MD",
       "people": [
         "thomas"
       ]
