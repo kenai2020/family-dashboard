@@ -101,8 +101,8 @@
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "loc": "Memorial Stadium, Clemson, SC"
+      "loc": "Memorial Stadium, Clemson, SC",
+      "allDay": true
     },
     {
       "id": "jjsbe2633ehf31i1jrigs780ic",
@@ -158,7 +158,10 @@
       "end": "2026-12-08T11:30:00",
       "title": "Doc Appt (Yearly)",
       "people": [
-        "thomas"
+        "thomas",
+        "heather",
+        "kayla",
+        "kort"
       ]
     },
     {
