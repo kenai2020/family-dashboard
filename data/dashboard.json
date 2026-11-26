@@ -42,7 +42,7 @@
       "end": "2026-11-28T00:00:00",
       "allDay": true,
       "people": [
-        "kayla"
+        "kort"
       ]
     },
     {
@@ -76,10 +76,10 @@
       "title": "Cowboys vs Eagles 🏈🦃",
       "start": "2026-11-26T16:30:00",
       "end": "2026-11-26T19:30:00",
+      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
-      ],
-      "loc": "AT&T Stadium, Arlington, TX"
+      ]
     },
     {
       "id": "hugpkbq16dip380rim024c7fkk",
@@ -87,20 +87,20 @@
       "start": "2026-11-28T00:00:00",
       "end": "2026-11-29T00:00:00",
       "allDay": true,
+      "loc": "Memorial Stadium, Clemson, SC",
       "people": [
-        "kayla"
-      ],
-      "loc": "Memorial Stadium, Clemson, SC"
+        "kort"
+      ]
     },
     {
       "id": "jjsbe2633ehf31i1jrigs780ic",
       "title": "Georgia vs Georgia Tech 🏈",
       "start": "2026-11-28T18:00:00",
       "end": "2026-11-28T21:30:00",
+      "loc": "Sanford Stadium, Athens, GA",
       "people": [
         "thomas"
-      ],
-      "loc": "Sanford Stadium, Athens, GA"
+      ]
     },
     {
       "id": "61hivk80fq22up8sr9im5kdtdo",
@@ -118,7 +118,7 @@
       "end": "2026-12-05T00:00:00",
       "allDay": true,
       "people": [
-        "kayla"
+        "kort"
       ]
     },
     {
@@ -126,10 +126,10 @@
       "title": "Cowboys at Seahawks 🏈",
       "start": "2026-12-07T20:15:00",
       "end": "2026-12-07T23:15:00",
+      "loc": "Lumen Field, Seattle, WA",
       "people": [
         "thomas"
-      ],
-      "loc": "Lumen Field, Seattle, WA"
+      ]
     },
     {
       "id": "vv5uq7obeju4uc3r9fvjcsmkpg",
@@ -146,7 +146,10 @@
       "start": "2026-12-08T10:30:00",
       "end": "2026-12-08T11:30:00",
       "people": [
-        "thomas"
+        "thomas",
+        "heather",
+        "kayla",
+        "kort"
       ]
     },
     {
@@ -165,7 +168,7 @@
       "end": "2026-12-17T00:00:00",
       "allDay": true,
       "people": [
-        "kayla"
+        "kort"
       ]
     },
     {
@@ -182,10 +185,10 @@
       "title": "Cowboys at Rams 🏈",
       "start": "2026-12-20T16:25:00",
       "end": "2026-12-20T19:25:00",
+      "loc": "SoFi Stadium, Inglewood, CA",
       "people": [
         "thomas"
-      ],
-      "loc": "SoFi Stadium, Inglewood, CA"
+      ]
     },
     {
       "id": "fb088d3l3pid7s3lvt6d2p4sf4",
@@ -194,7 +197,7 @@
       "end": "2027-01-02T00:00:00",
       "allDay": true,
       "people": [
-        "kayla"
+        "kort"
       ]
     },
     {
@@ -204,7 +207,7 @@
       "end": "2026-12-25T00:00:00",
       "allDay": true,
       "people": [
-        "kayla"
+        "kort"
       ]
     },
     {
@@ -234,10 +237,10 @@
       "title": "Cowboys vs Jaguars 🏈",
       "start": "2026-12-27T20:20:00",
       "end": "2026-12-27T23:20:00",
+      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
-      ],
-      "loc": "AT&T Stadium, Arlington, TX"
+      ]
     },
     {
       "id": "hosi14krp448o7qv8l2625pdk8",
@@ -280,10 +283,10 @@
       "title": "Cowboys vs Giants 🏈",
       "start": "2027-01-03T13:00:00",
       "end": "2027-01-03T16:00:00",
+      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
-      ],
-      "loc": "AT&T Stadium, Arlington, TX"
+      ]
     },
     {
       "id": "mtt4lob1qs86gjqis5enrkgfek",
@@ -301,7 +304,7 @@
       "end": "2027-01-05T00:00:00",
       "allDay": true,
       "people": [
-        "kayla"
+        "kort"
       ]
     },
     {
@@ -318,10 +321,10 @@
       "title": "Cowboys at Commanders (Week 18) 🏈 — time TBD",
       "start": "2027-01-10T13:00:00",
       "end": "2027-01-10T16:00:00",
+      "loc": "Northwest Stadium, Landover, MD",
       "people": [
         "thomas"
-      ],
-      "loc": "Northwest Stadium, Landover, MD"
+      ]
     },
     {
       "id": "71cub3b8armh97ueufdnkk86bf",
@@ -330,7 +333,7 @@
       "end": "2027-01-16T00:00:00",
       "allDay": true,
       "people": [
-        "kayla"
+        "kort"
       ]
     },
     {
@@ -340,7 +343,7 @@
       "end": "2027-01-19T00:00:00",
       "allDay": true,
       "people": [
-        "kayla"
+        "kort"
       ]
     },
     {
@@ -349,7 +352,7 @@
       "start": "2027-01-19T08:30:00",
       "end": "2027-01-19T12:00:00",
       "people": [
-        "kayla"
+        "kort"
       ]
     }
   ],
