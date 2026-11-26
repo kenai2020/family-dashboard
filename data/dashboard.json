@@ -37,16 +37,18 @@
   "events": [
     {
       "id": "52rd796md5fkgdrhtp88nls2hk",
+      "start": "2026-11-23T00:00:00",
+      "end": "2026-11-28T00:00:00",
       "title": "Thanksgiving Holidays (Banks Co. Schools)",
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "start": "2026-11-23T00:00:00",
-      "end": "2026-11-28T00:00:00"
+      "allDay": true
     },
     {
       "id": "0hvrgor6f73a4l5jhmf719cbh4",
+      "start": "2026-11-26T00:00:00",
+      "end": "2026-11-27T00:00:00",
       "title": "Thanksgiving",
       "people": [
         "thomas",
@@ -54,12 +56,12 @@
         "kayla",
         "kort"
       ],
-      "allDay": true,
-      "start": "2026-11-26T00:00:00",
-      "end": "2026-11-27T00:00:00"
+      "allDay": true
     },
     {
       "id": "sdhhaenmu1291addd4arb2m0g4",
+      "start": "2026-11-26T00:00:00",
+      "end": "2026-11-27T00:00:00",
       "title": "Thanksgiving Day",
       "people": [
         "thomas",
@@ -67,148 +69,148 @@
         "kayla",
         "kort"
       ],
-      "allDay": true,
-      "start": "2026-11-26T00:00:00",
-      "end": "2026-11-27T00:00:00"
+      "allDay": true
     },
     {
       "id": "ukdca07g2d6vol53e7hpfv09ak",
+      "start": "2026-11-26T16:30:00",
+      "end": "2026-11-26T19:30:00",
       "title": "Cowboys vs Eagles 🏈🦃",
-      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
       ],
-      "start": "2026-11-26T16:30:00",
-      "end": "2026-11-26T19:30:00"
+      "loc": "AT&T Stadium, Arlington, TX"
     },
     {
       "id": "hugpkbq16dip380rim024c7fkk",
+      "start": "2026-11-28T00:00:00",
+      "end": "2026-11-29T00:00:00",
       "title": "Clemson vs South Carolina (Palmetto Bowl) — kickoff TBA",
-      "loc": "Memorial Stadium, Clemson, SC",
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "start": "2026-11-28T00:00:00",
-      "end": "2026-11-29T00:00:00"
+      "loc": "Memorial Stadium, Clemson, SC",
+      "allDay": true
     },
     {
       "id": "jjsbe2633ehf31i1jrigs780ic",
+      "start": "2026-11-28T18:00:00",
+      "end": "2026-11-28T21:30:00",
       "title": "Georgia vs Georgia Tech 🏈",
-      "loc": "Sanford Stadium, Athens, GA",
       "people": [
         "thomas"
       ],
-      "start": "2026-11-28T18:00:00",
-      "end": "2026-11-28T21:30:00"
+      "loc": "Sanford Stadium, Athens, GA"
     },
     {
       "id": "61hivk80fq22up8sr9im5kdtdo",
+      "start": "2026-11-29T16:25:00",
+      "end": "2026-11-29T19:25:00",
       "title": "Seahawks at 49ers 🏈",
       "people": [
         "heather"
-      ],
-      "start": "2026-11-29T16:25:00",
-      "end": "2026-11-29T19:25:00"
+      ]
     },
     {
       "id": "050ffp5q8t7u6cj60tls4ep18u",
+      "start": "2026-12-04T00:00:00",
+      "end": "2026-12-05T00:00:00",
       "title": "Kona Ice at BCMS",
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "start": "2026-12-04T00:00:00",
-      "end": "2026-12-05T00:00:00"
+      "allDay": true
     },
     {
       "id": "4akq1hlot5m84n5llfhqu1q80k",
+      "start": "2026-12-07T20:15:00",
+      "end": "2026-12-07T23:15:00",
       "title": "Cowboys at Seahawks 🏈",
-      "loc": "Lumen Field, Seattle, WA",
       "people": [
         "thomas"
       ],
-      "start": "2026-12-07T20:15:00",
-      "end": "2026-12-07T23:15:00"
+      "loc": "Lumen Field, Seattle, WA"
     },
     {
       "id": "vv5uq7obeju4uc3r9fvjcsmkpg",
+      "start": "2026-12-07T20:15:00",
+      "end": "2026-12-07T23:15:00",
       "title": "Seahawks vs Cowboys 🏈",
       "people": [
         "heather"
-      ],
-      "start": "2026-12-07T20:15:00",
-      "end": "2026-12-07T23:15:00"
+      ]
     },
     {
       "id": "016fmqouilhsf2sghkt4si9g0k",
+      "start": "2026-12-08T10:30:00",
+      "end": "2026-12-08T11:30:00",
       "title": "Doc Appt (Yearly)",
       "people": [
         "thomas"
-      ],
-      "start": "2026-12-08T10:30:00",
-      "end": "2026-12-08T11:30:00"
+      ]
     },
     {
       "id": "07o7cgevjnblssuev8sprr9b20",
+      "start": "2026-12-13T16:25:00",
+      "end": "2026-12-13T19:25:00",
       "title": "Seahawks vs Giants 🏈",
       "people": [
         "heather"
-      ],
-      "start": "2026-12-13T16:25:00",
-      "end": "2026-12-13T19:25:00"
+      ]
     },
     {
       "id": "rjtqha5012krha97asr3omc56s",
+      "start": "2026-12-16T00:00:00",
+      "end": "2026-12-17T00:00:00",
       "title": "Pizza day",
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "start": "2026-12-16T00:00:00",
-      "end": "2026-12-17T00:00:00"
+      "allDay": true
     },
     {
       "id": "9vf5jf8dtrktekh6ce9al13eqg",
+      "start": "2026-12-19T17:00:00",
+      "end": "2026-12-19T20:00:00",
       "title": "Seahawks at Eagles 🏈",
       "people": [
         "heather"
-      ],
-      "start": "2026-12-19T17:00:00",
-      "end": "2026-12-19T20:00:00"
+      ]
     },
     {
       "id": "ea0d2n9n8nbvsin0po1osefm2s",
+      "start": "2026-12-20T16:25:00",
+      "end": "2026-12-20T19:25:00",
       "title": "Cowboys at Rams 🏈",
-      "loc": "SoFi Stadium, Inglewood, CA",
       "people": [
         "thomas"
       ],
-      "start": "2026-12-20T16:25:00",
-      "end": "2026-12-20T19:25:00"
+      "loc": "SoFi Stadium, Inglewood, CA"
     },
     {
       "id": "fb088d3l3pid7s3lvt6d2p4sf4",
+      "start": "2026-12-21T00:00:00",
+      "end": "2027-01-02T00:00:00",
       "title": "Christmas Holidays (Banks Co. Schools)",
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "start": "2026-12-21T00:00:00",
-      "end": "2027-01-02T00:00:00"
+      "allDay": true
     },
     {
       "id": "5n5u4d2nedjk1vq037t8fajqg0",
+      "start": "2026-12-24T00:00:00",
+      "end": "2026-12-25T00:00:00",
       "title": "Christmas Eve",
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "start": "2026-12-24T00:00:00",
-      "end": "2026-12-25T00:00:00"
+      "allDay": true
     },
     {
       "id": "5jbpjshd70s18njsk1rjuacag8",
+      "start": "2026-12-25T00:00:00",
+      "end": "2026-12-26T00:00:00",
       "title": "Christmas Day",
       "people": [
         "thomas",
@@ -216,31 +218,31 @@
         "kayla",
         "kort"
       ],
-      "allDay": true,
-      "start": "2026-12-25T00:00:00",
-      "end": "2026-12-26T00:00:00"
+      "allDay": true
     },
     {
       "id": "he6h92bgeascbivtud39r651so",
+      "start": "2026-12-25T20:15:00",
+      "end": "2026-12-25T23:15:00",
       "title": "Seahawks vs Rams 🏈🎄",
       "people": [
         "heather"
-      ],
-      "start": "2026-12-25T20:15:00",
-      "end": "2026-12-25T23:15:00"
+      ]
     },
     {
       "id": "tkbt7631cp9bad0l9qu0tcnp4g",
+      "start": "2026-12-27T20:20:00",
+      "end": "2026-12-27T23:20:00",
       "title": "Cowboys vs Jaguars 🏈",
-      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
       ],
-      "start": "2026-12-27T20:20:00",
-      "end": "2026-12-27T23:20:00"
+      "loc": "AT&T Stadium, Arlington, TX"
     },
     {
       "id": "hosi14krp448o7qv8l2625pdk8",
+      "start": "2026-12-31T00:00:00",
+      "end": "2027-01-01T00:00:00",
       "title": "New Year's Eve",
       "people": [
         "thomas",
@@ -248,12 +250,12 @@
         "kayla",
         "kort"
       ],
-      "allDay": true,
-      "start": "2026-12-31T00:00:00",
-      "end": "2027-01-01T00:00:00"
+      "allDay": true
     },
     {
       "id": "86pppt34ehb5jdimhjnge6vafs",
+      "start": "2027-01-01T00:00:00",
+      "end": "2027-01-02T00:00:00",
       "title": "New Year's Day",
       "people": [
         "thomas",
@@ -261,96 +263,94 @@
         "kayla",
         "kort"
       ],
-      "allDay": true,
-      "start": "2027-01-01T00:00:00",
-      "end": "2027-01-02T00:00:00"
+      "allDay": true
     },
     {
       "id": "gg12r54gqbej3fbidolhibbjc8",
+      "start": "2027-01-01T00:00:00",
+      "end": "2027-01-02T00:00:00",
       "title": "New Year's Day Holiday (Banks Co.)",
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "start": "2027-01-01T00:00:00",
-      "end": "2027-01-02T00:00:00"
+      "allDay": true
     },
     {
       "id": "a2km5uvrh1icjne777icrommgc",
+      "start": "2027-01-03T13:00:00",
+      "end": "2027-01-03T16:00:00",
       "title": "Cowboys vs Giants 🏈",
-      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
       ],
-      "start": "2027-01-03T13:00:00",
-      "end": "2027-01-03T16:00:00"
+      "loc": "AT&T Stadium, Arlington, TX"
     },
     {
       "id": "mtt4lob1qs86gjqis5enrkgfek",
+      "start": "2027-01-03T13:00:00",
+      "end": "2027-01-03T16:00:00",
       "title": "Seahawks at Panthers 🏈",
       "people": [
         "heather"
-      ],
-      "start": "2027-01-03T13:00:00",
-      "end": "2027-01-03T16:00:00"
+      ]
     },
     {
       "id": "077g4arv2ke0mdfdb272la0n3o",
+      "start": "2027-01-04T00:00:00",
+      "end": "2027-01-05T00:00:00",
       "title": "Professional Learning Day (Banks Co., no school)",
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "start": "2027-01-04T00:00:00",
-      "end": "2027-01-05T00:00:00"
+      "allDay": true
     },
     {
       "id": "j7d0jj08cr9rovuog73fuf280c",
+      "start": "2027-01-10T13:00:00",
+      "end": "2027-01-10T16:00:00",
       "title": "Seahawks at Rams (Week 18) 🏈 — time TBD",
       "people": [
         "heather"
-      ],
-      "start": "2027-01-10T13:00:00",
-      "end": "2027-01-10T16:00:00"
+      ]
     },
     {
       "id": "tclc7an9p0gnn1eg7qcnvrpsr0",
+      "start": "2027-01-10T13:00:00",
+      "end": "2027-01-10T16:00:00",
       "title": "Cowboys at Commanders (Week 18) 🏈 — time TBD",
-      "loc": "Northwest Stadium, Landover, MD",
       "people": [
         "thomas"
       ],
-      "start": "2027-01-10T13:00:00",
-      "end": "2027-01-10T16:00:00"
+      "loc": "Northwest Stadium, Landover, MD"
     },
     {
       "id": "71cub3b8armh97ueufdnkk86bf",
+      "start": "2027-01-15T00:00:00",
+      "end": "2027-01-16T00:00:00",
       "title": "Kona Ice at BCMS",
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "start": "2027-01-15T00:00:00",
-      "end": "2027-01-16T00:00:00"
+      "allDay": true
     },
     {
       "id": "1r6demguoksqvgjlsplachs808",
+      "start": "2027-01-18T00:00:00",
+      "end": "2027-01-19T00:00:00",
       "title": "MLK Holiday (Banks Co.)",
       "people": [
         "kort"
       ],
-      "allDay": true,
-      "start": "2027-01-18T00:00:00",
-      "end": "2027-01-19T00:00:00"
+      "allDay": true
     },
     {
       "id": "09f3r78dckej88lr3bp8gbutql",
+      "start": "2027-01-19T08:30:00",
+      "end": "2027-01-19T12:00:00",
       "title": "District Spelling Bee",
       "people": [
         "kort"
-      ],
-      "start": "2027-01-19T08:30:00",
-      "end": "2027-01-19T12:00:00"
+      ]
     }
   ],
   "chores": [
