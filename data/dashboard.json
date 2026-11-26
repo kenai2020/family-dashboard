@@ -41,9 +41,18 @@
       "people": [
         "kort"
       ],
+      "allDay": true,
       "start": "2026-11-23T00:00:00",
-      "end": "2026-11-28T00:00:00",
-      "allDay": true
+      "end": "2026-11-28T00:00:00"
+    },
+    {
+      "id": "pj85edrvdgke0acj1b7tl2spv0",
+      "title": "Fun with Grandma 👊🏻",
+      "people": [
+        "kort"
+      ],
+      "start": "2026-11-24T11:00:00",
+      "end": "2026-11-24T15:00:00"
     },
     {
       "id": "0hvrgor6f73a4l5jhmf719cbh4",
@@ -54,9 +63,9 @@
         "kayla",
         "kort"
       ],
+      "allDay": true,
       "start": "2026-11-26T00:00:00",
-      "end": "2026-11-27T00:00:00",
-      "allDay": true
+      "end": "2026-11-27T00:00:00"
     },
     {
       "id": "sdhhaenmu1291addd4arb2m0g4",
@@ -67,40 +76,40 @@
         "kayla",
         "kort"
       ],
+      "allDay": true,
       "start": "2026-11-26T00:00:00",
-      "end": "2026-11-27T00:00:00",
-      "allDay": true
+      "end": "2026-11-27T00:00:00"
     },
     {
       "id": "ukdca07g2d6vol53e7hpfv09ak",
       "title": "Cowboys vs Eagles 🏈🦃",
+      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
       ],
       "start": "2026-11-26T16:30:00",
-      "end": "2026-11-26T19:30:00",
-      "loc": "AT&T Stadium, Arlington, TX"
+      "end": "2026-11-26T19:30:00"
     },
     {
       "id": "hugpkbq16dip380rim024c7fkk",
       "title": "Clemson vs South Carolina (Palmetto Bowl) — kickoff TBA",
+      "loc": "Memorial Stadium, Clemson, SC",
       "people": [
         "kort"
       ],
-      "start": "2026-11-28T00:00:00",
-      "end": "2026-11-29T00:00:00",
       "allDay": true,
-      "loc": "Memorial Stadium, Clemson, SC"
+      "start": "2026-11-28T00:00:00",
+      "end": "2026-11-29T00:00:00"
     },
     {
       "id": "jjsbe2633ehf31i1jrigs780ic",
       "title": "Georgia vs Georgia Tech 🏈",
+      "loc": "Sanford Stadium, Athens, GA",
       "people": [
         "thomas"
       ],
       "start": "2026-11-28T18:00:00",
-      "end": "2026-11-28T21:30:00",
-      "loc": "Sanford Stadium, Athens, GA"
+      "end": "2026-11-28T21:30:00"
     },
     {
       "id": "61hivk80fq22up8sr9im5kdtdo",
@@ -117,19 +126,19 @@
       "people": [
         "kort"
       ],
+      "allDay": true,
       "start": "2026-12-04T00:00:00",
-      "end": "2026-12-05T00:00:00",
-      "allDay": true
+      "end": "2026-12-05T00:00:00"
     },
     {
       "id": "4akq1hlot5m84n5llfhqu1q80k",
       "title": "Cowboys at Seahawks 🏈",
+      "loc": "Lumen Field, Seattle, WA",
       "people": [
         "thomas"
       ],
       "start": "2026-12-07T20:15:00",
-      "end": "2026-12-07T23:15:00",
-      "loc": "Lumen Field, Seattle, WA"
+      "end": "2026-12-07T23:15:00"
     },
     {
       "id": "vv5uq7obeju4uc3r9fvjcsmkpg",
@@ -164,9 +173,9 @@
       "people": [
         "kort"
       ],
+      "allDay": true,
       "start": "2026-12-16T00:00:00",
-      "end": "2026-12-17T00:00:00",
-      "allDay": true
+      "end": "2026-12-17T00:00:00"
     },
     {
       "id": "9vf5jf8dtrktekh6ce9al13eqg",
@@ -180,12 +189,12 @@
     {
       "id": "ea0d2n9n8nbvsin0po1osefm2s",
       "title": "Cowboys at Rams 🏈",
+      "loc": "SoFi Stadium, Inglewood, CA",
       "people": [
         "thomas"
       ],
       "start": "2026-12-20T16:25:00",
-      "end": "2026-12-20T19:25:00",
-      "loc": "SoFi Stadium, Inglewood, CA"
+      "end": "2026-12-20T19:25:00"
     },
     {
       "id": "fb088d3l3pid7s3lvt6d2p4sf4",
@@ -193,9 +202,9 @@
       "people": [
         "kort"
       ],
+      "allDay": true,
       "start": "2026-12-21T00:00:00",
-      "end": "2027-01-02T00:00:00",
-      "allDay": true
+      "end": "2027-01-02T00:00:00"
     },
     {
       "id": "5n5u4d2nedjk1vq037t8fajqg0",
@@ -203,9 +212,9 @@
       "people": [
         "kort"
       ],
+      "allDay": true,
       "start": "2026-12-24T00:00:00",
-      "end": "2026-12-25T00:00:00",
-      "allDay": true
+      "end": "2026-12-25T00:00:00"
     },
     {
       "id": "5jbpjshd70s18njsk1rjuacag8",
@@ -216,9 +225,9 @@
         "kayla",
         "kort"
       ],
+      "allDay": true,
       "start": "2026-12-25T00:00:00",
-      "end": "2026-12-26T00:00:00",
-      "allDay": true
+      "end": "2026-12-26T00:00:00"
     },
     {
       "id": "he6h92bgeascbivtud39r651so",
@@ -232,12 +241,12 @@
     {
       "id": "tkbt7631cp9bad0l9qu0tcnp4g",
       "title": "Cowboys vs Jaguars 🏈",
+      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
       ],
       "start": "2026-12-27T20:20:00",
-      "end": "2026-12-27T23:20:00",
-      "loc": "AT&T Stadium, Arlington, TX"
+      "end": "2026-12-27T23:20:00"
     },
     {
       "id": "hosi14krp448o7qv8l2625pdk8",
@@ -248,9 +257,9 @@
         "kayla",
         "kort"
       ],
+      "allDay": true,
       "start": "2026-12-31T00:00:00",
-      "end": "2027-01-01T00:00:00",
-      "allDay": true
+      "end": "2027-01-01T00:00:00"
     },
     {
       "id": "86pppt34ehb5jdimhjnge6vafs",
@@ -261,9 +270,9 @@
         "kayla",
         "kort"
       ],
+      "allDay": true,
       "start": "2027-01-01T00:00:00",
-      "end": "2027-01-02T00:00:00",
-      "allDay": true
+      "end": "2027-01-02T00:00:00"
     },
     {
       "id": "gg12r54gqbej3fbidolhibbjc8",
@@ -271,19 +280,19 @@
       "people": [
         "kort"
       ],
+      "allDay": true,
       "start": "2027-01-01T00:00:00",
-      "end": "2027-01-02T00:00:00",
-      "allDay": true
+      "end": "2027-01-02T00:00:00"
     },
     {
       "id": "a2km5uvrh1icjne777icrommgc",
       "title": "Cowboys vs Giants 🏈",
+      "loc": "AT&T Stadium, Arlington, TX",
       "people": [
         "thomas"
       ],
       "start": "2027-01-03T13:00:00",
-      "end": "2027-01-03T16:00:00",
-      "loc": "AT&T Stadium, Arlington, TX"
+      "end": "2027-01-03T16:00:00"
     },
     {
       "id": "mtt4lob1qs86gjqis5enrkgfek",
@@ -300,9 +309,9 @@
       "people": [
         "kort"
       ],
+      "allDay": true,
       "start": "2027-01-04T00:00:00",
-      "end": "2027-01-05T00:00:00",
-      "allDay": true
+      "end": "2027-01-05T00:00:00"
     },
     {
       "id": "j7d0jj08cr9rovuog73fuf280c",
@@ -316,12 +325,12 @@
     {
       "id": "tclc7an9p0gnn1eg7qcnvrpsr0",
       "title": "Cowboys at Commanders (Week 18) 🏈 — time TBD",
+      "loc": "Northwest Stadium, Landover, MD",
       "people": [
         "thomas"
       ],
       "start": "2027-01-10T13:00:00",
-      "end": "2027-01-10T16:00:00",
-      "loc": "Northwest Stadium, Landover, MD"
+      "end": "2027-01-10T16:00:00"
     },
     {
       "id": "71cub3b8armh97ueufdnkk86bf",
@@ -329,9 +338,9 @@
       "people": [
         "kort"
       ],
+      "allDay": true,
       "start": "2027-01-15T00:00:00",
-      "end": "2027-01-16T00:00:00",
-      "allDay": true
+      "end": "2027-01-16T00:00:00"
     },
     {
       "id": "1r6demguoksqvgjlsplachs808",
@@ -339,9 +348,9 @@
       "people": [
         "kort"
       ],
+      "allDay": true,
       "start": "2027-01-18T00:00:00",
-      "end": "2027-01-19T00:00:00",
-      "allDay": true
+      "end": "2027-01-19T00:00:00"
     },
     {
       "id": "09f3r78dckej88lr3bp8gbutql",
