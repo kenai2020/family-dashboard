@@ -41,48 +41,9 @@
       "end": "2026-11-28T00:00:00",
       "title": "Thanksgiving Holidays (Banks Co. Schools)",
       "people": [
-        "thomas",
-        "heather",
-        "kayla",
         "kort"
       ],
       "allDay": true
-    },
-    {
-      "id": "0hvrgor6f73a4l5jhmf719cbh4",
-      "start": "2026-11-26T00:00:00",
-      "end": "2026-11-27T00:00:00",
-      "title": "Thanksgiving",
-      "people": [
-        "thomas",
-        "heather",
-        "kayla",
-        "kort"
-      ],
-      "allDay": true
-    },
-    {
-      "id": "sdhhaenmu1291addd4arb2m0g4",
-      "start": "2026-11-26T00:00:00",
-      "end": "2026-11-27T00:00:00",
-      "title": "Thanksgiving Day",
-      "people": [
-        "thomas",
-        "heather",
-        "kayla",
-        "kort"
-      ],
-      "allDay": true
-    },
-    {
-      "id": "ukdca07g2d6vol53e7hpfv09ak",
-      "start": "2026-11-26T16:30:00",
-      "end": "2026-11-26T19:30:00",
-      "title": "Cowboys vs Eagles 🏈🦃",
-      "people": [
-        "thomas"
-      ],
-      "loc": "AT&T Stadium, Arlington, TX"
     },
     {
       "id": "hugpkbq16dip380rim024c7fkk",
