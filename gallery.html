@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Family Dashboard · Photo Gallery</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #14151a;
+    --card: #1f2127;
+    --accent: #e8536b;
+    --text: #f2f2f4;
+    --muted: #9a9ca3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 96px;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--bg);
+    padding: 16px 16px 10px;
+    border-bottom: 1px solid #2a2c33;
+  }
+  h1 {
+    font-size: 18px;
+    margin: 0 0 4px;
+  }
+  #sub {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  #gear {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+  }
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 4px;
+    padding: 8px;
+  }
+  .tile {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--card);
+  }
+  .tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity .15s ease, transform .15s ease;
+  }
+  .tile.selected img {
+    opacity: .55;
+    transform: scale(.94);
+  }
+  .tile .check {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.85);
+    background: rgba(0,0,0,.25);
+    pointer-events: none;
+  }
+  .tile.selected .check {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .tile.selected .check::after {
+    content: "✓";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #fff;
+  }
+  .tile .cap {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 3px 5px;
+    font-size: 10px;
+    color: #fff;
+    background: linear-gradient(transparent, rgba(0,0,0,.65));
+  }
+  #empty, #loading {
+    padding: 40px 16px;
+    text-align: center;
+    color: var(--muted);
+  }
+  #bar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    padding: 12px 16px calc(14px + env(safe-area-inset-bottom));
+    background: var(--card);
+    border-top: 1px solid #2a2c33;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transform: translateY(100%);
+    transition: transform .2s ease;
+  }
+  #bar.show { transform: translateY(0); }
+  #count { font-size: 14px; }
+  #deleteBtn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  #deleteBtn:disabled { opacity: .4; }
+  #toast {
+    position: fixed;
+    left: 50%;
+    bottom: 100px;
+    transform: translate(-50%, 20px);
+    background: #2c2e36;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    opacity: 0;
+    transition: all .25s ease;
+    max-width: 85%;
+    text-align: center;
+    pointer-events: none;
+  }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Photo Gallery</h1>
+  <div id="sub">Tap photos to select, then delete. Removed photos leave the frame within a few hours.</div>
+  <button id="gear" title="Settings">⚙️</button>
+</header>
+
+<div id="loading">Loading photos…</div>
+<div id="grid"></div>
+<div id="empty" style="display:none">No photos to show.</div>
+
+<div id="bar">
+  <span id="count">0 selected</span>
+  <button id="deleteBtn" disabled>Delete</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+(function () {
+  var DATA_URL = './data/dashboard.json';
+  var selected = Object.create(null);
+  var photos = [];
+
+  function webAppUrl(forcePrompt) {
+    var key = 'gallery_webapp_url';
+    var url = localStorage.getItem(key);
+    if (!url || forcePrompt) {
+      var entered = prompt('Paste the Apps Script Web App URL (ends in /exec):', url || '');
+      if (entered) {
+        url = entered.trim();
+        localStorage.setItem(key, url);
+      }
+    }
+    return url;
+  }
+
+  document.getElementById('gear').addEventListener('click', function () {
+    webAppUrl(true);
+  });
+
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function () { t.classList.remove('show'); }, 2600);
+  }
+
+  function render() {
+    var grid = document.getElementById('grid');
+    var loading = document.getElementById('loading');
+    var empty = document.getElementById('empty');
+    loading.style.display = 'none';
+
+    if (!photos.length) {
+      empty.style.display = 'block';
+      grid.innerHTML = '';
+      return;
+    }
+    empty.style.display = 'none';
+
+    grid.innerHTML = photos.map(function (p, i) {
+      var cap = [p.date, p.place].filter(Boolean).join(' · ');
+      return '<div class="tile" data-idx="' + i + '">' +
+        '<img src="' + p.url + '" loading="lazy" alt="">' +
+        '<div class="check"></div>' +
+        (cap ? '<div class="cap">' + cap.replace(/</g, '&lt;') + '</div>' : '') +
+        '</div>';
+    }).join('');
+
+    Array.prototype.forEach.call(grid.querySelectorAll('.tile'), function (el) {
+      el.addEventListener('click', function () {
+        var idx = el.getAttribute('data-idx');
+        if (selected[idx]) delete selected[idx];
+        else selected[idx] = true;
+        el.classList.toggle('selected');
+        updateBar();
+      });
+    });
+  }
+
+  function updateBar() {
+    var n = Object.keys(selected).length;
+    document.getElementById('count').textContent = n + (n === 1 ? ' selected' : ' selected');
+    document.getElementById('deleteBtn').disabled = n === 0;
+    document.getElementById('bar').classList.toggle('show', n > 0);
+  }
+
+  function queueDelete(photoUrl) {
+    var url = webAppUrl(false);
+    if (!url) return Promise.resolve();
+    return fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ type: 'delete_photo', photoUrl: photoUrl })
+    }).catch(function () { /* ignore -- no-cors means we can't see the real result anyway */ });
+  }
+
+  document.getElementById('deleteBtn').addEventListener('click', function () {
+    var idxs = Object.keys(selected);
+    if (!idxs.length) return;
+    var url = webAppUrl(false);
+    if (!url) { toast('Set up the Web App URL first (tap ⚙️).'); return; }
+    if (!confirm('Delete ' + idxs.length + ' photo' + (idxs.length === 1 ? '' : 's') + '? This removes them from the frame within a few hours.')) return;
+
+    var urls = idxs.map(function (i) { return photos[i].url; });
+    Promise.all(urls.map(queueDelete)).then(function () {
+      var idxSet = Object.create(null);
+      idxs.forEach(function (i) { idxSet[i] = true; });
+      photos = photos.filter(function (_, i) { return !idxSet[i]; });
+      selected = Object.create(null);
+      updateBar();
+      render();
+      toast(urls.length + ' photo' + (urls.length === 1 ? '' : 's') + ' queued for deletion.');
+    });
+  });
+
+  fetch(DATA_URL + '?v=' + Date.now())
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      photos = (d.photos || []).slice().sort(function (a, b) {
+        return (b.date || '').localeCompare(a.date || '');
+      });
+      render();
+    })
+    .catch(function () {
+      document.getElementById('loading').textContent = 'Could not load photos.';
+    });
+})();
+</script>
+
+</body>
+</html>
