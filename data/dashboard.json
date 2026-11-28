@@ -767,7 +767,19 @@
         "Melt the remaining tablespoon of butter in the pan. Add the mushrooms and cook, stirring frequently, until the mushrooms begin to brown, 3 to 4 minutes. Add the shallots, garlic, and ¼ teaspoon of salt; cook for 1 to 2 minutes more. Add the broth, Marsala, heavy cream, thyme, ¼ teaspoon salt, and ⅛ teaspoon of pepper; use a wooden spoon to scrape any brown bits from the pan into the liquid. Bring the liquid to a boil, then reduce the heat to medium and gently boil, uncovered, until the sauce is reduced by about half, slightly thickened, and darkened in color, 10 to 15 minutes (you're going for a thin cream sauce; it won't start to thicken until the very end of the cooking time). Add the chicken back to the pan, along with any juices that accumulated on the plate. Reduce the heat to low and simmer until the chicken is warmed through and the sauce thickens a bit more, 2 to 3 minutes. Sprinkle with parsley, if using, and serve."
       ],
       "from": "Heather",
-      "added": "2026-11-17"
+      "added": "2026-11-17",
+      "course": [
+        "main"
+      ],
+      "mealType": [
+        "dinner"
+      ],
+      "cuisine": "Italian",
+      "mainIngredients": [
+        "chicken",
+        "mushrooms",
+        "marsala wine"
+      ]
     },
     {
       "id": "rlez9jyb",
@@ -783,7 +795,19 @@
         "Crumbled feta cheese, optional"
       ],
       "from": "Heather",
-      "added": "2026-11-17"
+      "added": "2026-11-17",
+      "course": [
+        "side"
+      ],
+      "mealType": [
+        "lunch",
+        "dinner"
+      ],
+      "cuisine": "Mediterranean",
+      "mainIngredients": [
+        "tomatoes",
+        "feta cheese"
+      ]
     },
     {
       "id": "r7pehqom",
@@ -806,7 +830,20 @@
         "½ teaspoon kosher salt"
       ],
       "from": "Heather",
-      "added": "2026-11-17"
+      "added": "2026-11-17",
+      "course": [
+        "main"
+      ],
+      "mealType": [
+        "lunch",
+        "dinner"
+      ],
+      "cuisine": "American",
+      "mainIngredients": [
+        "rice",
+        "black beans",
+        "avocado"
+      ]
     },
     {
       "id": "rh4ks8g6",
@@ -850,7 +887,18 @@
         "Serve chicken fried steak with gravy and mashed potatoes and your favorite green veggies. ENJOY!"
       ],
       "from": "Heather",
-      "added": "2026-11-17"
+      "added": "2026-11-17",
+      "course": [
+        "main"
+      ],
+      "mealType": [
+        "dinner"
+      ],
+      "cuisine": "American",
+      "mainIngredients": [
+        "steak",
+        "buttermilk"
+      ]
     },
     {
       "id": "rervwgfs",
@@ -878,7 +926,20 @@
         "Stir in the cooked pasta and ¼ cup cheese; toss to coat. Season to taste with salt and pepper. Divide among bowls, top with additional cheese, if desired, and sprinkle with the oregano and parsley."
       ],
       "from": "Heather",
-      "added": "2026-11-17"
+      "added": "2026-11-17",
+      "course": [
+        "main"
+      ],
+      "mealType": [
+        "dinner"
+      ],
+      "cuisine": "Italian",
+      "mainIngredients": [
+        "pasta",
+        "vodka sauce",
+        "tomato",
+        "cream"
+      ]
     },
     {
       "id": "rhr008fm",
@@ -900,7 +961,19 @@
         "Add 1 cup whole milk, 1 cup heavy cream, 1 teaspoon salt, 1/3 cup freshly grated Parmesan cheese and 2 tablespoons cream cheese. Stir until the cream cheese is mostly melted.",
         "Add 24 ounces frozen sweet corn and cook, stirring often, until the corn is plump and the sauce is thick and creamy. Serve hot."
       ],
-      "added": "2026-11-21"
+      "added": "2026-11-21",
+      "course": [
+        "side"
+      ],
+      "mealType": [
+        "dinner"
+      ],
+      "cuisine": "American",
+      "mainIngredients": [
+        "corn",
+        "cream cheese",
+        "parmesan"
+      ]
     },
     {
       "id": "r09yj4uc",
@@ -915,7 +988,19 @@
         "lime juice"
       ],
       "from": "Heather",
-      "added": "2026-11-24"
+      "added": "2026-11-24",
+      "course": [
+        "appetizer"
+      ],
+      "mealType": [
+        "snack"
+      ],
+      "cuisine": "Mexican",
+      "mainIngredients": [
+        "tomatoes",
+        "onion",
+        "cilantro"
+      ]
     }
   ],
   "meal_plan": {}
