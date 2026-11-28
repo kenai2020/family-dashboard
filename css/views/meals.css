@@ -70,3 +70,17 @@
 
 .mr-days { margin-top: 4px; }
 .mr-sheet .mr-ing, .mr-sheet .mr-steps { max-height: none; }
+
+/* recipe filters */
+.mr-filters { margin-bottom: 20px; }
+.mr-search {
+  width: 100%; box-sizing: border-box; font: inherit; font-size: 22px;
+  padding: 14px 18px; margin-bottom: 14px; border-radius: var(--r);
+  background: var(--card); border: none; color: var(--ink);
+}
+.mr-search::placeholder { color: var(--mute); }
+.mr-filter-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; flex-wrap: wrap; }
+.mr-filter-row .label { flex: none; width: 70px; }
+.mr-filter-row .chips { flex-wrap: wrap; }
+.mr-clear { margin-top: 4px; }
+.mr-card.is-hidden { display: none; }

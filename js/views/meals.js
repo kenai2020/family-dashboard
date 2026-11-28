@@ -17,9 +17,21 @@
   // expanded: which assigned recipes (keyed "dayKey:idx", matching data-remove-item) are shown in
   // full on the "This week" pane -- collapsed (just title + a one-line summary) by default so a
   // day with several things planned stays scannable instead of a wall of ingredients/steps.
-  var D = window.DATA, V = { el: null, tab: 'week', day: null, assignTarget: null, expanded: {} };
+  var D = window.DATA, V = {
+    el: null, tab: 'week', day: null, assignTarget: null, expanded: {},
+    // Recipes-tab filtering: course/mealType/cuisine are chip facets (OR within a facet, AND
+    // across facets); q is a free-text search over title/mainIngredients/ingredients, applied
+    // directly to rendered cards (see applySearchVisibility) rather than through paint(), so
+    // typing doesn't steal focus by re-rendering the input on every keystroke.
+    filters: { course: [], mealType: [], cuisine: [] }, q: ''
+  };
   var DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   var DOW_FULL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  var FACETS = {
+    course: ['main', 'side', 'appetizer', 'dessert', 'snack', 'drink'],
+    mealType: ['breakfast', 'lunch', 'dinner', 'snack'],
+    cuisine: ['American', 'Mexican', 'Italian', 'Indian', 'Asian', 'Mediterranean', 'Other']
+  };
 
   function pad2(n) { return n < 10 ? '0' + n : '' + n; }
   function dkey(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
@@ -159,6 +171,53 @@
     for (var i = 0; i < 7; i++) { if (dkey(dateForDay(i)) === V.assignTarget) return DOW_FULL[i]; }
     return '';
   }
+
+  // ---- filtering: fixed chip facets (course/mealType/cuisine) + free-text search over
+  // title/mainIngredients/ingredients. Chips are OR within a facet, AND across facets -- e.g.
+  // ticking "Dinner" + "Mexican" shows anything that's dinner-suitable AND Mexican, but ticking
+  // both "Main" and "Side" under Course shows either.
+  function toggleFilter(facet, val) {
+    var list = V.filters[facet], i = list.indexOf(val);
+    if (i > -1) list.splice(i, 1); else list.push(val);
+  }
+  function filtersActive() {
+    return V.filters.course.length || V.filters.mealType.length || V.filters.cuisine.length || V.q.trim();
+  }
+  function recipeMatchesChips(r) {
+    function any(sel, have) { return !sel.length || sel.some(function (v) { return (have || []).indexOf(v) > -1; }); }
+    return any(V.filters.course, r.course) && any(V.filters.mealType, r.mealType) &&
+      (!V.filters.cuisine.length || V.filters.cuisine.indexOf(r.cuisine) > -1);
+  }
+  function searchBlob(r) {
+    return [r.title, (r.mainIngredients || []).join(' '), (r.ingredients || []).join(' ')].join(' ').toLowerCase();
+  }
+  // Toggles .is-hidden on already-rendered cards instead of re-painting, so typing in the search
+  // box never steals its own focus. Called once right after any paint() too, so chip clicks (which
+  // DO re-render) still honor whatever's currently typed.
+  function applySearchVisibility() {
+    var q = V.q.trim().toLowerCase();
+    Array.prototype.forEach.call(V.el.querySelectorAll('.mr-card'), function (card) {
+      card.classList.toggle('is-hidden', !(!q || (card.getAttribute('data-search') || '').indexOf(q) > -1));
+    });
+  }
+  function filterChipsHTML() {
+    function row(label, facet, values) {
+      return '<div class="mr-filter-row"><span class="label">' + label + '</span><div class="chips">' +
+        values.map(function (v) {
+          var on = V.filters[facet].indexOf(v) > -1;
+          return '<button class="chip chip--ghost' + (on ? ' is-on' : '') + '" data-facet="' + facet + '" data-val="' + v + '">' +
+            v.charAt(0).toUpperCase() + v.slice(1) + '</button>';
+        }).join('') + '</div></div>';
+    }
+    return '<div class="mr-filters">' +
+      '<input class="mr-search" type="text" inputmode="search" placeholder="Search by name or ingredient…" value="' + App.esc(V.q) + '">' +
+      row('Course', 'course', FACETS.course) +
+      row('Meal', 'mealType', FACETS.mealType) +
+      row('Cuisine', 'cuisine', FACETS.cuisine) +
+      (filtersActive() ? '<button class="btn btn--ghost mr-clear" data-clear-filters>Clear filters</button>' : '') +
+      '</div>';
+  }
+
   function recipesTabHTML() {
     var banner = V.assignTarget
       ? '<div class="mw-assignbar"><span>Choose a recipe for <b>' + assignTargetLabel() + '</b></span><button class="btn btn--ghost" data-cancel-assign>Cancel</button></div>'
@@ -166,13 +225,17 @@
     if (!D.recipes.length) {
       return banner + '<div class="mw-empty serif">No recipes yet.<br><i>Email one to moosemagnoliabrown+recipe@gmail.com</i><br>and it’ll show up here.</div>';
     }
-    return banner + '<div class="mr-grid">' + D.recipes.slice().reverse().map(function (r) {
-      return '<button class="mr-card" data-recipe="' + r.id + '">' +
-        '<div class="label">' + (r.servings ? 'Serves ' + r.servings : 'Recipe') + '</div>' +
-        '<div class="mr-card-title serif">' + App.esc(r.title) + '</div>' +
-        '<div class="mr-card-meta">' + r.ingredients.length + ' ingredients' + (r.from ? ' · from ' + App.esc(r.from) : '') + '</div>' +
-        '</button>';
-    }).join('') + '</div>';
+    var matches = D.recipes.filter(recipeMatchesChips);
+    var body = matches.length
+      ? '<div class="mr-grid">' + matches.slice().reverse().map(function (r) {
+        return '<button class="mr-card" data-recipe="' + r.id + '" data-search="' + App.esc(searchBlob(r)) + '">' +
+          '<div class="label">' + (r.servings ? 'Serves ' + r.servings : 'Recipe') + '</div>' +
+          '<div class="mr-card-title serif">' + App.esc(r.title) + '</div>' +
+          '<div class="mr-card-meta">' + r.ingredients.length + ' ingredients' + (r.from ? ' · from ' + App.esc(r.from) : '') + '</div>' +
+          '</button>';
+      }).join('') + '</div>'
+      : '<div class="mw-empty serif">No recipes match these filters.</div>';
+    return banner + filterChipsHTML() + body;
   }
 
   function openRecipeSheet(r) {
@@ -220,6 +283,7 @@
     el.querySelector('.meals-body').innerHTML = V.tab === 'week'
       ? '<div class="mw-bar">' + weekbarHTML() + '</div><div class="mw-pane">' + dayPaneHTML(selectedDay()) + '</div>'
       : recipesTabHTML();
+    if (V.tab === 'recipes') applySearchVisibility();
   }
 
   // Quick/manual entry: no recipe behind it, just a plain name typed straight into a day --
@@ -277,6 +341,8 @@
       return;
     }
     if ((t = e.target.closest('[data-cancel-assign]'))) { V.assignTarget = null; paint(); return; }
+    if ((t = e.target.closest('[data-facet]'))) { toggleFilter(t.dataset.facet, t.dataset.val); paint(); return; }
+    if ((t = e.target.closest('[data-clear-filters]'))) { V.filters = { course: [], mealType: [], cuisine: [] }; V.q = ''; paint(); return; }
     if ((t = e.target.closest('[data-quick-sheet]'))) { openQuickSheet(t.dataset.quickSheet); return; }
     if ((t = e.target.closest('[data-add-ing]'))) {
       var parts = t.dataset.addIng.split(':'), rec = recipeById(parts[0]);
@@ -308,6 +374,14 @@
       if (!el.firstChild) {
         el.innerHTML = '<div class="meals"><div class="meals-seg"></div><div class="meals-body"></div></div>';
         el.addEventListener('click', onClick);
+        // Live search: update visibility directly (no paint()) so the input never loses focus
+        // mid-keystroke the way a full re-render would.
+        el.addEventListener('input', function (e) {
+          if (e.target.classList.contains('mr-search')) {
+            V.q = e.target.value;
+            applySearchVisibility();
+          }
+        });
       }
       paint();
     }
